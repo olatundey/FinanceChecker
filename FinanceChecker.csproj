@@ -29,9 +29,17 @@
   <ItemGroup>
     <None Remove="Data\" />
     <None Remove="Areas\" />
+    <None Remove="Views\Alert\" />
+    <None Remove="Views\Bills\" />
+    <None Remove="Views\Expense\" />
+    <None Remove="Views\Budget\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="Areas\" />
+    <Folder Include="Views\Alert\" />
+    <Folder Include="Views\Bills\" />
+    <Folder Include="Views\Expense\" />
+    <Folder Include="Views\Budget\" />
   </ItemGroup>
 </Project>

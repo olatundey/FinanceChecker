@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets/favicon.ico"
     },
     {
+      "Id": "/Users/tundey/Projects/FinanceChecker/FinanceChecker/wwwroot/js/qr.js",
+      "PackagePath": "staticwebassets/js/qr.js"
+    },
+    {
       "Id": "/Users/tundey/Projects/FinanceChecker/FinanceChecker/wwwroot/js/site.js",
       "PackagePath": "staticwebassets/js/site.js"
     },
@@ -243,6 +247,10 @@
     {
       "Id": "/Users/tundey/Projects/FinanceChecker/FinanceChecker/wwwroot/lib/jquery/dist/jquery.min.map",
       "PackagePath": "staticwebassets/lib/jquery/dist/jquery.min.map"
+    },
+    {
+      "Id": "/Users/tundey/Projects/FinanceChecker/FinanceChecker/wwwroot/lib/qrcode.js",
+      "PackagePath": "staticwebassets/lib/qrcode.js"
     },
     {
       "Id": "obj/Debug/net7.0/staticwebassets/msbuild.FinanceChecker.Microsoft.AspNetCore.StaticWebAssets.props",

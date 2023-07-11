@@ -1,9 +1,9 @@
 ﻿using System;
 namespace FinanceChecker.Controllers
 {
-	public class Dashboard
+	public class BudgetController
 	{
-		public Dashboard()
+		public BudgetController()
 		{
 		}
 	}

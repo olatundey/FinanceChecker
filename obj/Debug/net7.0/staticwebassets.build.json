@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "0INTN7/BAG+4B6Qo/nl9GQ1JzqWv/7WGtz227r1yWvY=",
+  "Hash": "alu30c/9OMnvdVavE2aIQ+k4d940bwqj1NvmSSixmkQ=",
   "Source": "FinanceChecker",
   "BasePath": "_content/FinanceChecker",
   "Mode": "Default",
@@ -1105,6 +1105,23 @@
       "OriginalItemSpec": "wwwroot/favicon.ico"
     },
     {
+      "Identity": "/Users/tundey/Projects/FinanceChecker/FinanceChecker/wwwroot/js/qr.js",
+      "SourceId": "FinanceChecker",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/tundey/Projects/FinanceChecker/FinanceChecker/wwwroot/",
+      "BasePath": "_content/FinanceChecker",
+      "RelativePath": "js/qr.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/js/qr.js"
+    },
+    {
       "Identity": "/Users/tundey/Projects/FinanceChecker/FinanceChecker/wwwroot/js/site.js",
       "SourceId": "FinanceChecker",
       "SourceType": "Discovered",
@@ -2089,6 +2106,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/lib/jquery/LICENSE.txt"
+    },
+    {
+      "Identity": "/Users/tundey/Projects/FinanceChecker/FinanceChecker/wwwroot/lib/qrcode.js",
+      "SourceId": "FinanceChecker",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/tundey/Projects/FinanceChecker/FinanceChecker/wwwroot/",
+      "BasePath": "_content/FinanceChecker",
+      "RelativePath": "lib/qrcode.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/lib/qrcode.js"
     }
   ]
 }
