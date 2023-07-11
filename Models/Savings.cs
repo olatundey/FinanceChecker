@@ -1,9 +1,9 @@
 ﻿using System;
 namespace FinanceChecker.Models
 {
-	public class Saving
+	public class Savings
 	{
-		public Saving()
+		public Savings()
 		{
 		}
 	}

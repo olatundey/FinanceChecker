@@ -15,6 +15,10 @@ namespace FinanceChecker.Controllers
         {
             return View();
         }
+        public IActionResult Transaction()
+        {
+            return View();
+        }
     }
 }
 
