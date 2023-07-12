@@ -19,6 +19,10 @@ namespace FinanceChecker.Controllers
         {
             return View();
         }
+        public IActionResult Accounts()
+        {
+            return View();
+        }
     }
 }
 
