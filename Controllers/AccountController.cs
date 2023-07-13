@@ -8,14 +8,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceChecker.Controllers
 {
-    public class DashboardController : Controller
+    public class AccountController : Controller
     {
         // GET: /<controller>/
         public IActionResult Index()
         {
             return View();
         }
-
+        public IActionResult Transaction()
+        {
+            return View();
+        }
     }
 }
 
