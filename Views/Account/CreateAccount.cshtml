@@ -29,6 +29,13 @@
         <input class="form-control" type="text" name="AccountNumber" required>
     </div>
 
+    @*<div id="institutionNameField" class="form-group" style="display: none;">
+            <label for="institutionName">Select Institution:</label>
+            <select class="form-control" name="InstitutionName" required>
+                <option value="">Select an institution</option>
+            </select>
+        </div>*@
+
     <div id="institutionNameField" class="form-group" style="display: none;">
         <label for="institutionName">Enter Institution Name:</label>
         <input class="form-control" type="text" name="InstitutionName">
@@ -48,7 +55,7 @@
         <button type="submit" class="btn btn-primary" name="button" value="Validate">Validate</button>
     </div>
 
-    <input type="hidden" name="Id" value="@ViewBag.Id">
+    <input type="hidden" name="UserID" value="@ViewBag.Id">
     <input type="hidden" name="CreatedAt" value="@DateTime.Now">
     <input type="hidden" name="UpdatedAt" value="@DateTime.Now">
 </form>

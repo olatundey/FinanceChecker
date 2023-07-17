@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "iVQ9wrryJ1ohOIkiTe5aUbMT17PW88GGsfby2j7047w=",
+  "Hash": "3F74FKobq0YejCBkUlfLti7P92kKvela7e31m4/sRX0=",
   "Source": "FinanceChecker",
   "BasePath": "_content/FinanceChecker",
   "Mode": "Default",
@@ -2055,6 +2055,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/lib/jquery-validation/LICENSE.md"
+    },
+    {
+      "Identity": "/Users/tundey/Projects/FinanceChecker/FinanceChecker/wwwroot/lib/jquery/dist/jquery_create_account.js",
+      "SourceId": "FinanceChecker",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/tundey/Projects/FinanceChecker/FinanceChecker/wwwroot/",
+      "BasePath": "_content/FinanceChecker",
+      "RelativePath": "lib/jquery/dist/jquery_create_account.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/lib/jquery/dist/jquery_create_account.js"
     },
     {
       "Identity": "/Users/tundey/Projects/FinanceChecker/FinanceChecker/wwwroot/lib/jquery/dist/jquery.js",

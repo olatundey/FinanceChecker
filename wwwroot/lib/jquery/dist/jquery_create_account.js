@@ -4,7 +4,7 @@
         var syncType = $('input[name="syncType"]:checked').val();
 
         if (syncType === "manual") {
-            $('#institutionNameField').show();   
+            $('#institutionNameField').show();
             $('#balanceField').show();
             $('#submitField').show();
             $('#validateField').hide();
@@ -72,10 +72,7 @@
     // Get the selected account type from the Model
     var selectedAccountType = "@Model.AccountType";
 
-    // Set the selected account type in the AccountType select element
     $('#AccountType').val(selectedAccountType);
 
-    // Trigger the change event to update the institution options
     $('#AccountType').change();
 });
-

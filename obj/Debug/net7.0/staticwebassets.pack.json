@@ -253,6 +253,10 @@
       "PackagePath": "staticwebassets/lib/jquery/dist/jquery.min.map"
     },
     {
+      "Id": "/Users/tundey/Projects/FinanceChecker/FinanceChecker/wwwroot/lib/jquery/dist/jquery_create_account.js",
+      "PackagePath": "staticwebassets/lib/jquery/dist/jquery_create_account.js"
+    },
+    {
       "Id": "/Users/tundey/Projects/FinanceChecker/FinanceChecker/wwwroot/lib/qrcode.js",
       "PackagePath": "staticwebassets/lib/qrcode.js"
     },

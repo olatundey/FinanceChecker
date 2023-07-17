@@ -45,6 +45,15 @@ namespace FinanceChecker.Controllers
 
             return RedirectToAction("Index"); // Redirect to the login page if the user is not authenticated or if the user object is null
         }
+        public IActionResult Transaction()
+        {
+            return View();
+        }
+
+        public IActionResult AddTransaction()
+        {
+            return View();
+        }
 
 
         public IActionResult AddAccount()
@@ -66,15 +75,6 @@ namespace FinanceChecker.Controllers
                 }
             }
 
-            return View();
-        }
-        public IActionResult Transaction()
-        {
-            return View();
-        }
-
-        public IActionResult AddTransaction()
-        {
             return View();
         }
 
@@ -111,8 +111,7 @@ namespace FinanceChecker.Controllers
                 }
                 else if (button == "Validate")
                 {
-                    // Perform validation logic for the validate button
-                    // You can access the properties of the 'obj' parameter and perform validation checks
+                    // validation logic for the validate button
 
                     //check if the account number is empty
                     //if (obj.AccountNumber == 0)
@@ -218,6 +217,7 @@ namespace FinanceChecker.Controllers
                 }
 
                 // Update the properties of the account with the values
+                account.syncType = updatedAccount.syncType;
                 account.AccountType = updatedAccount.AccountType;
                 account.AccountNumber = updatedAccount.AccountNumber;
                 account.InstitutionName = updatedAccount.InstitutionName;

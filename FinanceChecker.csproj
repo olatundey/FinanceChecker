@@ -34,6 +34,7 @@
     <None Remove="Views\Expense\" />
     <None Remove="Views\Budget\" />
     <None Remove="Views\Account\" />
+    <None Remove="Repositories\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
@@ -43,5 +44,6 @@
     <Folder Include="Views\Expense\" />
     <Folder Include="Views\Budget\" />
     <Folder Include="Views\Account\" />
+    <Folder Include="Repositories\" />
   </ItemGroup>
 </Project>
