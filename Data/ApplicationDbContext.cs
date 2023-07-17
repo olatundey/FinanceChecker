@@ -23,7 +23,31 @@ namespace FinanceChecker.Data
             //          modelBuilder.Entity<nameofModelCLASS>().HasData(
             //);
 
+            //modelBuilder.Entity<ApplicationUser>()
+            //    .HasMany(u => u.Accounts)
+            //    .WithOne(a => a.ApplicationUser)
+            //    .HasForeignKey(a => a.Id)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+            //modelBuilder.Entity<ApplicationUser>()
+            //    .HasMany(u => u.Alerts)
+            //    .WithOne(al => al.ApplicationUser)
+            //    .HasForeignKey(al => al.Id)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+            //        modelBuilder.Entity<ApplicationUser>()
+            //            .HasMany(u => u.Transactions)
+            //.WithOne(t => t.ApplicationUser)
+            //.HasForeignKey(t => t.Id)
+            //.OnDelete(DeleteBehavior.Cascade);
+
+            //modelBuilder.Entity<Account>()
+            //.HasMany(a => a.Transactions)
+            //.WithOne(t => t.Account)
+            //.HasForeignKey(t => t.AccountID)
+            //.OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
+
 

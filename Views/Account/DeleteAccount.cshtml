@@ -1,0 +1,31 @@
+﻿@model Account
+
+<h2>Delete Account</h2>
+<p>Are you sure you want to delete this account?</p>
+
+<form method="post" asp-action="ConfirmDelete">
+    <input type="hidden" name="AccountID" value="@Model.AccountID" />
+
+    <div class="form-group">
+        <label>Account Type:</label>
+        <p>@Model.AccountType</p>
+    </div>
+
+    <div class="form-group">
+        <label>Account Number:</label>
+        <p>@Model.AccountNumber</p>
+    </div>
+
+    <div class="form-group">
+        <label>Institution Name:</label>
+        <p>@Model.InstitutionName</p>
+    </div>
+
+    <div class="form-group">
+        <label>Balance:</label>
+        <p>@Model.Balance</p>
+    </div>
+
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="/Account/Index" class="btn btn-secondary">Cancel</a>
+</form>

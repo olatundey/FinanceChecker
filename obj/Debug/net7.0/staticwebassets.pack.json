@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets/FinanceChecker.bundle.scp.css"
     },
     {
+      "Id": "/Users/tundey/Projects/FinanceChecker/FinanceChecker/wwwroot/.DS_Store",
+      "PackagePath": "staticwebassets/.DS_Store"
+    },
+    {
       "Id": "/Users/tundey/Projects/FinanceChecker/FinanceChecker/wwwroot/css/site.css",
       "PackagePath": "staticwebassets/css/site.css"
     },

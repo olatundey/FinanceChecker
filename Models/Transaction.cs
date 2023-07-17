@@ -9,17 +9,19 @@ namespace FinanceChecker.Models
         [Key]
         public int TransactionID { get; set; }
 
-        [ForeignKey("ApplicationUser")]
+        [Display(Name = "ApplicationUser")]
         public string UserID { get; set; }
 
-        [ForeignKey("Account")]
+        //[ForeignKey("Account")]
         public int AccountID { get; set; }
+
+        public string? InstitutionName { get; set; }
 
         public decimal Amount { get; set; }
 
-        public string Category { get; set; }
+        public string? Category { get; set; }
 
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         public DateTime Date { get; set; }
 
@@ -29,9 +31,10 @@ namespace FinanceChecker.Models
         [Required]
         public DateTime UpdatedAt { get; set; }
 
-        public virtual ApplicationUser ApplicationUser { get; set; }
+        //public virtual ApplicationUser User { get; set; }
 
-        public virtual Account Account { get; set; }
+        //public virtual Account? Account { get; set; }
+        //public virtual ApplicationUser? ApplicationUser { get; set;} 
     }
 }
 

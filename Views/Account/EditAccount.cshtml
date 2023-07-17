@@ -1,54 +1,57 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@model Account
 
-@model Account
-<h2>Create Account</h2>
+<h2>Edit Account</h2>
 
-<p>User ID: @ViewBag.Id</p>
+<form method="post" asp-action="UpdateAccount">
+    <input type="hidden" name="AccountID" value="@Model.AccountID" />
 
-<form method="post" asp-action="CreateAccount">
     <div class="form-group">
         <label for="syncType">Sync Type:</label>
         <div>
-            <input type="radio" name="syncType" value="manual" checked> Manual Sync
-            <input type="radio" name="syncType" value="automatic"> Automatic Sync
+            <input type="radio" name="syncType" value="manual" @(Model.syncType == "manual" ? "checked" : "")> Manual Sync
+            <input type="radio" name="syncType" value="automatic" @(Model.syncType == "automatic" ? "checked" : "")> Automatic Sync
         </div>
     </div>
 
     <div class="form-group">
         <label for="accountType">Select Account Type:</label>
         <select class="form-control" id="AccountType" name="AccountType" required>
-            <option value="">Select account</option>
+            @*<option value="">---</option>*@
             <option value="BankAccount">Bank Account</option>
             <option value="CreditCard">Credit Card</option>
             <option value="Investment">Investment Account</option>
         </select>
+
     </div>
 
     <div class="form-group">
         <label for="accountNumber">Account Number:</label>
-        <input class="form-control" type="text" name="AccountNumber" required>
+        <input class="form-control" type="text" name="AccountNumber"
+               value="@Model.AccountNumber" required>
     </div>
 
     <div id="institutionNameField" class="form-group" style="display: none;">
         <label for="institutionName">Enter Institution Name:</label>
-        <input class="form-control" type="text" name="InstitutionName">
+        <input class="form-control" type="text"
+               name="InstitutionName" value="@Model.InstitutionName" required>
     </div>
 
     <div id="balanceField" class="form-group">
         <label for="balance">Balance:</label>
-        <input class="form-control" type="number" name="Balance" step="0.01">
+        <input class="form-control" type="number" name="Balance" value="@Model.Balance" step="0.01">
         <small class="form-text text-muted">Enter a positive or negative amount (e.g. 10 or -20)</small>
     </div>
 
     <div id="submitField" class="form-group">
         <button type="submit" class="btn btn-primary" name="button" value="Submit">Submit</button>
+        <a href="/Account/Index" class="btn btn-secondary">Cancel</a>
+
     </div>
 
     <div id="validateField" class="form-group">
         <button type="submit" class="btn btn-primary" name="button" value="Validate">Validate</button>
+        <a href="/Account/Index" class="btn btn-secondary">Cancel</a>
     </div>
 
-    <input type="hidden" name="Id" value="@ViewBag.Id">
-    <input type="hidden" name="CreatedAt" value="@DateTime.Now">
-    <input type="hidden" name="UpdatedAt" value="@DateTime.Now">
+    
 </form>

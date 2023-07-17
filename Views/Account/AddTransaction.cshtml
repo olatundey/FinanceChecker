@@ -1,0 +1,39 @@
+﻿@model List<FinanceChecker.Models.Account>
+
+
+<h2>ADD Transaction</h2>
+
+<form method="post" asp-action="CreateTransaction">
+    <input type="hidden" name="AccountId" value="@ViewBag.AccountId" />
+
+    <div class="form-group">
+        <label for="institutionName">Institution Name:</label>
+        <input class="form-control" type="text" name="InstitutionName" required>
+    </div>
+    <div class="form-group">
+        <label for="amount">Amount:</label>
+        <input class="form-control" type="number" name="Amount" step="0.01">
+    </div>
+    <div class="form-group">
+        <label for="category">Category:</label>
+        <input class="form-control" type="text" name="Category" required>
+    </div>
+    <div class="form-group">
+        <label for="description">Description:</label>
+        <input class="form-control" type="text" name="Description">
+    </div>
+    <div class="form-group">
+        <label for="date">Date:</label>
+        <input class="form-control" type="text" name="Date" value="@DateTime.Now" readonly>
+    </div>
+    <div class="form-group">
+        <label for="createdAt">Created At:</label>
+        <input class="form-control" type="text" name="CreatedAt" value="@DateTime.Now" readonly>
+    </div>
+    <div class="form-group">
+        <label for="updatedAt">Updated At:</label>
+        <input class="form-control" type="text" name="UpdatedAt" value="@DateTime.Now" readonly>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
