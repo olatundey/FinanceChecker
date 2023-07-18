@@ -1,0 +1,42 @@
+﻿@model FinanceChecker.Models.Transaction
+
+<h2>Delete Transaction</h2>
+
+<p>Are you sure you want to delete this transaction?</p>
+
+<form asp-action="ConfirmDeleteTransaction" asp-controller="Account" method="post">
+    <input type="hidden" name="TransactionID" value="@Model.TransactionID" />
+
+    <div class="form-group">
+        <label>Account ID:</label>
+        <p>@Model.AccountID</p>
+    </div>
+
+    <div class="form-group">
+        <label>Institution Name:</label>
+        <p>@Model.InstitutionName</p>
+    </div>
+
+    <div class="form-group">
+        <label>Amount:</label>
+        <p>@Model.Amount.ToString("N2")</p>
+    </div>
+
+    <div class="form-group">
+        <label>Category:</label>
+        <p>@Model.Category</p>
+    </div>
+
+    <div class="form-group">
+        <label>Description:</label>
+        <p>@Model.Description</p>
+    </div>
+
+    <div class="form-group">
+        <label>Date:</label>
+        <p>@Model.Date</p>
+    </div>
+
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="/Account/Transaction" class="btn btn-secondary">Cancel</a>
+</form>

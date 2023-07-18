@@ -1,11 +1,44 @@
-﻿
+﻿@model List<FinanceChecker.Models.Transaction>
+
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <div class="text-center">
-        <a class="btn btn-primary" asp-area="" asp-controller="Account" asp-action="AddTransaction">Add Transactions</a>
+        <a class="btn btn-primary" asp-area="" asp-controller="Account" asp-action="CreateTransaction">Add Transactions</a>
     </div>
 
-    <p>
-        Transactions
-    </p>
+    <h2>Transaction History</h2>
+
 </div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Transaction ID</th>
+            <th>Account ID</th>
+            <th>Institution Name</th>
+            <th>Amount</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var transaction in Model)
+        {
+            <tr>
+                <td>@transaction.TransactionID</td>
+                <td>@transaction.AccountID</td>
+                <td>@transaction.InstitutionName</td>
+                <td>@transaction.Amount.ToString("N2")</td>
+                <td>@transaction.Category</td>
+                <td>@transaction.Description</td>
+                <td>@transaction.Date</td>
+                <td>
+                    <a href="@Url.Action("EditTransaction", "Account", new { TransactionID = transaction.TransactionID })" class="btn btn-primary">Edit</a>
+                    <a href="@Url.Action("DeleteTransaction", "Account", new { TransactionID = transaction.TransactionID })" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
