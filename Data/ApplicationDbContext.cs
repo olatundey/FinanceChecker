@@ -16,6 +16,7 @@ namespace FinanceChecker.Data
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+        //public DbSet <Category> Categories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
