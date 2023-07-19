@@ -16,7 +16,7 @@ namespace FinanceChecker.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.8")
+                .HasAnnotation("ProductVersion", "7.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("FinanceChecker.Models.Account", b =>
@@ -53,6 +53,132 @@ namespace FinanceChecker.Migrations
                     b.HasKey("AccountID");
 
                     b.ToTable("Accounts");
+                });
+
+            modelBuilder.Entity("FinanceChecker.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            CategoryName = "Groceries"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            CategoryName = "Restaurants"
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            CategoryName = "Shopping"
+                        },
+                        new
+                        {
+                            CategoryId = 4,
+                            CategoryName = "Entertainment"
+                        },
+                        new
+                        {
+                            CategoryId = 5,
+                            CategoryName = "Utilities"
+                        },
+                        new
+                        {
+                            CategoryId = 6,
+                            CategoryName = "Transportation"
+                        },
+                        new
+                        {
+                            CategoryId = 7,
+                            CategoryName = "Travel"
+                        },
+                        new
+                        {
+                            CategoryId = 8,
+                            CategoryName = "Health"
+                        },
+                        new
+                        {
+                            CategoryId = 9,
+                            CategoryName = "Education"
+                        },
+                        new
+                        {
+                            CategoryId = 10,
+                            CategoryName = "Insurance"
+                        },
+                        new
+                        {
+                            CategoryId = 11,
+                            CategoryName = "Rent/Mortgage"
+                        },
+                        new
+                        {
+                            CategoryId = 12,
+                            CategoryName = "Utilities"
+                        },
+                        new
+                        {
+                            CategoryId = 13,
+                            CategoryName = "Electronics"
+                        },
+                        new
+                        {
+                            CategoryId = 14,
+                            CategoryName = "Gifts/Donations"
+                        },
+                        new
+                        {
+                            CategoryId = 15,
+                            CategoryName = "Personal Care"
+                        },
+                        new
+                        {
+                            CategoryId = 16,
+                            CategoryName = "Fitness/Sports"
+                        },
+                        new
+                        {
+                            CategoryId = 17,
+                            CategoryName = "Home Improvement"
+                        },
+                        new
+                        {
+                            CategoryId = 18,
+                            CategoryName = "Investments"
+                        },
+                        new
+                        {
+                            CategoryId = 19,
+                            CategoryName = "Taxes"
+                        },
+                        new
+                        {
+                            CategoryId = 20,
+                            CategoryName = "Miscellaneous"
+                        },
+                        new
+                        {
+                            CategoryId = 21,
+                            CategoryName = "Salary"
+                        },
+                        new
+                        {
+                            CategoryId = 22,
+                            CategoryName = "Side Hustle"
+                        });
                 });
 
             modelBuilder.Entity("FinanceChecker.Models.Transaction", b =>

@@ -34,7 +34,7 @@
 
     <div class="form-group">
         <label for="amount">Amount:</label>
-        <input class="form-control" type="number" name="Amount" step="0.01" value="@Model.Amount.ToString("N2")">
+        <input class="form-control" type="text" name="Amount" value="@Model.Amount.ToString("0.00")">
     </div>
 
     <div class="form-group">
@@ -65,6 +65,7 @@
     <input type="hidden" name="TransactionID" value="@Model.TransactionID">
     <input type="hidden" name="CreatedAt" value="@Model.CreatedAt">
     <input type="hidden" name="UpdatedAt" value="@DateTime.Now">
+    <input type="hidden" name="UserID" value="@Model.UserID">
 
     <button type="submit" class="btn btn-primary">Save</button>
 </form>

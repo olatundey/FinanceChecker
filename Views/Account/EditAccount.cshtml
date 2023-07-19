@@ -16,6 +16,7 @@
     <div class="form-group">
         <label for="accountType">Select Account Type:</label>
         <select class="form-control" id="AccountType" name="AccountType" required>
+            <option value="@Model.AccountType">@Model.AccountType</option>
             <option value="BankAccount">Bank Account</option>
             <option value="CreditCard">Credit Card</option>
             <option value="Investment">Investment Account</option>
@@ -29,6 +30,8 @@
                value="@Model.AccountNumber" required>
     </div>
 
+
+
     <div id="institutionNameField" class="form-group" style="display: none;">
         <label for="institutionName">Enter Institution Name:</label>
         <input class="form-control" type="text"
@@ -37,7 +40,7 @@
 
     <div id="balanceField" class="form-group">
         <label for="balance">Balance:</label>
-        <input class="form-control" type="number" name="Balance" value="@Model.Balance.ToString("N2")" step="0.01">
+        <input class="form-control" type="text" name="Balance" value="@Model.Balance.ToString("0.00")">
         <small class="form-text text-muted">Enter a positive or negative amount (e.g. 10 or -20)</small>
     </div>
 
@@ -52,5 +55,6 @@
         <a href="/Account/Index" class="btn btn-secondary">Cancel</a>
     </div>
 
-    
+    <input type="hidden" name="UserID" value="@Model.UserID">
+
 </form>

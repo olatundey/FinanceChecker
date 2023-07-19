@@ -11,15 +11,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinanceChecker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230716022450_UpdateAccount1")]
-    partial class UpdateAccount1
+    [Migration("20230719093718_InitialSetup")]
+    partial class InitialSetup
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.8")
+                .HasAnnotation("ProductVersion", "7.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("FinanceChecker.Models.Account", b =>
@@ -28,8 +28,10 @@ namespace FinanceChecker.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("AccountNumber")
-                        .IsRequired()
+                    b.Property<int>("AccountNumber")
+                        .HasColumnType("int");
+
+                    b.Property<string>("AccountType")
                         .HasColumnType("longtext");
 
                     b.Property<decimal>("Balance")
@@ -39,7 +41,6 @@ namespace FinanceChecker.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("InstitutionName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -49,9 +50,26 @@ namespace FinanceChecker.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("syncType")
+                        .HasColumnType("longtext");
+
                     b.HasKey("AccountID");
 
                     b.ToTable("Accounts");
+                });
+
+            modelBuilder.Entity("FinanceChecker.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("FinanceChecker.Models.Transaction", b =>
@@ -67,7 +85,6 @@ namespace FinanceChecker.Migrations
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<string>("Category")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("CreatedAt")
@@ -77,7 +94,9 @@ namespace FinanceChecker.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("InstitutionName")
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("UpdatedAt")
