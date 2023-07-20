@@ -13,6 +13,10 @@
         <link rel="stylesheet" href="~/FinanceChecker.styles.css" asp-append-version="true" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
+
+        @*<link rel="stylesheet" href="https://cdn.datatables.net/1.11.1/css/jquery.dataTables.min.css" />*@
+
+        <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     </head>
     <body>
@@ -85,6 +89,7 @@
         </header>
         <div class="container">
             <main role="main" class="pb-3">
+                <partial name="_Notification" />
                 @RenderBody()
             </main>
         </div>
@@ -96,7 +101,9 @@
         </footer>
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/lib/jquery/dist/jquery_create_account.js"></script>
+        <script src="~/lib/jquery/dist/transaction.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
         @await RenderSectionAsync("Scripts", required: false)
     </body>

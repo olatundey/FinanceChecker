@@ -1,5 +1,6 @@
 ﻿@model List<FinanceChecker.Models.Transaction>
 
+
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <div class="text-center">
@@ -10,7 +11,7 @@
 
 </div>
 
-<table class="table">
+<table id="myTable" class="table">
     <thead>
         <tr>
             <th>Transaction ID</th>
@@ -23,22 +24,4 @@
             <th>Actions</th>
         </tr>
     </thead>
-    <tbody>
-        @foreach (var transaction in Model)
-        {
-            <tr>
-                <td>@transaction.TransactionID</td>
-                <td>@transaction.AccountID</td>
-                <td>@transaction.InstitutionName</td>
-                <td>@transaction.Amount.ToString("N2")</td>
-                <td>@transaction.Category</td>
-                <td>@transaction.Description</td>
-                <td>@transaction.Date</td>
-                <td>
-                    <a href="@Url.Action("EditTransaction", "Account", new { TransactionID = transaction.TransactionID })" class="btn btn-primary">Edit</a>
-                    <a href="@Url.Action("DeleteTransaction", "Account", new { TransactionID = transaction.TransactionID })" class="btn btn-danger">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
 </table>

@@ -25,6 +25,10 @@
       "PackagePath": "staticwebassets/js/site.js"
     },
     {
+      "Id": "/Users/tundey/Projects/finance1/Finance1/wwwroot/js/transaction.js",
+      "PackagePath": "staticwebassets/js/transaction.js"
+    },
+    {
       "Id": "/Users/tundey/Projects/finance1/Finance1/wwwroot/lib/bootstrap/LICENSE",
       "PackagePath": "staticwebassets/lib/bootstrap"
     },
@@ -255,6 +259,10 @@
     {
       "Id": "/Users/tundey/Projects/finance1/Finance1/wwwroot/lib/jquery/dist/jquery_create_account.js",
       "PackagePath": "staticwebassets/lib/jquery/dist/jquery_create_account.js"
+    },
+    {
+      "Id": "/Users/tundey/Projects/finance1/Finance1/wwwroot/lib/jquery/dist/transaction.js",
+      "PackagePath": "staticwebassets/lib/jquery/dist/transaction.js"
     },
     {
       "Id": "/Users/tundey/Projects/finance1/Finance1/wwwroot/lib/qrcode.js",

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "JX/t3ryDitQeP4wE1iMyMEQ2iNKJh13i1vvi/ENSTIc=",
+  "Hash": "tm3uVUdLhomDY2d/ydz3jnPdN6lm8nLCedyayujLAD8=",
   "Source": "FinanceChecker",
   "BasePath": "_content/FinanceChecker",
   "Mode": "Default",
@@ -1156,6 +1156,23 @@
       "OriginalItemSpec": "wwwroot/js/site.js"
     },
     {
+      "Identity": "/Users/tundey/Projects/finance1/Finance1/wwwroot/js/transaction.js",
+      "SourceId": "FinanceChecker",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/tundey/Projects/finance1/Finance1/wwwroot/",
+      "BasePath": "_content/FinanceChecker",
+      "RelativePath": "js/transaction.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/js/transaction.js"
+    },
+    {
       "Identity": "/Users/tundey/Projects/finance1/Finance1/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css",
       "SourceId": "FinanceChecker",
       "SourceType": "Discovered",
@@ -2123,6 +2140,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/lib/jquery/dist/jquery.min.map"
+    },
+    {
+      "Identity": "/Users/tundey/Projects/finance1/Finance1/wwwroot/lib/jquery/dist/transaction.js",
+      "SourceId": "FinanceChecker",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/tundey/Projects/finance1/Finance1/wwwroot/",
+      "BasePath": "_content/FinanceChecker",
+      "RelativePath": "lib/jquery/dist/transaction.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/lib/jquery/dist/transaction.js"
     },
     {
       "Identity": "/Users/tundey/Projects/finance1/Finance1/wwwroot/lib/jquery/LICENSE.txt",

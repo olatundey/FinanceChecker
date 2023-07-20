@@ -97,26 +97,27 @@ namespace FinanceChecker.Controllers
 
                             return RedirectToAction("Index");
                         }
+
                         else
                         {
                             return View(obj);
 
                         }
                     }
+
                     else if (button == "Validate")
                     {
-                        // Perform validation logic for the validate button
-                        // You can access the properties of the 'obj' parameter and perform validation checks
+                    // Perform validation logic for the validate button
 
-                        //// Example validation code: check if the account number is empty
-                        //if (obj.AccountNumber == 0)
+                    //// Example validation code: check if the account number is empty
+                    //if (obj.AccountNumber == 0)
+                    //{
+                    //    ModelState.AddModelError(string.Empty, "Account Number expected with Numbers");                       
+                    //    TempData["error"] = "Account Number expected with Numbers";
+                    //    return View(obj);
+                    //}
 
-                        //{
-                        //    ModelState.AddModelError(string.Empty, "Account Number expected with Numbers");
-                        //    return View(obj);
-                        //}
-
-                        obj.CreatedAt = DateTime.Now;
+                    obj.CreatedAt = DateTime.Now;
                         obj.UpdatedAt = DateTime.Now;
 
                         var id = obj.UserID;
@@ -280,8 +281,8 @@ namespace FinanceChecker.Controllers
 
                     _db.Transactions.Add(obje);
                     _db.SaveChanges();
-
-                    return RedirectToAction("Transaction");
+                TempData["success"] = "Transaction created successfully";
+                return RedirectToAction("Transaction");
                 }
 
 
@@ -289,25 +290,42 @@ namespace FinanceChecker.Controllers
             }
 
 
-            public async Task<IActionResult> Transaction()
+        public async Task<IActionResult> Transaction()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
             {
-                var user = await _userManager.GetUserAsync(User);
-                if (user != null)
-                {
-                    var userId = user.Id;
-                    var accounts = _db.Accounts.Where(a => a.UserID == userId).ToList();
-                    ViewBag.Id = userId;
+                var userId = user.Id;
+                var accounts = _db.Accounts.Where(a => a.UserID == userId).ToList();
+                ViewBag.Id = userId;
 
-                    // Retrieve the transaction history for the current user
-                    var transactions = _db.Transactions.Where(t => t.UserID == userId).ToList();
-                    return View(transactions); // Pass the transactions as the model
-                }
-
-                return View();
+                // Retrieve the transaction history for the current user
+                var transactions = _db.Transactions.Where(t => t.UserID == userId).ToList();
+                return View(transactions); // Pass the transactions as the model
             }
 
-            // GET: Transaction/Edit/5
-            public IActionResult EditTransaction(int TransactionID)
+            return View();
+        }
+
+        [Route("Account/GetAllTransactions")]
+        public async Task<IActionResult> GetAllTransactions()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                var userId = user.Id;
+                var transactions = _db.Transactions.Where(t => t.UserID == userId).ToList();
+                return Json(transactions);
+            }
+
+            return Json(null);
+        }
+
+
+
+
+        // GET: Transaction/Edit/5
+        public IActionResult EditTransaction(int TransactionID)
             {
                 var transaction = _db.Transactions.Find(TransactionID);
                 if (transaction == null)
@@ -367,7 +385,7 @@ namespace FinanceChecker.Controllers
 
                     _db.Transactions.Update(existingTransaction);
                     _db.SaveChanges();
-
+                    TempData["success"] = "Transaction Updated successfully";
                     return RedirectToAction("Transaction");
                 }
                 catch (DbUpdateConcurrencyException)

@@ -3,7 +3,7 @@
 @model Account
 <h2>Create Account</h2>
 
-<p>User ID: @ViewBag.Id</p>
+@*<p>User ID: @ViewBag.Id</p>*@
 
 <form method="post" asp-action="CreateAccount">
     <div class="form-group">
@@ -36,8 +36,8 @@
 
     <div id="balanceField" class="form-group">
         <label for="balance">Balance:</label>
-        <input class="form-control" type="number" name="Balance" step="0.01">
         <small class="form-text text-muted">Enter a positive or negative amount (e.g. 10 or -20)</small>
+        <input class="form-control" type="number" name="Balance" step="0.01">
     </div>
 
     <div id="submitField" class="form-group">
