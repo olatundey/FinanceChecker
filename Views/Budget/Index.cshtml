@@ -1,9 +1,38 @@
-﻿
-<div class="text-center">
+﻿@model List<Budget>
+
+<div class="text-end">
     <a class="btn btn-primary" asp-area="" asp-controller="Budget" asp-action="AddCategory">Add a New Category</a>
 </div>
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Budget</p>
+<div class="text-start">
+    <a class="btn btn-primary" asp-area="" asp-controller="Budget" asp-action="CreateBudget">Add a New Budget</a>
 </div>
 
+
+<h3>Monthly Budget</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Category</th>
+            <th>Budget</th>
+            <th>Spent</th>
+            <th>Progress</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var budget in Model)
+        {
+            <tr>
+                <td>@budget.CategoryName</td>
+                <td>£@budget.Amount.ToString("0.00")</td>
+                <td>£@budget.TotalTransactionsAmount.ToString("0.00")</td>
+                <td>@budget.Progress.ToString("0.00")%</td>
+
+                <td>
+                    <a asp-controller="Budget" asp-action="EditBudget" asp-route-id="@budget.BudgetID">Edit</a> |
+                    <a asp-controller="Budget" asp-action="DeleteBudget" asp-route-id="@budget.BudgetID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

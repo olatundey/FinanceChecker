@@ -224,6 +224,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQnVkZ2V0L0FkZENhdGVnb3J5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/tundey/Projects/finance1/Finance1/Views/Budget/CreateBudget.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQnVkZ2V0L0NyZWF0ZUJ1ZGdldC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/tundey/Projects/finance1/Finance1/Views/Budget/EditBudget.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQnVkZ2V0L0VkaXRCdWRnZXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/tundey/Projects/finance1/Finance1/Views/Budget/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQnVkZ2V0L0luZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

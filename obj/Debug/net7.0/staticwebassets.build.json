@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "tm3uVUdLhomDY2d/ydz3jnPdN6lm8nLCedyayujLAD8=",
+  "Hash": "h68SdYMCY7bZc7BAdWgEYNouM/3MqR0mcj9PNeH10MU=",
   "Source": "FinanceChecker",
   "BasePath": "_content/FinanceChecker",
   "Mode": "Default",
@@ -1154,23 +1154,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/js/site.js"
-    },
-    {
-      "Identity": "/Users/tundey/Projects/finance1/Finance1/wwwroot/js/transaction.js",
-      "SourceId": "FinanceChecker",
-      "SourceType": "Discovered",
-      "ContentRoot": "/Users/tundey/Projects/finance1/Finance1/wwwroot/",
-      "BasePath": "_content/FinanceChecker",
-      "RelativePath": "js/transaction.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/js/transaction.js"
     },
     {
       "Identity": "/Users/tundey/Projects/finance1/Finance1/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css",
