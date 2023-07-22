@@ -1,0 +1,34 @@
+﻿@model FinanceChecker.Models.Savings
+
+<h2>Add New Savings Goal</h2>
+<form asp-controller="Savings" asp-action="CreateSavings" method="post">
+    <div class="form-group">
+        <label for="SavingsName">Savings Name:</label>
+        <input asp-for="SavingsName" class="form-control" />
+        <span asp-validation-for="SavingsName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="Goal">Target Amount:</label>
+        <input asp-for="Goal" class="form-control" value="0" />
+        <span asp-validation-for="Goal" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="DueDate">Due Date:</label>
+        <input asp-for="DueDate" type="date" class="form-control" />
+        <span asp-validation-for="DueDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="CurrentSavings">Current Savings:</label>
+        <input asp-for="CurrentSavings" class="form-control" value="0" />
+        <span asp-validation-for="CurrentSavings" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Set Savings Goal</button>
+    </div>
+
+    <input asp-for="Progress" type="hidden" value="0" />
+</form>
