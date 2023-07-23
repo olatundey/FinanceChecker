@@ -2,29 +2,31 @@
 
 <h1>Edit Budget</h1>
 
-@using (Html.BeginForm("EditBudget", "Budget", FormMethod.Post))
-{
-    @Html.HiddenFor(model => model.BudgetID)
+<form asp-action="EditBudget" asp-controller="Budget" method="post">
+
+    <input type="hidden" asp-for="BudgetID" />
+
 
     <div class="form-group">
-        @Html.LabelFor(model => model.CategoryName)
-        @Html.DropDownListFor(model => model.CategoryName, (SelectList)ViewBag.Categories, "-- Select Category --", new { @class = "form-control" })
+        <label for="CategoryName">Category Name:</label>
+        <select asp-for="CategoryName" asp-items="(SelectList)ViewBag.Categories" class="form-control">
+            <option value="">-- Select Category --</option>
+        </select>
+        <span asp-validation-for="CategoryName" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Amount)
-        @Html.TextBoxFor(model => model.Amount, "{0:N2}", new { @class = "form-control" })
+        <label for="Amount">Amount:</label>
+        <input asp-for="Amount" type="text" class="form-control" value="@Model.Amount.ToString("0.00")" />
+        <span asp-validation-for="Amount" class="text-danger"></span>
     </div>
 
-
-
-    @Html.HiddenFor(model => model.UserID)
-    @Html.HiddenFor(model => model.CategoryID)
-    @Html.HiddenFor(model => model.TotalTransactionsAmount)
-    @Html.HiddenFor(model => model.CreatedAt)
-    @Html.HiddenFor(model => model.UpdatedAt)
-
-    @Html.HiddenFor(model => model.Progress)
+    <input type="hidden" asp-for="UserID" />
+    <input type="hidden" asp-for="CategoryID" />
+    <input type="hidden" asp-for="TotalTransactionsAmount" />
+    <input type="hidden" asp-for="CreatedAt" />
+    <input type="hidden" asp-for="UpdatedAt" />
+    <input type="hidden" asp-for="Progress" />
 
     <input type="submit" value="Save Changes" class="btn btn-primary" />
-}
+</form>

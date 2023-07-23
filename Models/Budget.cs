@@ -17,11 +17,9 @@ namespace FinanceChecker.Models
         //[ForeignKey("Category")]
         public int CategoryID { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter the amount.")]
         [Range(0, double.MaxValue, ErrorMessage = "Budget amount must be a non-negative value.")]
-        [DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
-        public decimal Amount { get; set; }
-
+        [DataType(DataType.Currency)] public decimal Amount { get; set; }
         public decimal TotalTransactionsAmount { get; set; }
 
         [Required]

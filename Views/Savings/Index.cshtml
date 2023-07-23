@@ -4,32 +4,58 @@
     <a class="btn btn-primary" asp-area="" asp-controller="Savings" asp-action="CreateSavings">Add a New Saving Goal</a>
 </div>
 
-<h2>Savings Plan</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Savings Name</th>
-            <th>Target Amount</th>
-            <th>Amount saved</th>
-            <th>Progress</th>
-            <th>Due Date</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var savings in Model)
-        {
-            <tr>
-                <td>@savings.SavingsName</td>
-                <td>£@savings.Goal.ToString("0.00")</td>
-                <td>£@savings.CurrentSavings.ToString("0.00")</td>
-                <td>@savings.Progress.ToString("0.00")%</td>
-                <td>@savings.DueDate.ToShortDateString()</td>
-                <td>
-                    <a asp-controller="Savings" asp-action="EditSavings" asp-route-id="@savings.SavingsID">Edit</a> |
-                    <a asp-controller="Savings" asp-action="DeleteSavings" asp-route-id="@savings.SavingsID">Delete</a>
-                </td>
-            </tr>
+<h2>Savings Management</h2>
+
+<div class="row">
+    @foreach (var savings in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@savings.SavingsName</h5>
+                    <p class="card-text">Target Amount: £@savings.Goal.ToString("0.00")</p>
+                    <p class="card-text">Amount Saved: £@savings.CurrentSavings.ToString("0.00")</p>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-fill" role="progressbar" style="width: @savings.Progress.ToString("0.00")%" aria-valuenow="@savings.Progress" aria-valuemin="0" aria-valuemax="100">
+                            @savings.Progress.ToString("0.00")%
+                        </div>
+                    </div>
+                    <p class="card-text">Due Date: @savings.DueDate.ToShortDateString()</p>
+                    <div class="card-body d-flex justify-content-end">
+                        <a asp-controller="Savings" asp-action="EditSavings" asp-route-id="@savings.SavingsID" class="btn btn-primary btn-sm">Edit</a>
+                        <a asp-controller="Savings" asp-action="DeleteSavings" asp-route-id="@savings.SavingsID" class="btn btn-danger btn-sm">Delete</a>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    }
+</div>
+
+<style>
+    .progress-bar {
+        width: 100%;
+        height: 30px;
+        background-color: #e0e0e0;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+
+    .progress-bar-fill {
+        height: 100%;
+        background-color: green;
+        width: 0;
+        transition: width 0.3s;
+    }
+</style>
+
+<script>function updateProgressBarColor(progressElement) {
+        const progress = parseFloat(progressElement.style.width);
+        if (progress >= 100) {
+            progressElement.style.backgroundColor = 'blue';
+        } else {
+            progressElement.style.backgroundColor = 'green';
         }
-    </tbody>
-</table>
+    }
+
+    const progressBars = document.querySelectorAll('.progress-bar-fill');
+    progressBars.forEach(updateProgressBarColor);</script>
