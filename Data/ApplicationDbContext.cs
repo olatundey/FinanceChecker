@@ -19,6 +19,8 @@ namespace FinanceChecker.Data
         public DbSet <Category> Categories { get; set; }
         public DbSet<Budget> Budgets { get; set; }
         public DbSet<Savings> Savings { get; set; }
+        public DbSet<Bill> Bills { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
