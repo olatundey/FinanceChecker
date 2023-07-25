@@ -216,6 +216,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWxlcnQvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/tundey/Projects/finance1/Finance1/Views/Alert/Notification.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWxlcnQvTm90aWZpY2F0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/tundey/Projects/finance1/Finance1/Views/Bills/CreateBill.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQmlsbHMvQ3JlYXRlQmlsbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

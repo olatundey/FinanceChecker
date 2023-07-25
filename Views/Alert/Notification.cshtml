@@ -3,6 +3,19 @@
 <div class="container">
     <div class="row justify-content-center mt-4">
         <div class="col-12 col-md-9">
+            <!-- Notifications -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <p class="card-title">NOTIFICATIONS</p>
+
+                    @if (ViewBag.AlertMessage != null && ViewBag.AlertType != null)
+                    {
+                        <div class="alert alert-@ViewBag.AlertType">@Html.Raw(ViewBag.AlertMessage)</div>
+                    }
+                </div>
+            </div>
+
+            <!-- Alert Settings -->
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title text-center">ALERT SETTINGS</h4>

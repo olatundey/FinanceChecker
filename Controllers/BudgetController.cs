@@ -40,7 +40,7 @@ namespace FinanceChecker.Controllers
                 return View();
             }
 
-            return RedirectToAction("Index"); // Redirect to the login page if the user is not authenticated or if the user object is null
+            return RedirectToAction("Index"); 
         }
 
 
@@ -106,7 +106,7 @@ namespace FinanceChecker.Controllers
 
                 var budget = new Budget
                 {
-                    UserID = userId, // Set UserID directly on the Budget model
+                    UserID = userId, 
                 };
 
                 ViewBag.Categories = new SelectList(categories, "CategoryName", "CategoryName"); // Use ViewBag to pass the SelectList
@@ -145,12 +145,10 @@ namespace FinanceChecker.Controllers
                 return RedirectToAction("Index");
             }
 
-            //var user = await _userManager.GetUserAsync(User);
-            //var userId = user.Id;
+            
             var budgets = _db.Budgets.Where(b => b.UserID == userId).ToList();
             var categories = _db.Categories.ToList();
 
-            //Total transactions amount for each budget category
             foreach (var b in budgets)
             {
                 var currentMonth = DateTime.Now.Month;
@@ -160,11 +158,13 @@ namespace FinanceChecker.Controllers
                     .Where(t => t.Category == b.CategoryName && t.UserID == user.Id &&
                                 t.Date.Month == currentMonth && t.Date.Year == currentYear);
 
-                b.TotalTransactionsAmount = transactionsForCategory.Sum(t => t.Amount);
+              
 
-                if (b.Amount > 0)
+                b.TotalTransactionsAmount = transactionsForCategory.Sum(t => Math.Abs(t.Amount));
+
+                if (Math.Abs(b.Amount) > 0)
                 {
-                    b.Progress = (b.TotalTransactionsAmount / b.Amount) * 100;
+                    b.Progress = (b.TotalTransactionsAmount / Math.Abs(b.Amount)) * 100;
                 }
                 else
                 {
@@ -173,7 +173,6 @@ namespace FinanceChecker.Controllers
             }
 
             ViewBag.Categories = new SelectList(categories, "CategoryName", "CategoryName");
-            //ViewBag used to pass the SelectList, new instance
 
             return View(budget);
         }
@@ -191,7 +190,6 @@ namespace FinanceChecker.Controllers
             var categories = _db.Categories.ToList();
             ViewBag.Categories = new SelectList(categories, "CategoryName", "CategoryName");
 
-            // Use the "CreateBudget" view for both create and edit operations
             return View("EditBudget", budget);
         }
 
@@ -215,16 +213,16 @@ namespace FinanceChecker.Controllers
             {
                 budget.UpdatedAt = DateTime.Now;
 
-                if (budget.Amount > 0)
+             
+                if (Math.Abs(budget.Amount) > 0)
                 {
-                    budget.Progress = (budget.TotalTransactionsAmount / budget.Amount) * 100;
+                    budget.Progress = (budget.TotalTransactionsAmount / Math.Abs(budget.Amount)) * 100;
                 }
                 else
                 {
                     budget.Progress = 0;
                 }
 
-                // Update the budget in the database
                 _db.Budgets.Update(budget);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
@@ -239,7 +237,6 @@ namespace FinanceChecker.Controllers
 
         public IActionResult DeleteBudget(int id)
         {
-            // Retrieve the budget from the database using the provided id
             var budget = _db.Budgets.FirstOrDefault(b => b.BudgetID == id);
 
             if (budget == null)
@@ -247,7 +244,6 @@ namespace FinanceChecker.Controllers
                 return NotFound();
             }
 
-            // Delete the budget from the database
             _db.Budgets.Remove(budget);
             _db.SaveChanges();
 

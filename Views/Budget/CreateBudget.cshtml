@@ -1,5 +1,7 @@
 ﻿@model FinanceChecker.Models.Budget
-
+    <div class="text-end">
+        <a class="btn btn-primary" asp-area="" asp-controller="Budget" asp-action="AddCategory">Add a New Category</a>
+    </div>
 <h1>Create Monthly Budget</h1>
 
 <form asp-action="CreateBudget" asp-controller="Budget" method="post">

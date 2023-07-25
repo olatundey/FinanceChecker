@@ -3,9 +3,7 @@
     <div class="text-center">
         <a class="btn btn-primary" asp-area="" asp-controller="Budget" asp-action="CreateBudget">Add a New Budget</a>
     </div>
-    <div class="text-end">
-        <a class="btn btn-primary" asp-area="" asp-controller="Budget" asp-action="AddCategory">Add a New Category</a>
-    </div>
+   
 </div>
 <div class="text-center">
     <h4>MONTHLY BUDGET</h4>
@@ -19,13 +17,27 @@
                 <div class="card-body">
                     <h5 class="card-title">@budget.CategoryName</h5>
                     <div class="d-flex justify-content-between">
-                        <p class="card-text"><small>Budget: £@budget.Amount.ToString("0.00")</small></p>
-                        <p class="card-text"><small>Spent: £@budget.TotalTransactionsAmount.ToString("0.00")</small></p>
+                        <p class="card-text">
+                            <small>Budget: £@(budget.Amount.ToString("0.00"))</small>
+                        </p>
+                        <p class="card-text">
+                            <small>Spent: £@(Math.Abs(budget.TotalTransactionsAmount).ToString("0.00"))</small>
+                        </p>
                     </div>
                     <div class="progress" style="height: 40px;">
-                        <div class="progress-bar progress-bar-fill" role="progressbar" style="width: @budget.Progress.ToString("0.00")%" aria-valuenow="@budget.Progress" aria-valuemin="0" aria-valuemax="100">
-                            @budget.Progress.ToString("0.00")%
-                        </div>
+                        @if (budget.Amount > 0)
+                        {
+                            var progress = (Math.Abs(budget.TotalTransactionsAmount) / Math.Abs(budget.Amount)) * 100;
+                            <div class="progress-bar progress-bar-fill" role="progressbar" style="width: @progress.ToString("0.00")%" aria-valuenow="@progress" aria-valuemin="0" aria-valuemax="100">
+                                @progress.ToString("0.00")%
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="progress-bar progress-bar-fill" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                0%
+                            </div>
+                        }
                     </div>
                     <div class="card-body d-flex justify-content-end">
                         <a asp-controller="Budget" asp-action="EditBudget" asp-route-id="@budget.BudgetID" class="btn btn-primary btn-sm">Edit</a>
