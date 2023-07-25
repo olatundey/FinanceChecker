@@ -51,14 +51,9 @@ namespace FinanceChecker.Controllers
                 return RedirectToAction("Index"); // Redirect to the login page if the user is not authenticated or if the user object is null
             }
 
-            //public IActionResult AddAccount()
-            //{
-            //    return View();
-            //}
+            
             public async Task<IActionResult> CreateAccount()
             {
-                //if (User.Identity.IsAuthenticated)
-                //{
                     var user = await _userManager.GetUserAsync(User);
                     if (user != null)
                     {
@@ -68,7 +63,6 @@ namespace FinanceChecker.Controllers
                         //var userId = user.Id;
                         ViewBag.Id = obj.UserID;
                     }
-                //}
 
                 return View();
             }
@@ -235,8 +229,7 @@ namespace FinanceChecker.Controllers
             // GET: Account/CreateTransaction
             public async Task<IActionResult> CreateTransaction()
             {
-                //if (User.Identity.IsAuthenticated)
-                //{
+               
                     var id = await _userManager.GetUserAsync(User);
                     if (id != null)
                     {
@@ -246,7 +239,7 @@ namespace FinanceChecker.Controllers
                         //var userId = user.Id;
                         ViewBag.Id = obj.UserID;
                     }
-                //}
+              
 
                 var user = _userManager.GetUserAsync(User).Result;
                 var userId = user?.Id;
@@ -264,10 +257,12 @@ namespace FinanceChecker.Controllers
                     accountViewModels.Add(accountViewModel);
                 }
                 var categories = _db.Categories.ToList();
+                //pass category and accounts to view
                 ViewBag.Categories = new SelectList(categories, "CategoryId", "CategoryName");
                 ViewBag.Accounts = accountViewModels;
 
-                return View(new Transaction());
+
+            return View(new Transaction());
             }
 
             [HttpPost]
@@ -281,13 +276,63 @@ namespace FinanceChecker.Controllers
                     obje.UpdatedAt = DateTime.Now;
 
                     _db.Transactions.Add(obje);
+                Console.WriteLine(obje);
                     _db.SaveChanges();
                 TempData["success"] = "Transaction created successfully";
                 return RedirectToAction("Transaction");
                 }
 
+       
 
-                return View(obje);
+            // Repopulate ViewBag data 
+            var accounts = _db.Accounts.Where(a => a.UserID == obje.UserID).ToList();
+
+            var accountViewModels = new List<AccountViewModel>();
+
+            foreach (var account in accounts)
+            {
+                var accountViewModel = new AccountViewModel
+                {
+                    AccountID = account.AccountID,
+                    InstitutionName = account.InstitutionName
+                };
+                accountViewModels.Add(accountViewModel);
+            }
+
+            var categories = _db.Categories.ToList();
+            ViewBag.Categories = new SelectList(categories, "CategoryId", "CategoryName");
+            ViewBag.Accounts = accountViewModels;
+
+            // if model is not valid, info to TempData 
+            // Clear TempData for all fields initially
+            //TempData["InstitutionNameInfo"] = TempData["AmountInfo"] = TempData["CategoryInfo"] = TempData["DescriptionInfo"] = TempData["DateInfo"] = null;
+
+            // Check and set TempData for each empty or unselected field
+            if (string.IsNullOrEmpty(obje.InstitutionName))
+            {
+                TempData["InstitutionNameInfo"] = "Institution Name is required.";
+            }
+
+            if (obje.Amount == 0) 
+            {
+                TempData["AmountInfo"] = "Amount is required.";
+            }
+
+            if (string.IsNullOrEmpty(obje.Category))
+            {
+                TempData["CategoryInfo"] = "Category is required.";
+            }
+
+            if (string.IsNullOrEmpty(obje.Description))
+            {
+                TempData["DescriptionInfo"] = "Description is required.";
+            }
+
+            if (obje.Date == null || obje.Date == DateTime.MinValue) 
+            {
+                TempData["DateInfo"] = "Date is required.";
+            }
+            return View(obje);
             }
 
 

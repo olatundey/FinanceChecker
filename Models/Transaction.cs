@@ -7,6 +7,7 @@ namespace FinanceChecker.Models
     public class Transaction
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int TransactionID { get; set; }
 
         [Display(Name = "ApplicationUser")]

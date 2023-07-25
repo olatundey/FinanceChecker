@@ -4,41 +4,25 @@
 
 <form method="post" asp-action="CreateTransaction">
     <div class="form-group">
-        <label for="accountId">Account ID:</label>
-        <select class="form-control" name="AccountID" id="accountId" required>
-            <option value="">Select an account</option>
-            @if (ViewBag.Accounts != null)
-            {
-                foreach (var account in ViewBag.Accounts)
-                {
-                    <option value="@account.AccountID">@account.AccountID - (@account.InstitutionName)</option>
-                }
-            }
-        </select>
-    </div>
-
-    <div class="form-group">
         <label for="institutionName">Institution Name:</label>
-        <select class="form-control" name="InstitutionName" required>
-            <option value="">Select name of institution with Account ID</option>
-            @if (ViewBag.Accounts != null)
+        <select class="form-control" name="InstitutionName" id="institutionName">
+            <option value="">Select name of institution</option>
+            @if (ViewBag.Accounts != null && ViewBag.Accounts.Count > 0)
             {
                 @foreach (var account in ViewBag.Accounts)
                 {
-                    <option value="@account.InstitutionName">@account.InstitutionName - (@account.AccountID)</option>
-                    @*<input class="form-control" type="text" name="InstitutionName" value="@account.InstitutionName" readonly>*@
+                    <option value="@account.InstitutionName">@account.InstitutionName  (@account.AccountID)</option>
                 }
             }
         </select>
+        <span class="text-info">@TempData["InstitutionNameInfo"]</span>
     </div>
-
-    @*id="institutionName"*@
 
     <div class="form-group">
         <label for="amount">Amount:</label>
-        <small class="form-text text-muted">Enter a positive or negative amount (e.g. 10 or -20)</small>
+        <small class="form-text text-muted">Enter a positive or negative amount DB/CR (e.g. 10 CR or -20)</small>
         <input class="form-control" type="number" name="Amount" step="0.01">
-
+        <span class="text-info">@TempData["AmountInfo"]</span>
     </div>
 
     <div class="form-group">
@@ -55,18 +39,22 @@
                 }
             }
         </select>
+        <span class="text-info">@TempData["CategoryInfo"]</span>
     </div>
-
-
 
     <div class="form-group">
         <label for="description">Description:</label>
         <input class="form-control" type="text" name="Description">
+        <span class="text-info">@TempData["DescriptionInfo"]</span>
     </div>
     <div class="form-group">
         <label for="date">Date:</label>
-        <input class="form-control" type="text" name="Date" value="@DateTime.Now" readonly>
+        <input class="form-control" type="datetime-local" name="DateTime" max="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" required>
+        <span class="text-info">@TempData["DateInfo"]</span>
     </div>
+
+
+    <input type="hidden" name="AccountID" id="accountId" required>
 
     <input type="hidden" name="UserID" value="@ViewBag.Id">
     <input type="hidden" name="CreatedAt" value="@DateTime.Now">
@@ -74,3 +62,22 @@
 
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
+<script>
+    // store mapping of institutionname to accountID
+    var accountMap = {
+        @if (ViewBag.Accounts != null && ViewBag.Accounts.Count > 0)
+        {
+            @foreach (var account in ViewBag.Accounts)
+            {
+                @: '@account.InstitutionName': '@account.AccountID',
+            }
+        }
+    };
+
+    // Function to handle institution name select change event
+    document.getElementById("institutionName").addEventListener("change", function () {
+        const selectedInstitutionName = this.value;
+        document.getElementById("accountId").value = accountMap[selectedInstitutionName] || "";
+    });
+</script>
