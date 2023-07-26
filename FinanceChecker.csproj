@@ -40,6 +40,7 @@
     <None Remove="DataTransferObject\" />
     <None Remove="Repositories\IRepository\" />
     <None Remove="log\" />
+    <None Remove="Views\Transaction\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
@@ -53,5 +54,6 @@
     <Folder Include="DataTransferObject\" />
     <Folder Include="Repositories\IRepository\" />
     <Folder Include="log\" />
+    <Folder Include="Views\Transaction\" />
   </ItemGroup>
 </Project>
