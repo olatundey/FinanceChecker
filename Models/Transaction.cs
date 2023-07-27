@@ -16,14 +16,18 @@ namespace FinanceChecker.Models
         //[ForeignKey("Account")]
         public int AccountID { get; set; }
 
+        [Required(ErrorMessage = "Institution name is required.")]
         public string? InstitutionName { get; set; }
 
+        [Required(ErrorMessage = "Amount is required.")]
         public decimal Amount { get; set; }
 
+        [Required(ErrorMessage = "Category is required")]
         public string? Category { get; set; }
 
         public string? Description { get; set; }
 
+        [Required(ErrorMessage = "Date is required")]
         public DateTime Date { get; set; }
 
         [Required]

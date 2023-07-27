@@ -1,0 +1,24 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@model Account
+
+<h3>Retrieve Account Data</h3>
+
+<p>By clicking "Agree" you will retrieve both your account balance and transaction data.</p>
+
+<form method="post" asp-action="RetrieveData">
+
+    <div class="form-group">
+        <label asp-for="AccountNumber">Account Number:</label>
+        <input asp-for="AccountNumber" class="form-control" readonly />
+    </div>
+
+    @*<input type="hidden" asp-for="AccountNumber" />*@
+
+<div class="form-group">
+    <button type="submit" name="Agree" value="true">Agree</button>
+    <a asp-action="Index">Cancel</a>
+</div>
+</form>
+
+

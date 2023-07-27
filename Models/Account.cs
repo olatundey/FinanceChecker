@@ -13,12 +13,15 @@ namespace FinanceChecker.Models
         [Display(Name = "ApplicationUser")]
         public string UserID { get; set; }
 
+        [Required(ErrorMessage = "Number(s) required for Account.")]
         public int AccountNumber { get; set; }
 
+        [Required(ErrorMessage = "Account type is required.")]
         public string? AccountType { get; set; }
 
         public string? syncType { get; set; }
 
+        [Required(ErrorMessage = "Institution name is required.")]
         public string? InstitutionName { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:N2}")]

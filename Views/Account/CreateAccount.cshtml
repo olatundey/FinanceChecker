@@ -22,22 +22,27 @@
             <option value="CreditCard">Credit Card</option>
             <option value="Investment">Investment Account</option>
         </select>
+        <span asp-validation-for="AccountType" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label for="accountNumber">Account Number:</label>
         <input class="form-control" type="text" name="AccountNumber" required>
+        <span asp-validation-for="AccountNumber" class="text-danger"></span>
     </div>
 
     <div id="institutionNameField" class="form-group" style="display: none;">
         <label for="institutionName">Enter Institution Name:</label>
         <input class="form-control" type="text" name="InstitutionName">
+        <span asp-validation-for="InstitutionName" class="text-danger"></span>
+
     </div>
 
     <div id="balanceField" class="form-group">
         <label for="balance">Balance:</label>
         <small class="form-text text-muted">Enter a positive or negative amount (e.g. 10 or -20)</small>
         <input class="form-control" type="number" name="Balance" step="0.01">
+        <span asp-validation-for="Balance" class="text-danger"></span>
     </div>
 
     <div id="submitField" class="form-group">
@@ -45,10 +50,18 @@
     </div>
 
     <div id="validateField" class="form-group">
-        <button type="submit" class="btn btn-primary" name="button" value="Validate">Validate</button>
+        <button type="submit" class="btn btn-primary" name="button" value="Validate" onclick="setFormAction()">
+            Save and Proceed
+        </button>
     </div>
 
     <input type="hidden" name="UserID" value="@ViewBag.Id">
     <input type="hidden" name="CreatedAt" value="@DateTime.Now">
     <input type="hidden" name="UpdatedAt" value="@DateTime.Now">
 </form>
+
+<script>function setFormAction() {
+        var accountNumber = document.getElementById("AccountNumberHidden").value;
+        var form = document.querySelector("form");
+        form.action = "/Account/AgreeRetrieveData?accountNumber=" + encodeURIComponent(accountNumber);
+    }</script>

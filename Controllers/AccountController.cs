@@ -10,27 +10,177 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace FinanceChecker.Controllers
 {
     [Authorize]
-    //    [AutoValidateAntiforgeryToken]
+    [AutoValidateAntiforgeryToken]
     public class AccountController : Controller
     {
         private readonly ILogger<AccountController> _logger;
         private readonly ApplicationDbContext _db;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly HttpClient _client;
 
-        public AccountController(ILogger<AccountController> logger, ApplicationDbContext db, UserManager<IdentityUser> userManager)
+        public AccountController(ILogger<AccountController> logger, ApplicationDbContext db, UserManager<IdentityUser> userManager, IHttpClientFactory clientFactory)
         {
             _logger = logger;
             _db = db;
             _userManager = userManager;
+            _client = clientFactory.CreateClient("MyApiClient");
+             // the base address of the mock web API created on ASP .NET Core WEB APIProject
+            _client.BaseAddress = new Uri("https://localhost:7078/api/BankA/");
         }
 
-            public async Task<IActionResult> Index()
+        private async Task<decimal> GetAccountBalanceFromAPI(int accountNumber)
+        {
+            try
+            {
+                _logger.LogInformation("Calling API to get account balance...");
+                // Call the API to get the account balance
+                var response = await _client.GetAsync($"balance/{accountNumber}");
+                if (response != null && response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    // To parse the response and extract the balance value
+                    if (decimal.TryParse(content, out decimal balance))
+                    {
+                       return balance;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Error occurred while calling API. Status Code: {0}", response?.StatusCode);
+                    _logger.LogError("Error occurred while calling API. Status Code: {StatusCode}", response?.StatusCode);
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = ex.Message;
+                ModelState.AddModelError("", ex.Message);
+                _logger.LogError(ex, "Error occurred while retrieving account balance from API.");
+                Console.WriteLine("Error occurred while retrieving account balance from API: {0}", ex.Message);
+            }
+            // Return 0 if retrieval fails
+            return 0;
+        }
+
+        private async Task<List<Transaction>> GetTransactionsFromAPI(int accountNumber)
+        {
+            try
+            {
+                // Call the API to get the transactions
+                var response = await _client.GetAsync($"transactions/{accountNumber}");
+                if (response != null && response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    // Deserialize the response to List<Transaction> and return
+                    var transactions = JsonConvert.DeserializeObject<List<Transaction>>(content);
+                    Console.WriteLine($"Transactions received as {transactions}");
+
+                    return transactions;
+                }
+            }
+            catch (Exception ex)
+            {
+                var ErrorMessage = ex.Message;
+                TempData["error"] = ErrorMessage;
+                ModelState.AddModelError("", ex.Message);
+                _logger.LogError(ex, "Error occurred while retrieving transactions from API.");
+                Console.WriteLine($"Error occurred while retrieving transactions from API: {ErrorMessage}", ex.Message);
+            }
+
+            // Return an empty list if retrieval fails
+            return new List<Transaction>();
+        }
+
+
+        public IActionResult AgreeRetrieveData(int accountNumber)
+        {
+           var account = new Account { AccountNumber = accountNumber };
+
+            return View(account);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> RetrieveData()
+        {
+            
+            //Retrieve the inputted account number from the form
+            if (!int.TryParse(Request.Form["AccountNumber"], out int accountNumber))
+            {
+                TempData["success"] = "Invalid account number input.";
+                return RedirectToAction("CreateAccount");
+            }
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                TempData["success"] = "User not found.";
+                return RedirectToAction("CreateAccount");
+            }
+
+            // Check the account with the given account number & if it belongs to the current user
+            var account = _db.Accounts.FirstOrDefault(a => a.UserID == user.Id && a.AccountNumber == accountNumber);
+
+            if (account == null)
+            {
+                TempData["success"] = "Account not found for the current user.";
+                return RedirectToAction("CreateAccount");
+            }
+
+            try
+            {
+                // Call the API integration method to get account balance
+                decimal accountBalance = await GetAccountBalanceFromAPI(accountNumber);
+
+                // Call the API integration method to get transactions
+                List<Transaction> transactions = await GetTransactionsFromAPI(accountNumber);
+
+                // Update the Account table with the retrieved balance
+                account.Balance = accountBalance;
+                _db.SaveChanges();
+
+                // Update the Transaction table with the retrieved transactions 
+                foreach (var transaction in transactions)
+                {
+                    // Set the account ID for the transaction to the account's ID
+                    transaction.AccountID = account.AccountID;
+                    transaction.UserID = account.UserID;
+                    transaction.InstitutionName = account.InstitutionName;
+                    transaction.CreatedAt = DateTime.Now;
+                    transaction.UpdatedAt = DateTime.Now;
+
+                    // Save the transaction to the Transaction table
+                    _db.Transactions.Add(transaction);
+                }
+                Console.WriteLine($"Transactions saved: {transactions} ");
+                _db.SaveChanges();
+
+                TempData["success"] = "Balance and Transactions retrieved successfully.";
+                return RedirectToAction("Index");
+            }
+            catch (DbUpdateException ex)
+            {
+                // Log exception specific database related errors
+                _logger.LogError(ex, "An error occurred while saving changes to the database: {Message}", ex.Message);
+                TempData["error"] = "An error occurred while saving changes to the database.";
+                return RedirectToAction("CreateAccount");
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "An error occurred while retrieving data from the API: " + ex.Message;
+                return RedirectToAction("CreateAccount");
+            }
+
+        }
+
+
+        public async Task<IActionResult> Index()
             {
                
                     var user = await _userManager.GetUserAsync(User);
@@ -48,7 +198,7 @@ namespace FinanceChecker.Controllers
                     }
             
 
-                return RedirectToAction("Index"); // Redirect to the login page if the user is not authenticated or if the user object is null
+                return RedirectToAction("Index"); 
             }
 
             
@@ -96,22 +246,16 @@ namespace FinanceChecker.Controllers
 
                         else
                         {
-                            return View(obj);
+                        TempData["error"] = "Invalid input. Please correct the errors below.";
+                        ViewBag.Id = obj.UserID;
+                        return View(obj);
 
                         }
                     }
 
                     else if (button == "Validate")
                     {
-                    // Perform validation logic for the validate button
-
-                    //if (obj.AccountNumber == 0)
-                    //{
-                    //    ModelState.AddModelError(string.Empty, "Account Number expected with Numbers");                       
-                    //    TempData["error"] = "Account Number expected with Numbers";
-                    //    return View(obj);
-                    //}
-
+                 
                     obj.CreatedAt = DateTime.Now;
                         obj.UpdatedAt = DateTime.Now;
 
@@ -120,19 +264,22 @@ namespace FinanceChecker.Controllers
                         // Retrieve the current user
                         var user = _userManager.GetUserAsync(User).Result;
 
-                        // Additional validation logic...
 
-                        // If validation passes, display success message
                         _db.Accounts.Add(obj);
                         _db.SaveChanges();
-                        TempData["success"] = "Validation successful";
-                        return RedirectToAction("Index");
-                    }
-                    else
+                    //TempData["success"] = "Validation successful";
+                    TempData["success"] = "Account saved successfully";
+
+                    // Redirect to AgreeRetrieveData action with the account number as a query parameter
+                    return RedirectToAction("AgreeRetrieveData", new { accountNumber = obj.AccountNumber });
+
+                }
+                else
                     {
-                        // Invalid button value, handle accordingly
-                        //return BadRequest();
-                        return View(obj);
+                    // Invalid button value, handle accordingly
+                    TempData["error"] = "Invalid input. Please correct the errors below.";
+                    ViewBag.Id = obj.UserID;
+                    return View(obj);
 
                     }
                 }
@@ -194,10 +341,12 @@ namespace FinanceChecker.Controllers
                 return View(account);
             }
 
-            [HttpPost]
-            [ValidateAntiForgeryToken]
-            public IActionResult UpdateAccount(Account updatedAccount)
+        [HttpPost]
+        public IActionResult UpdateAccount(Account updatedAccount, string button)
+        {
+            if (button == "Submit") // Check which button was clicked
             {
+
                 if (ModelState.IsValid)
                 {
                     // Retrieve the original account from the database
@@ -221,13 +370,52 @@ namespace FinanceChecker.Controllers
                     TempData["success"] = "Account updated successfully";
                     return RedirectToAction("Index");
                 }
+                else
+                {
+                    TempData["error"] = "Invalid input. Please correct the errors below.";
+                    return View("EditAccount", updatedAccount);
+                }
+            }
+            else if (button == "Validate")
+            {
+                if (ModelState.IsValid)
+                {
+                    // Retrieve the original account from the database
+                    var account = _db.Accounts.FirstOrDefault(a => a.AccountID == updatedAccount.AccountID);
 
-                return View(updatedAccount);
+                    if (account == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // Update the properties of the account with the values from the updated account
+                    account.syncType = updatedAccount.syncType;
+                    account.AccountType = updatedAccount.AccountType;
+                    account.AccountNumber = updatedAccount.AccountNumber;
+                    account.InstitutionName = updatedAccount.InstitutionName;
+                    account.Balance = updatedAccount.Balance;
+                    account.UpdatedAt = DateTime.Now;
+
+                    _db.SaveChanges();
+
+                    TempData["success"] = "Account updated successfully";
+
+                    // Redirect to AgreeRetrieveData action with the account number as a query parameter
+                    return RedirectToAction("AgreeRetrieveData", new { accountNumber = updatedAccount.AccountNumber });
+                }
+                else
+                {
+                    // Invalid button value, handle accordingly
+                    TempData["error"] = "Invalid input. Please correct the errors below.";
+                    return View("EditAccount", updatedAccount);
+                }
             }
 
-
-           
-
+            return View(updatedAccount);
         }
+
+
+
+    }
     }
 
