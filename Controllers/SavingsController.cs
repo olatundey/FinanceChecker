@@ -12,19 +12,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceChecker.Controllers
 {
-      [Authorize]
-        public class SavingsController : Controller
+    [Authorize]
+    public class SavingsController : Controller
+    {
+        private readonly ILogger<SavingsController> _logger;
+        private readonly ApplicationDbContext _db;
+        private readonly UserManager<IdentityUser> _userManager;
+
+        public SavingsController(ILogger<SavingsController> logger, ApplicationDbContext db, UserManager<IdentityUser> userManager)
         {
-            private readonly ILogger<SavingsController> _logger;
-            private readonly ApplicationDbContext _db;
-            private readonly UserManager<IdentityUser> _userManager;
-            
-            public SavingsController(ILogger<SavingsController> logger, ApplicationDbContext db, UserManager<IdentityUser> userManager)
-            {
-                _logger = logger;
-                _db = db;
-                _userManager = userManager;
-            }
+            _logger = logger;
+            _db = db;
+            _userManager = userManager;
+        }
 
 
         public async Task<IActionResult> Index()
@@ -61,7 +61,7 @@ namespace FinanceChecker.Controllers
                     savings.CreatedAt = DateTime.Now;
                     savings.UpdatedAt = DateTime.Now;
 
-               
+
                     // Calculate progress as a percentage of CurrentSavings to Goal
                     if (savings.Goal > 0)
                     {

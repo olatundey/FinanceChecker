@@ -4,14 +4,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FinanceChecker.Models
 {
-  
+
     public class Account
     {
         [Key]
         public int AccountID { get; set; }
 
         [Display(Name = "ApplicationUser")]
-        public string UserID { get; set; }
+        public Guid UserID { get; set; }
 
         [Required(ErrorMessage = "Number(s) required for Account.")]
         public int AccountNumber { get; set; }

@@ -1,60 +1,96 @@
 ﻿@model List<Bill>
 
-<h2>Bills & Reminders</h2>
-
-<p>
-    <a asp-action="CreateBill" class="btn btn-primary">Create New Bill</a>
-</p>
+<h2 class="mb-4">Bills & Reminders</h2>
 
 <div class="container">
-    <div class="table-container">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Bill Name</th>
-                    <th>Description</th>
-                    <th>Amount</th>
-                    <th>Due Date</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@Html.DisplayFor(modelItem => item.BillName)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                        <td>£@Html.DisplayFor(modelItem => item.Amount)</td>
-                        <td>@Html.DisplayFor(modelItem => item.DueDate)</td>
-                        <td>
-                            <a asp-action="EditBill" asp-route-id="@item.BillID" class="btn btn-primary">Edit</a>
-                            <a asp-action="DeleteBill" asp-route-id="@item.BillID" class="btn btn-danger">Delete</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-
-
-    </div>
-    <div></div>
-    <div class="calendar-container">
-        <div id='calendar'></div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Bills List</h5>
+                </div>
+                <div class="card-body">
+                    <p>
+                        <a asp-action="CreateBill" class="btn btn-primary">Create New Bill</a>
+                    </p>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Bill Name</th>
+                                    <th>Description</th>
+                                    <th>Amount</th>
+                                    <th>Due Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item.BillName)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                                        <td>£@Html.DisplayFor(modelItem => item.Amount)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.DueDate)</td>
+                                        <td>
+                                            <a asp-action="EditBill" asp-route-id="@item.BillID" class="btn btn-primary btn-sm">Edit</a>
+                                            <a asp-action="DeleteBill" asp-route-id="@item.BillID" class="btn btn-danger btn-sm">Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Calendar</h5>
+                </div>
+                <div class="card-body">
+                    <div id="calendar"></div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-
 <style>
+    /* Custom styles for the page */
     .container {
-        display: flex;
+        margin-top: 20px;
     }
 
-    .calendar-container,
-    .table-container {
-        flex: 1;
-        padding: 10px;
+    /* Style for the table container */
+    .card {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    .card-header {
+        background-color: #f7f7f7;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .card-title {
+        font-weight: bold;
+    }
+
+    .table td, .table th {
+        vertical-align: middle;
+    }
+
+    /* Style for the calendar container */
+    #calendar {
+        height: 400px;
+        background-color: #f7f7f7;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 </style>
-
-
-

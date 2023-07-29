@@ -40,7 +40,7 @@ namespace FinanceChecker.Controllers
                 return View();
             }
 
-            return RedirectToAction("Index"); 
+            return RedirectToAction("Index");
         }
 
 
@@ -73,7 +73,7 @@ namespace FinanceChecker.Controllers
                 foreach (var budget in budgets)
                 {
                     var transactionsForCategory = _db.Transactions.Where
-                        (t => t.Category == budget.CategoryName && t.UserID == user.Id
+                        (t => t.Category == budget.CategoryName && t.UserID == userId
                         );
                     budget.TotalTransactionsAmount = transactionsForCategory.Sum(t => t.Amount);
 
@@ -106,7 +106,7 @@ namespace FinanceChecker.Controllers
 
                 var budget = new Budget
                 {
-                    UserID = userId, 
+                    UserID = userId,
                 };
 
                 ViewBag.Categories = new SelectList(categories, "CategoryName", "CategoryName"); // Use ViewBag to pass the SelectList
@@ -145,7 +145,7 @@ namespace FinanceChecker.Controllers
                 return RedirectToAction("Index");
             }
 
-            
+
             var budgets = _db.Budgets.Where(b => b.UserID == userId).ToList();
             var categories = _db.Categories.ToList();
 
@@ -155,10 +155,10 @@ namespace FinanceChecker.Controllers
                 var currentYear = DateTime.Now.Year;
 
                 var transactionsForCategory = _db.Transactions
-                    .Where(t => t.Category == b.CategoryName && t.UserID == user.Id &&
+                    .Where(t => t.Category == b.CategoryName && t.UserID == userId &&
                                 t.Date.Month == currentMonth && t.Date.Year == currentYear);
 
-              
+
 
                 b.TotalTransactionsAmount = transactionsForCategory.Sum(t => Math.Abs(t.Amount));
 
@@ -213,7 +213,7 @@ namespace FinanceChecker.Controllers
             {
                 budget.UpdatedAt = DateTime.Now;
 
-             
+
                 if (Math.Abs(budget.Amount) > 0)
                 {
                     budget.Progress = (budget.TotalTransactionsAmount / Math.Abs(budget.Amount)) * 100;

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace FinanceChecker.Models
 {
-	public class Bill
+    public class Bill
     {
         [Key]
         public int BillID { get; set; }

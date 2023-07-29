@@ -1,9 +1,192 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model FinanceChecker.DataTransferObject.ExpenseViewModel
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Expense</p>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-6">
+            <h1>Expense Tracking</h1>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Current Week Total: £@Model.CurrentWeekTotal.ToString("F2")</h2>
+                    <h2>Current Month Total: £@Model.CurrentMonthTotal.ToString("F2")</h2>
+                </div>
+                <div class="col-md-6">
+                    <h2>Previous Week Total: £@Model.PreviousWeekTotal.ToString("F2")</h2>
+                    <h2>Previous Month Total: £@Model.PreviousMonthTotal.ToString("F2")</h2>
+                </div>
+            </div>
+
+            <h2>Total Monthly Spent per Category</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Total Spent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.CategoryMonthlySpent)
+                    {
+                        <tr>
+                            <td>@item.Key</td>
+                            <td>£@item.Value.ToString("F2")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <h2>Total Weekly Spent per Category</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Total Spent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.CategoryWeeklySpent)
+                    {
+                        <tr>
+                            <td>@item.Key</td>
+                            <td>£@item.Value.ToString("F2")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <h2>Previous Week Spent per Category</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Total Spent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.CategoryPreviousWeekSpent)
+                    {
+                        <tr>
+                            <td>@item.Key</td>
+                            <td>£@item.Value.ToString("F2")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <h2>Previous Month Spent per Category</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Total Spent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.CategoryPreviousMonthSpent)
+                    {
+                        <tr>
+                            <td>@item.Key</td>
+                            <td>£@item.Value.ToString("F2")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <h2>Compare Previous Weeks</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Week Number</th>
+                        <th>Total Spent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ComparePreviousWeeks)
+                    {
+                        <tr>
+                            <td>@item.Key</td>
+                            <td>£@item.Value.ToString("F2")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <h2>Compare Previous Months</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Month</th>
+                        <th>Total Spent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ComparePreviousMonths)
+                    {
+                        <tr>
+                            <td>@item.Key</td>
+                            <td>£@item.Value.ToString("F2")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-lg-6">
+            <h2>Total Monthly Spent per Category (Pie Chart)</h2>
+            <canvas id="totalMonthlySpentPieChart" width="100%" height="300"></canvas>
+        </div>
+    </div>
 </div>
 
+@section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Data for the pie chart
+        var categoryMonthlySpent = @Html.Raw(Json.Serialize(Model.CategoryMonthlySpent));
+
+        var pieChartData = {
+            labels: Object.keys(categoryMonthlySpent), // Category names as labels
+            datasets: [{
+                data: Object.values(categoryMonthlySpent), // Total spent values for each category
+                backgroundColor: getRandomColors(Object.keys(categoryMonthlySpent).length)
+            }]
+        };
+
+        // Function to generate random colors for the pie chart
+        function getRandomColors(count) {
+            var colors = [];
+            for (var i = 0; i < count; i++) {
+                colors.push(getRandomColor());
+            }
+            return colors;
+        }
+
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        // Create the pie chart
+        var totalMonthlySpentPieChart = new Chart('totalMonthlySpentPieChart', {
+            type: 'pie',
+            data: pieChartData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Total Monthly Spent per Category'
+                    }
+                }
+            }
+        });
+    </script>
+}

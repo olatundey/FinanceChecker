@@ -180,6 +180,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXMvSWRlbnRpdHkvUGFnZXMvX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/tundey/Projects/finance1/Finance1/Data/ResetPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = RGF0YS9SZXNldFBhc3N3b3JkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/tundey/Projects/finance1/Finance1/Views/Account/AgreeRetrieveData.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9BZ3JlZVJldHJpZXZlRGF0YS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

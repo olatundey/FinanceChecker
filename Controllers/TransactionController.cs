@@ -30,64 +30,65 @@ namespace FinanceChecker.Controllers
             _userManager = userManager;
         }
 
-       
-            // GET: Account/CreateTransaction
-            public async Task<IActionResult> CreateTransaction()
+
+        // GET: Account/CreateTransaction
+        public async Task<IActionResult> CreateTransaction()
+        {
+
+            var user = await _userManager.GetUserAsync(User);
+            var userId = Guid.Parse(user.Id);
+            if (user != null)
+
             {
-               
-                    var id = await _userManager.GetUserAsync(User);
-                    if (id != null)
-                    {
-                        Account obj = new Account();
-                        obj.UserID = id.Id;
+                Account obj = new Account();
+                obj.UserID = userId;
 
-                        //var userId = user.Id;
-                        ViewBag.Id = obj.UserID;
-                    }
-              
+                //var userId = user.Id;
+                ViewBag.Id = obj.UserID;
+            }
 
-                var user = _userManager.GetUserAsync(User).Result;
-                var userId = user?.Id;
-                var accounts = _db.Accounts.Where(a => a.UserID == userId).ToList();
 
-                var accountViewModels = new List<AccountViewModel>();
 
-                foreach (var account in accounts)
+            var accounts = _db.Accounts.Where(a => a.UserID == userId).ToList();
+
+            var accountViewModels = new List<AccountViewModel>();
+
+            foreach (var account in accounts)
+            {
+                var accountViewModel = new AccountViewModel
                 {
-                    var accountViewModel = new AccountViewModel
-                    {
-                        AccountID = account.AccountID,
-                        InstitutionName = account.InstitutionName
-                    };
-                    accountViewModels.Add(accountViewModel);
-                }
-                var categories = _db.Categories.ToList();
-                //pass category and accounts to view
-                ViewBag.Categories = new SelectList(categories, "CategoryId", "CategoryName");
-                ViewBag.Accounts = accountViewModels;
+                    AccountID = account.AccountID,
+                    InstitutionName = account.InstitutionName
+                };
+                accountViewModels.Add(accountViewModel);
+            }
+            var categories = _db.Categories.ToList();
+            //pass category and accounts to view
+            ViewBag.Categories = new SelectList(categories, "CategoryId", "CategoryName");
+            ViewBag.Accounts = accountViewModels;
 
 
             return View(new Transaction());
-            }
+        }
 
-            [HttpPost]
-            public IActionResult CreateTransaction(Transaction obje)
+        [HttpPost]
+        public IActionResult CreateTransaction(Transaction obje)
+        {
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    var user = _userManager.GetUserAsync(User).Result;
-                    obje.UserID = user.Id;
-                    obje.CreatedAt = DateTime.Now;
-                    obje.UpdatedAt = DateTime.Now;
+                var user = _userManager.GetUserAsync(User).Result;
+                var userId = Guid.Parse(user.Id);
 
-                    _db.Transactions.Add(obje);
+                obje.UserID = userId;
+                obje.CreatedAt = DateTime.Now;
+                obje.UpdatedAt = DateTime.Now;
+
+                _db.Transactions.Add(obje);
                 Console.WriteLine(obje);
-                    _db.SaveChanges();
+                _db.SaveChanges();
                 TempData["success"] = "Transaction created successfully";
                 return RedirectToAction("Transaction");
-                }
-
-       
+            }
 
             // Repopulate ViewBag data 
             var accounts = _db.Accounts.Where(a => a.UserID == obje.UserID).ToList();
@@ -118,7 +119,7 @@ namespace FinanceChecker.Controllers
                 TempData["InstitutionNameInfo"] = "Institution Name is required.";
             }
 
-            if (obje.Amount == 0) 
+            if (obje.Amount == 0)
             {
                 TempData["AmountInfo"] = "Amount is required.";
             }
@@ -133,20 +134,21 @@ namespace FinanceChecker.Controllers
                 TempData["DescriptionInfo"] = "Description is required.";
             }
 
-            if (obje.Date == null || obje.Date == DateTime.MinValue) 
+            if (obje.Date == null || obje.Date == DateTime.MinValue)
             {
                 TempData["DateInfo"] = "Date is required.";
             }
             return View(obje);
-            }
+        }
 
 
         public async Task<IActionResult> Transaction()
         {
             var user = await _userManager.GetUserAsync(User);
+            var userId = Guid.Parse(user.Id);
             if (user != null)
             {
-                var userId = user.Id;
+                //var userId = user.Id;
                 var accounts = _db.Accounts.Where(a => a.UserID == userId).ToList();
                 ViewBag.Id = userId;
 
@@ -162,9 +164,10 @@ namespace FinanceChecker.Controllers
         public async Task<IActionResult> GetAllTransactions()
         {
             var user = await _userManager.GetUserAsync(User);
+            var userId = Guid.Parse(user.Id);
             if (user != null)
             {
-                var userId = user.Id;
+                //var userId = user.Id;
                 var transactions = _db.Transactions.Where(t => t.UserID == userId).ToList();
                 return Json(transactions);
             }
@@ -177,32 +180,32 @@ namespace FinanceChecker.Controllers
 
         // GET: Transaction/Edit/5
         public IActionResult EditTransaction(int TransactionID)
+        {
+            var transaction = _db.Transactions.Find(TransactionID);
+            if (transaction == null)
             {
-                var transaction = _db.Transactions.Find(TransactionID);
-                if (transaction == null)
+                return NotFound();
+            }
+            var user = _userManager.GetUserAsync(User).Result;
+            var userId = Guid.Parse(user.Id);
+            var accounts = _db.Accounts.Where(a => a.UserID == userId).ToList();
+
+            var accountViewModels = new List<AccountViewModel>();
+
+            foreach (var account in accounts)
+            {
+                var accountViewModel = new AccountViewModel
                 {
-                    return NotFound();
-                }
-                var user = _userManager.GetUserAsync(User).Result;
-                var userId = user.Id;
-                var accounts = _db.Accounts.Where(a => a.UserID == userId).ToList();
+                    AccountID = account.AccountID,
+                    InstitutionName = account.InstitutionName
+                };
+                accountViewModels.Add(accountViewModel);
+            }
 
-                var accountViewModels = new List<AccountViewModel>();
-
-                foreach (var account in accounts)
-                {
-                    var accountViewModel = new AccountViewModel
-                    {
-                        AccountID = account.AccountID,
-                        InstitutionName = account.InstitutionName
-                    };
-                    accountViewModels.Add(accountViewModel);
-                }
-
-                // Populate the ViewBag.Categories
-                var categories = _db.Categories.ToList();
-                ViewBag.Categories = new SelectList(categories, "CategoryName", "CategoryName");
-                ViewBag.Accounts = accountViewModels;
+            // Populate the ViewBag.Categories
+            var categories = _db.Categories.ToList();
+            ViewBag.Categories = new SelectList(categories, "CategoryName", "CategoryName");
+            ViewBag.Accounts = accountViewModels;
 
             return View("EditTransaction", transaction);
         }
@@ -254,36 +257,36 @@ namespace FinanceChecker.Controllers
 
         // GET: Transaction/Delete/5
         public IActionResult DeleteTransaction(int TransactionID)
+        {
+            var transaction = _db.Transactions.Find(TransactionID);
+            if (transaction == null)
             {
-                var transaction = _db.Transactions.Find(TransactionID);
-                if (transaction == null)
-                {
-                    return NotFound();
-                }
-
-                return View(transaction);
+                return NotFound();
             }
 
-            // POST: Account/ConfirmDeleteTransaction/5
-            [HttpPost]
-            [ValidateAntiForgeryToken]
-            [ActionName("ConfirmDeleteTransaction")]
-            public IActionResult ConfirmDeleteTransaction(int TransactionID)
-            {
-                var transaction = _db.Transactions.FirstOrDefault(a => a.TransactionID == TransactionID);
-                if (transaction == null)
-                {
-                    return NotFound();
-                }
-
-                _db.Transactions.Remove(transaction);
-                _db.SaveChanges();
-                TempData["success"] = "Transaction deleted successfully";
-
-                return RedirectToAction("Transaction");
-            }
-
-
+            return View(transaction);
         }
+
+        // POST: Account/ConfirmDeleteTransaction/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("ConfirmDeleteTransaction")]
+        public IActionResult ConfirmDeleteTransaction(int TransactionID)
+        {
+            var transaction = _db.Transactions.FirstOrDefault(a => a.TransactionID == TransactionID);
+            if (transaction == null)
+            {
+                return NotFound();
+            }
+
+            _db.Transactions.Remove(transaction);
+            _db.SaveChanges();
+            TempData["success"] = "Transaction deleted successfully";
+
+            return RedirectToAction("Transaction");
+        }
+
+
     }
+}
 

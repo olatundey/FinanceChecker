@@ -72,7 +72,7 @@ namespace FinanceChecker.Controllers
                 }
             }
 
-            var isOverspending = CheckOverspending(); 
+            var isOverspending = CheckOverspending();
             if (alertSettings.OverspendingAlertEnabled && isOverspending)
             {
                 notifications.Add(new { Message = "You have exceeded your budget in one or more categories.", Type = "warning" });
@@ -106,16 +106,16 @@ namespace FinanceChecker.Controllers
         {
             //var user = await _userManager.GetUserAsync(User);
             //var userId = user.Id;
-            var userI = GetCurrentUserId();
+            var userId = GetCurrentUserId();
 
             var currentMonth = DateTime.Now.Month;
             var currentYear = DateTime.Now.Year;
 
-            var budgets = _db.Budgets.Where(b => b.UserID == userI).ToList();
+            var budgets = _db.Budgets.Where(b => b.UserID == userId).ToList();
 
             foreach (var budget in budgets)
             {
-                var userId = GetCurrentUserId().ToString(); // Convert Guid to string
+                var userI = GetCurrentUserId().ToString(); // Convert Guid to string
 
                 var transactionsForCategory = _db.Transactions
                     .Where(t => t.Category == budget.CategoryName && t.UserID == userId &&
@@ -150,12 +150,12 @@ namespace FinanceChecker.Controllers
             if (userSettings.HighBalanceAlertEnabled && totalBalance > userSettings.HighBalanceThreshold)
             {
                 TempData["AlertMessage"] = "Your account balance is higher than the specified threshold. You can verify and think about Investing";
-                TempData["AlertType"] = "info"; 
+                TempData["AlertType"] = "info";
 
                 return RedirectToAction("Notification");
             }
 
-           
+
             return View("Index", userSettings);
             //return null;
         }
@@ -191,7 +191,7 @@ namespace FinanceChecker.Controllers
                 ViewBag.AlertType = alertType;
             }
 
-            var alertSettings = GetUserAlertSettings().GetAwaiter().GetResult(); 
+            var alertSettings = GetUserAlertSettings().GetAwaiter().GetResult();
 
             return View(alertSettings);
         }
@@ -202,11 +202,11 @@ namespace FinanceChecker.Controllers
             var userSettings = await GetUserAlertSettings();
             var incomeTransactions = GetIncomeTransactions();
 
-            
+
             if (userSettings.IncomeDepositedAlertEnabled && incomeTransactions.Any(t => t.Category == "Salary" || t.Category == "Paycheck"))
             {
                 TempData["AlertMessage"] = "Your salary or income has been deposited.";
-                TempData["AlertType"] = "info"; 
+                TempData["AlertType"] = "info";
 
                 return RedirectToAction("Notification");
             }
@@ -215,11 +215,13 @@ namespace FinanceChecker.Controllers
         }
 
 
-      
+
         private List<Transaction> GetIncomeTransactions()
         {
             var user = _userManager.GetUserAsync(User).Result;
-            var userId = user.Id;
+            // var userId = user.Id;
+            var userId = Guid.Parse(user.Id);
+
 
             var today = DateTime.Today;
 
@@ -235,7 +237,8 @@ namespace FinanceChecker.Controllers
         private async Task<decimal> GetTotalAccountBalance()
         {
             var user = await _userManager.GetUserAsync(User);
-            var userId = user.Id;
+            //var userId = user.Id;
+            var userId = Guid.Parse(user.Id);
 
             var accounts = _db.Accounts.Where(account => account.UserID == userId).ToList();
             decimal totalBalance = accounts.Sum(account => account.Balance);
@@ -267,7 +270,7 @@ namespace FinanceChecker.Controllers
             {
                 userSettings = new UserAlertSettings
                 {
-                    UserID = userId 
+                    UserID = userId
                 };
                 _db.UserAlertSettings.Add(userSettings);
                 await _db.SaveChangesAsync();
@@ -280,8 +283,8 @@ namespace FinanceChecker.Controllers
                 HighBalanceAlertEnabled = userSettings.HighBalanceAlertEnabled,
                 HighBalanceThreshold = userSettings.HighBalanceThreshold,
                 IncomeDepositedAlertEnabled = userSettings.IncomeDepositedAlertEnabled,
-                DueDateReminderAlertEnabled = userSettings.DueDateReminderAlertEnabled, 
-                OverspendingAlertEnabled = userSettings.OverspendingAlertEnabled 
+                DueDateReminderAlertEnabled = userSettings.DueDateReminderAlertEnabled,
+                OverspendingAlertEnabled = userSettings.OverspendingAlertEnabled
                 // Map properties
             };
 
@@ -305,7 +308,7 @@ namespace FinanceChecker.Controllers
             {
                 userSettings = new UserAlertSettings
                 {
-                    UserID = userId 
+                    UserID = userId
                 };
                 _db.UserAlertSettings.Add(userSettings);
             }

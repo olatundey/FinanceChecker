@@ -60,25 +60,18 @@ namespace FinanceChecker.Areas.Identity.Pages.Account
                     return RedirectToPage("./ForgotPasswordConfirmation");
                 }
 
-                // For more information on how to enable account confirmation and password reset please
-                // visit https://go.microsoft.com/fwlink/?LinkID=532713
-                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                var callbackUrl = Url.Page(
-                    "/Account/ResetPassword",
-                    pageHandler: null,
-                    values: new { area = "Identity", code },
-                    protocol: Request.Scheme);
+                // Check if 2FA is enabled for the user
+                var twoFactorEnabled = await _userManager.GetTwoFactorEnabledAsync(user);
+                if (twoFactorEnabled)
+                {
+                    return RedirectToPage("./ResetPassword", new { code = "2FAEnabled" });
+                }
 
-                await _emailSender.SendEmailAsync(
-                    Input.Email,
-                    "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                return RedirectToPage("./ForgotPasswordConfirmation");
+                // ... (rest of the code)
             }
 
             return Page();
         }
+
     }
 }

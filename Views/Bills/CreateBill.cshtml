@@ -1,42 +1,76 @@
 ﻿@using Microsoft.AspNetCore.Identity
 
 @model Bill
-<h2>Create New Bill</h2>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 mx-auto">
+            <h2 class="mb-4">Create New Bill</h2>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
 
-    <div class="form-group">
-        <label asp-for="BillName">Bill Name:</label>
-        <input asp-for="BillName" class="form-control" />
-        <span asp-validation-for="BillName" class="text-danger"></span>
+                <div class="form-group">
+                    <label asp-for="BillName">Bill Name:</label>
+                    <input asp-for="BillName" class="form-control" />
+                    <span asp-validation-for="BillName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Description">Description:</label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Amount">Amount:</label>
+                    <input asp-for="Amount" class="form-control" value="0" />
+                    <span asp-validation-for="Amount" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="DueDate">Due Date:</label>
+                    <input asp-for="DueDate" type="date" class="form-control" />
+                    <span asp-validation-for="DueDate" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary mr-2">Create Bill</button>
+                    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                </div>
+            }
+        </div>
     </div>
+</div>
 
-    <div class="form-group">
-        <label asp-for="Description">Description:</label>
-        <input asp-for="Description" class="form-control" />
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
+<style>
+    /* Custom styles for the page */
+    .container {
+        margin-top: 20px;
+    }
 
-    <div class="form-group">
-        <label asp-for="Amount">Amount:</label>
-        <input asp-for="Amount" class="form-control" value="0" />
-        <span asp-validation-for="Amount" class="text-danger"></span>
-    </div>
+    .form-group {
+        margin-bottom: 20px;
+    }
 
-    <div class="form-group">
-        <label asp-for="DueDate">Due Date:</label>
-        <input asp-for="DueDate" type="date" class="form-control" />
-        <span asp-validation-for="DueDate" class="text-danger"></span>
-    </div>
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
 
-    @*<input asp-for="DueDate" class="form-control datepicker" />*@
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
 
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
 
-    <div class="form-group">
-        <input type="submit" value="CreateBill" class="btn btn-primary" />
-        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-    </div>
-}
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
 
+</style>

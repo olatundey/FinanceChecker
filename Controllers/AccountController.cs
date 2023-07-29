@@ -31,7 +31,7 @@ namespace FinanceChecker.Controllers
             _db = db;
             _userManager = userManager;
             _client = clientFactory.CreateClient("MyApiClient");
-             // the base address of the mock web API created on ASP .NET Core WEB APIProject
+            // the base address of the mock web API created on ASP .NET Core WEB APIProject
             _client.BaseAddress = new Uri("https://localhost:7078/api/BankA/");
         }
 
@@ -48,7 +48,7 @@ namespace FinanceChecker.Controllers
                     // To parse the response and extract the balance value
                     if (decimal.TryParse(content, out decimal balance))
                     {
-                       return balance;
+                        return balance;
                     }
                 }
                 else
@@ -100,7 +100,7 @@ namespace FinanceChecker.Controllers
 
         public IActionResult AgreeRetrieveData(int accountNumber)
         {
-           var account = new Account { AccountNumber = accountNumber };
+            var account = new Account { AccountNumber = accountNumber };
 
             return View(account);
         }
@@ -109,7 +109,7 @@ namespace FinanceChecker.Controllers
         [HttpPost]
         public async Task<IActionResult> RetrieveData()
         {
-            
+
             //Retrieve the inputted account number from the form
             if (!int.TryParse(Request.Form["AccountNumber"], out int accountNumber))
             {
@@ -124,8 +124,9 @@ namespace FinanceChecker.Controllers
                 return RedirectToAction("CreateAccount");
             }
 
+            var userId = Guid.Parse(user.Id);
             // Check the account with the given account number & if it belongs to the current user
-            var account = _db.Accounts.FirstOrDefault(a => a.UserID == user.Id && a.AccountNumber == accountNumber);
+            var account = _db.Accounts.FirstOrDefault(a => a.UserID == userId && a.AccountNumber == accountNumber);
 
             if (account == null)
             {
@@ -181,92 +182,94 @@ namespace FinanceChecker.Controllers
 
 
         public async Task<IActionResult> Index()
+        {
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
             {
-               
-                    var user = await _userManager.GetUserAsync(User);
-                    if (user != null)
-                    {
-                        var userId = user.Id;
-                        var accounts = _db.Accounts.Where(a => a.UserID == userId).ToList();
-                        ViewBag.Id = userId;
+                var userId = Guid.Parse(user.Id);
 
-                        // Calculate total balance
-                        decimal totalBalance = accounts.Sum(a => a.Balance);
-                        ViewBag.TotalBalance = totalBalance;
+                var accounts = _db.Accounts.Where(a => a.UserID == userId).ToList();
+                ViewBag.Id = userId;
 
-                        return View(accounts);
-                    }
-            
+                // Calculate total balance
+                decimal totalBalance = accounts.Sum(a => a.Balance);
+                ViewBag.TotalBalance = totalBalance;
 
-                return RedirectToAction("Index"); 
-            }
-
-            
-            public async Task<IActionResult> CreateAccount()
-            {
-                    var user = await _userManager.GetUserAsync(User);
-                    if (user != null)
-                    {
-                        Account obj = new Account();
-                        obj.UserID = user.Id;
-
-                        //var userId = user.Id;
-                        ViewBag.Id = obj.UserID;
-                    }
-
-                return View();
+                return View(accounts);
             }
 
 
-            [HttpPost]
-            [ValidateAntiForgeryToken]
-            public IActionResult CreateAccount(Account obj, string button)
+            return RedirectToAction("Index");
+        }
+
+
+        public async Task<IActionResult> CreateAccount()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var userId = Guid.Parse(user.Id);
+            if (user != null)
             {
-                try
+                Account obj = new Account();
+                obj.UserID = userId;
+
+                //var userId = user.Id;
+                ViewBag.Id = obj.UserID;
+            }
+
+            return View();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateAccount(Account obj, string button)
+        {
+            try
+            {
+                if (button == "Submit") // Check which button was clicked
                 {
-                    if (button == "Submit") // Check which button was clicked
+                    if (ModelState.IsValid)
                     {
-                        if (ModelState.IsValid)
-                        {
-                            obj.CreatedAt = DateTime.Now;
-                            obj.UpdatedAt = DateTime.Now;
-
-                            // Retrieve the current user
-                            var user = _userManager.GetUserAsync(User).Result;
-
-                            // Establish the association between the account and user
-                            var id = obj.UserID;
-
-                            _db.Accounts.Add(obj);
-                            _db.SaveChanges();
-                            TempData["success"] = "Account created successfully";
-
-                            return RedirectToAction("Index");
-                        }
-
-                        else
-                        {
-                        TempData["error"] = "Invalid input. Please correct the errors below.";
-                        ViewBag.Id = obj.UserID;
-                        return View(obj);
-
-                        }
-                    }
-
-                    else if (button == "Validate")
-                    {
-                 
-                    obj.CreatedAt = DateTime.Now;
+                        obj.CreatedAt = DateTime.Now;
                         obj.UpdatedAt = DateTime.Now;
-
-                        var id = obj.UserID;
 
                         // Retrieve the current user
                         var user = _userManager.GetUserAsync(User).Result;
 
+                        // Establish the association between the account and user
+                        var id = obj.UserID;
 
                         _db.Accounts.Add(obj);
                         _db.SaveChanges();
+                        TempData["success"] = "Account created successfully";
+
+                        return RedirectToAction("Index");
+                    }
+
+                    else
+                    {
+                        TempData["error"] = "Invalid input. Please correct the errors below.";
+                        ViewBag.Id = obj.UserID;
+                        return View(obj);
+
+                    }
+                }
+
+                else if (button == "Validate")
+                {
+
+                    obj.CreatedAt = DateTime.Now;
+                    obj.UpdatedAt = DateTime.Now;
+
+                    var id = obj.UserID;
+
+                    // Retrieve the current user
+                    var user = _userManager.GetUserAsync(User).Result;
+
+
+                    _db.Accounts.Add(obj);
+                    _db.SaveChanges();
                     //TempData["success"] = "Validation successful";
                     TempData["success"] = "Account saved successfully";
 
@@ -275,71 +278,71 @@ namespace FinanceChecker.Controllers
 
                 }
                 else
-                    {
+                {
                     // Invalid button value, handle accordingly
                     TempData["error"] = "Invalid input. Please correct the errors below.";
                     ViewBag.Id = obj.UserID;
                     return View(obj);
 
-                    }
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "Error occurred while creating an account.");
-                    //_logger.Log(ex);
-                    return BadRequest();
                 }
             }
-
-
-
-            [HttpGet]
-            public IActionResult DeleteAccount(int AccountID)
+            catch (Exception ex)
             {
-                // Retrieve the account based on the provided AccountID
-                var account = _db.Accounts.FirstOrDefault(a => a.AccountID == AccountID);
-
-                if (account == null)
-                {
-                    return NotFound();
-                }
-
-                return View(account);
+                _logger.LogError(ex, "Error occurred while creating an account.");
+                //_logger.Log(ex);
+                return BadRequest();
             }
+        }
 
-            [HttpPost]
-            [ValidateAntiForgeryToken]
-            public IActionResult ConfirmDelete(int AccountID)
+
+
+        [HttpGet]
+        public IActionResult DeleteAccount(int AccountID)
+        {
+            // Retrieve the account based on the provided AccountID
+            var account = _db.Accounts.FirstOrDefault(a => a.AccountID == AccountID);
+
+            if (account == null)
             {
-                // Retrieve the account based on the provided AccountID
-                var account = _db.Accounts.FirstOrDefault(a => a.AccountID == AccountID);
-
-                if (account == null)
-                {
-                    return NotFound();
-                }
-
-                _db.Accounts.Remove(account);
-                _db.SaveChanges();
-
-                TempData["success"] = "Account deleted successfully";
-                return RedirectToAction("Index");
+                return NotFound();
             }
 
-            [HttpGet]
-            public IActionResult EditAccount(int AccountID)
+            return View(account);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ConfirmDelete(int AccountID)
+        {
+            // Retrieve the account based on the provided AccountID
+            var account = _db.Accounts.FirstOrDefault(a => a.AccountID == AccountID);
+
+            if (account == null)
             {
-                // Retrieve the account based on the provided AccountID
-                //var account = _db.Accounts.FirstOrDefault(a => a.AccountID == AccountID);
-                var account = _db.Accounts.FirstOrDefault(a => a.AccountID == AccountID);
-
-                if (account == null)
-                {
-                    return NotFound();
-                }
-
-                return View(account);
+                return NotFound();
             }
+
+            _db.Accounts.Remove(account);
+            _db.SaveChanges();
+
+            TempData["success"] = "Account deleted successfully";
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult EditAccount(int AccountID)
+        {
+            // Retrieve the account based on the provided AccountID
+            //var account = _db.Accounts.FirstOrDefault(a => a.AccountID == AccountID);
+            var account = _db.Accounts.FirstOrDefault(a => a.AccountID == AccountID);
+
+            if (account == null)
+            {
+                return NotFound();
+            }
+
+            return View(account);
+        }
 
         [HttpPost]
         public IActionResult UpdateAccount(Account updatedAccount, string button)
@@ -417,5 +420,5 @@ namespace FinanceChecker.Controllers
 
 
     }
-    }
+}
 

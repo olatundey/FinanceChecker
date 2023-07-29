@@ -3,8 +3,8 @@
 //using System.ComponentModel.DataAnnotations.Schema;
 //namespace FinanceChecker.Models
 //{
-//	public class Loans
-//	{
+//    public class Loans
+//    {
 //        public class Loans
 //        {
 //            [Key]

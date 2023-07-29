@@ -11,7 +11,7 @@ namespace FinanceChecker.Models
         public int TransactionID { get; set; }
 
         [Display(Name = "ApplicationUser")]
-        public string UserID { get; set; }
+        public Guid UserID { get; set; }
 
         //[ForeignKey("Account")]
         public int AccountID { get; set; }

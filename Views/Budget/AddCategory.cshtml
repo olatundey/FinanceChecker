@@ -1,17 +1,17 @@
 ﻿@model FinanceChecker.Models.Category
 
-<h2>Add Category</h2>
-
-<form method="post" asp-action="AddCategory">
-
-    <div class="form-group">
-        <label for="CategoryName">Enter New Category Name:</label>
-        <input class="form-control" type="text" name="CategoryName">
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 mx-auto">
+            <h2 class="mb-4">Add Category</h2>
+            <form method="post" asp-action="AddCategory">
+                <div class="form-group">
+                    <label for="CategoryName">Enter New Category Name:</label>
+                    <input class="form-control" type="text" name="CategoryName">
+                </div>
+                <br>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
     </div>
-
-    <button type="submit" class="btn btn-primary">Submit</button>
-
-</form>
-
-
-
+</div>

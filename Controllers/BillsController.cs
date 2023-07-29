@@ -60,7 +60,7 @@ namespace FinanceChecker.Controllers
             return View(bill);
         }
 
-   
+
         public async Task<IActionResult> EditBill(int? id)
         {
             if (id == null)
@@ -79,7 +79,7 @@ namespace FinanceChecker.Controllers
             return View(bill);
         }
 
-      
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditBill(int id, Bill bill)
@@ -112,7 +112,7 @@ namespace FinanceChecker.Controllers
             return View(bill);
         }
 
-       
+
         public async Task<IActionResult> DeleteBill(int? id)
         {
             if (id == null)
@@ -131,7 +131,7 @@ namespace FinanceChecker.Controllers
             return View(bill);
         }
 
-       
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteBill(int id)
