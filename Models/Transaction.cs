@@ -1,6 +1,14 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Bogus;
+using Humanizer;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Net.NetworkInformation;
+using System.Threading.Tasks;
 
 namespace FinanceChecker.Models
 {
@@ -21,10 +29,8 @@ namespace FinanceChecker.Models
 
         [Required(ErrorMessage = "Amount is required.")]
         public decimal Amount { get; set; }
-
         [Required(ErrorMessage = "Category is required")]
         public string? Category { get; set; }
-
         public string? Description { get; set; }
 
         [Required(ErrorMessage = "Date is required")]
@@ -32,7 +38,6 @@ namespace FinanceChecker.Models
 
         [Required]
         public DateTime CreatedAt { get; set; }
-
         [Required]
         public DateTime UpdatedAt { get; set; }
 

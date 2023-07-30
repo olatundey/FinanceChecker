@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "h68SdYMCY7bZc7BAdWgEYNouM/3MqR0mcj9PNeH10MU=",
+  "Hash": "30Ijt51TawDrmjbtTfnlvdMXMb0Pll6Ssiq4bwaBkUA=",
   "Source": "FinanceChecker",
   "BasePath": "_content/FinanceChecker",
   "Mode": "Default",
@@ -2174,6 +2174,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/lib/qrcode.js"
+    },
+    {
+      "Identity": "/Users/tundey/Projects/finance1/Finance1/wwwroot/video/tutorialsample.mp4",
+      "SourceId": "FinanceChecker",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/tundey/Projects/finance1/Finance1/wwwroot/",
+      "BasePath": "_content/FinanceChecker",
+      "RelativePath": "video/tutorialsample.mp4",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/video/tutorialsample.mp4"
     }
   ]
 }

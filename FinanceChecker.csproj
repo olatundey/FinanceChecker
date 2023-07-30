@@ -55,5 +55,9 @@
     <Folder Include="Repositories\IRepository\" />
     <Folder Include="log\" />
     <Folder Include="Views\Transaction\" />
+    <Folder Include="wwwroot\video\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\video\" />
   </ItemGroup>
 </Project>

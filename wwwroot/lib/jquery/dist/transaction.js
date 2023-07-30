@@ -5,10 +5,10 @@
 function loadDataTable() {
     $('#myTable').DataTable({
         "ajax": {
-            "url": '/Transaction/GetAllTransactions', // Update the URL to match your controller action
+            "url": '/Transaction/GetAllTransactions',
             "type": "GET",
             "datatype": "json",
-            "dataSrc": "" // The array of data is not wrapped in an object
+            "dataSrc": "" // The array of data not wrapped in an object
 
         },
         "columns": [

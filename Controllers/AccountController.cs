@@ -198,8 +198,6 @@ namespace FinanceChecker.Controllers
 
                 return View(accounts);
             }
-
-
             return RedirectToAction("Index");
         }
 
@@ -252,7 +250,6 @@ namespace FinanceChecker.Controllers
                         TempData["error"] = "Invalid input. Please correct the errors below.";
                         ViewBag.Id = obj.UserID;
                         return View(obj);
-
                     }
                 }
 

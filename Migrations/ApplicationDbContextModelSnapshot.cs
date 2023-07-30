@@ -250,6 +250,111 @@ namespace FinanceChecker.Migrations
                         });
                 });
 
+            modelBuilder.Entity("FinanceChecker.Models.ContactForm", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ContactUs");
+                });
+
+            modelBuilder.Entity("FinanceChecker.Models.FAQ", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Answer")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Question")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FAQs");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Answer = "To sign up for our app, simply click on the \"Register\" button on the homepage, fill in the required information, and create a password. You'll receive a verification email to activate your account.",
+                            Question = "How do I sign up for the app?"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Answer = "If you forget your password, click on the \"Forgot Password\" link on the login page.",
+                            Question = "What do I do if I forget my password?"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Answer = "Yes, the dashboard displays your total balance, including all your accounts, investments, and credit card balances.",
+                            Question = "Can I view my total balance on the dashboard?"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Answer = "Our app allows you to track expenses easily. First, categorise your transactions on the \"Transactions\" section,  then go to the \"Expense Tracking\" section, and view detailed reports of your spending.",
+                            Question = "How can I track my expenses?"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Answer = "Yes, you can link your bank accounts, credit cards, and investment accounts to the app and manually add details of your transactions and balances, we are working hard to ensure real-time tracking is available soon.",
+                            Question = "Can I link my bank accounts and credit cards to the app?"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Answer = "We take the security of your data seriously. We use encryption techniques to protect your information, and you can enable multi-factor authentication for added security.",
+                            Question = "Is my financial data safe?"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Answer = "To set up budget goals, go to the \"Budgets\" section, and you can create and manage your budget goals based on different expense categories.",
+                            Question = "How do I set up budget goals?"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Answer = "Yes, you can set up personalised alerts for specific transactions, such as low balances, bills due date or unusual activities, to be notified immediately.",
+                            Question = "Can I receive alerts for specific transactions?"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Answer = "You can update your profile information in the \"User Profile\" section. Simply edit the relevant details, such as name, email, or contact information.",
+                            Question = "How do I update my profile information?"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Answer = "We offer customer support through various channels. You can access our FAQ section, browse tutorials, or contact us via email for personalised assistance.",
+                            Question = "How do I get customer support?"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Answer = " No, we do not share your personal information with any third parties. Your data is strictly confidential and protected.",
+                            Question = "How do I update my profile information?"
+                        });
+                });
+
             modelBuilder.Entity("FinanceChecker.Models.Savings", b =>
                 {
                     b.Property<int>("SavingsID")
@@ -318,9 +423,8 @@ namespace FinanceChecker.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("UserID")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<Guid>("UserID")
+                        .HasColumnType("char(36)");
 
                     b.HasKey("TransactionID");
 
@@ -360,6 +464,23 @@ namespace FinanceChecker.Migrations
                     b.HasKey("AlertID");
 
                     b.ToTable("UserAlertSettings");
+                });
+
+            modelBuilder.Entity("FinanceChecker.Models.Videos", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("VideoUrl")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppVideo");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

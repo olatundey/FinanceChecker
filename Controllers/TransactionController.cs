@@ -31,6 +31,39 @@ namespace FinanceChecker.Controllers
         }
 
 
+        public async Task<IActionResult> Transaction()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var userId = Guid.Parse(user.Id);
+            if (user != null)
+            {
+                //var userId = user.Id;
+                var accounts = _db.Accounts.Where(a => a.UserID == userId).ToList();
+                ViewBag.Id = userId;
+
+                // Retrieve the transaction history for the current user
+                var transactions = _db.Transactions.Where(t => t.UserID == userId).ToList();
+                return View(transactions); // Pass the transactions as the model
+            }
+
+            return View();
+        }
+
+        [Route("Transaction/GetAllTransactions")]
+        public async Task<IActionResult> GetAllTransactions()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var userId = Guid.Parse(user.Id);
+            if (user != null)
+            {
+                //var userId = user.Id;
+                var transactions = _db.Transactions.Where(t => t.UserID == userId).ToList();
+                return Json(transactions);
+            }
+
+            return Json(null);
+        }
+
         // GET: Account/CreateTransaction
         public async Task<IActionResult> CreateTransaction()
         {
@@ -141,39 +174,6 @@ namespace FinanceChecker.Controllers
             return View(obje);
         }
 
-
-        public async Task<IActionResult> Transaction()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            var userId = Guid.Parse(user.Id);
-            if (user != null)
-            {
-                //var userId = user.Id;
-                var accounts = _db.Accounts.Where(a => a.UserID == userId).ToList();
-                ViewBag.Id = userId;
-
-                // Retrieve the transaction history for the current user
-                var transactions = _db.Transactions.Where(t => t.UserID == userId).ToList();
-                return View(transactions); // Pass the transactions as the model
-            }
-
-            return View();
-        }
-
-        [Route("Transaction/GetAllTransactions")]
-        public async Task<IActionResult> GetAllTransactions()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            var userId = Guid.Parse(user.Id);
-            if (user != null)
-            {
-                //var userId = user.Id;
-                var transactions = _db.Transactions.Where(t => t.UserID == userId).ToList();
-                return Json(transactions);
-            }
-
-            return Json(null);
-        }
 
 
 

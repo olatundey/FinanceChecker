@@ -3,137 +3,183 @@
 <div class="container mt-4">
     <div class="row">
         <div class="col-lg-6">
-            <h1>Expense Tracking</h1>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <h2>Current Week Total: £@Model.CurrentWeekTotal.ToString("F2")</h2>
-                    <h2>Current Month Total: £@Model.CurrentMonthTotal.ToString("F2")</h2>
-                </div>
-                <div class="col-md-6">
-                    <h2>Previous Week Total: £@Model.PreviousWeekTotal.ToString("F2")</h2>
-                    <h2>Previous Month Total: £@Model.PreviousMonthTotal.ToString("F2")</h2>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h1 class="card-title">Expense Tracking</h1>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h2>Current Week Total: £@Model.CurrentWeekTotal.ToString("N2")</h2>
+                            <h2>Current Month Total: £@Model.CurrentMonthTotal.ToString("N2")</h2>
+                        </div>
+                        <div class="col-md-6">
+                            <h2>Previous Week Total: £@Model.PreviousWeekTotal.ToString("N2")</h2>
+                            <h2>Previous Month Total: £@Model.PreviousMonthTotal.ToString("N2")</h2>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <h2>Total Monthly Spent per Category</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Category</th>
-                        <th>Total Spent</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.CategoryMonthlySpent)
-                    {
-                        <tr>
-                            <td>@item.Key</td>
-                            <td>£@item.Value.ToString("F2")</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2>Total Monthly Spent per Category</h2>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Total Spent</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.CategoryMonthlySpent)
+                            {
+                                <tr>
+                                    <td>@item.Key</td>
+                                    <td>£@item.Value.ToString("N2")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-            <h2>Total Weekly Spent per Category</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Category</th>
-                        <th>Total Spent</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.CategoryWeeklySpent)
-                    {
-                        <tr>
-                            <td>@item.Key</td>
-                            <td>£@item.Value.ToString("F2")</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2>Total Weekly Spent per Category</h2>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Total Spent</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.CategoryWeeklySpent)
+                            {
+                                <tr>
+                                    <td>@item.Key</td>
+                                    <td>£@item.Value.ToString("N2")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-            <h2>Previous Week Spent per Category</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Category</th>
-                        <th>Total Spent</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.CategoryPreviousWeekSpent)
-                    {
-                        <tr>
-                            <td>@item.Key</td>
-                            <td>£@item.Value.ToString("F2")</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2>Previous Week Spent per Category</h2>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Total Spent</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.CategoryPreviousWeekSpent)
+                            {
+                                <tr>
+                                    <td>@item.Key</td>
+                                    <td>£@item.Value.ToString("N2")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-            <h2>Previous Month Spent per Category</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Category</th>
-                        <th>Total Spent</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.CategoryPreviousMonthSpent)
-                    {
-                        <tr>
-                            <td>@item.Key</td>
-                            <td>£@item.Value.ToString("F2")</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2>Previous Month Spent per Category</h2>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Total Spent</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.CategoryPreviousMonthSpent)
+                            {
+                                <tr>
+                                    <td>@item.Key</td>
+                                    <td>£@item.Value.ToString("N2")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-            <h2>Compare Previous Weeks</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Week Number</th>
-                        <th>Total Spent</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.ComparePreviousWeeks)
-                    {
-                        <tr>
-                            <td>@item.Key</td>
-                            <td>£@item.Value.ToString("F2")</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2>Compare Previous Weeks</h2>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Week Number</th>
+                                <th>Total Spent</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ComparePreviousWeeks)
+                            {
+                                <tr>
+                                    <td>@item.Key</td>
+                                    <td>£@item.Value.ToString("N2")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-            <h2>Compare Previous Months</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Month</th>
-                        <th>Total Spent</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.ComparePreviousMonths)
-                    {
-                        <tr>
-                            <td>@item.Key</td>
-                            <td>£@item.Value.ToString("F2")</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2>Compare Previous Months</h2>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Month</th>
+                                <th>Total Spent</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ComparePreviousMonths)
+                            {
+                                <tr>
+                                    <td>@item.Key</td>
+                                    <td>£@item.Value.ToString("N2")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
 
         <div class="col-lg-6">
-            <h2>Total Monthly Spent per Category (Pie Chart)</h2>
-            <canvas id="totalMonthlySpentPieChart" width="100%" height="300"></canvas>
+            <br />
+            <div>
+                <h2>Total Monthly Spent per Category (Pie Chart)</h2>
+                <canvas id="totalMonthlySpentPieChart" width="100%" height="300"></canvas>
+            </div>
+            <br />
+            <div>
+                <h2>Weekly Spent per Category (Bar Chart)</h2>
+                <canvas id="weeklySpentBarChart" width="100%" height="100"></canvas>
+            </div>
+            <br />
+            <div>
+                <h2>Monthly Spent per Category (Bar Chart)</h2>
+                <canvas id="monthlySpentBarChart" width="100%" height="100"></canvas>
+            </div>
+            <br />
+            <h2>Comparison: Previous Month vs. Current Month (Line Chart)</h2>
+            <canvas id="monthlyComparisonLineChart" width="100%" height="100"></canvas>
+            <br />
+            <h2>Comparison: Previous Week vs. Current Week (Line Chart)</h2>
+            <canvas id="weeklyComparisonLineChart" width="100%" height="100"></canvas>
         </div>
     </div>
 </div>
@@ -188,5 +234,251 @@
                 }
             }
         });
+
+        // Data for the bar charts
+        var weeks = Object.keys(@Html.Raw(Json.Serialize(Model.ComparePreviousWeeks)));
+        var weeklySpentValues = Object.values(@Html.Raw(Json.Serialize(Model.ComparePreviousWeeks)));
+
+        var monthlyLabels = Object.keys(@Html.Raw(Json.Serialize(Model.ComparePreviousMonths)));
+        var monthlySpentValues = Object.values(@Html.Raw(Json.Serialize(Model.ComparePreviousMonths)));
+
+        var weeklyChartData = {
+            labels: weeks,
+            datasets: [{
+                label: 'Weekly Total Spent',
+                data: weeklySpentValues,
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        var monthlyChartData = {
+            labels: monthlyLabels,
+            datasets: [{
+                label: 'Monthly Total Spent',
+                data: monthlySpentValues,
+                backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        // Create the weekly and monthly bar charts
+        var weeklySpentBarChart = new Chart('weeklySpentBarChart', {
+            type: 'bar',
+            data: weeklyChartData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Weekly Spent per Category'
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Category'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function (value, index, values) {
+                                return '£' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Amount'
+                        }
+                    }
+                }
+            }
+        });
+
+        var monthlySpentBarChart = new Chart('monthlySpentBarChart', {
+            type: 'bar',
+            data: monthlyChartData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Monthly Spent per Category'
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Category'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function (value, index, values) {
+                                return '£' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Amount'
+                        }
+                    }
+                }
+            }
+        });
+
+      // Data for the line charts
+var months = Object.keys(@Html.Raw(Json.Serialize(Model.ComparePreviousMonths)));
+var monthlyPreviousSpentValues = Object.values(@Html.Raw(Json.Serialize(Model.ComparePreviousMonths)));
+var monthlyCurrentSpentValues = Object.values(@Html.Raw(Json.Serialize(Model.CategoryMonthlySpent)));
+
+var weeks = Object.keys(@Html.Raw(Json.Serialize(Model.ComparePreviousWeeks)));
+var weeklyPreviousSpentValues = Object.values(@Html.Raw(Json.Serialize(Model.ComparePreviousWeeks)));
+var weeklyCurrentSpentValues = Object.values(@Html.Raw(Json.Serialize(Model.CategoryWeeklySpent)));
+
+var monthlyComparisonChartData = {
+    labels: months,
+    datasets: [
+        {
+            label: 'Previous Month',
+            data: monthlyPreviousSpentValues,
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 2,
+            fill: false
+        },
+        {
+            label: 'Current Month',
+            data: monthlyCurrentSpentValues,
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 2,
+            fill: false
+        }
+    ]
+};
+
+var weeklyComparisonChartData = {
+    labels: weeks,
+    datasets: [
+        {
+            label: 'Previous Week',
+            data: weeklyPreviousSpentValues,
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 2,
+            fill: false
+        },
+        {
+            label: 'Current Week',
+            data: weeklyCurrentSpentValues,
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 2,
+            fill: false
+        }
+    ]
+};
+
+// Create the line charts for comparing previous vs current
+var monthlyComparisonLineChart = new Chart('monthlyComparisonLineChart', {
+    type: 'line',
+    data: monthlyComparisonChartData,
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top'
+            },
+            title: {
+                display: true,
+                text: 'Comparison: Previous Month vs. Current Month'
+            }
+        },
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Month'
+                }
+            },
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    callback: function (value, index, values) {
+                        return '£' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Amount'
+                }
+            }
+        }
+    }
+});
+
+var weeklyComparisonLineChart = new Chart('weeklyComparisonLineChart', {
+    type: 'line',
+    data: weeklyComparisonChartData,
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top'
+            },
+            title: {
+                display: true,
+                text: 'Comparison: Previous Week vs. Current Week'
+            }
+        },
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Week'
+                }
+            },
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    callback: function (value, index, values) {
+                        return '£' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Amount'
+                }
+            }
+        }
+    }
+});
+
+        //var weeklyComparisonLineChart = new Chart('weeklyComparisonLineChart', {
+        //    type: 'line',
+        //    data: weeklyComparisonChartData,
+        //    options: {
+        //        responsive: true,
+        //        plugins: {
+        //            legend: {
+        //                position: 'top'
+        //            },
+        //            title: {
+        //                display: true,
+        //                text: 'Comparison: Previous Week vs. Current Week'
+        //            }
+        //        }
+        //    }
+        //});
     </script>
 }
+

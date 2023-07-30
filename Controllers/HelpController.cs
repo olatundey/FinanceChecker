@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FinanceChecker.Data;
+using FinanceChecker.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,11 +27,67 @@ namespace FinanceChecker.Controllers
                 _userManager = userManager;
             }
 
-            public IActionResult Index()
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult FAQs()
+        {
+            // can fetch the FAQs from the database or any other data source
+            // or a list of FAQs
+            List<FAQ> faqs = new List<FAQ>
             {
-                return View();
+                new FAQ { Question = "How do I sign up?", Answer = "You can sign up by clicking on the 'Register' button and providing the required information." },
+                new FAQ { Question = "Can I link multiple bank accounts?", Answer = "Yes, you can link multiple bank accounts to the app." },
+                // Add more FAQs
+            };
+
+            return View(faqs);
+        }
+
+        public IActionResult VideoTutorials()
+        {
+            // Fetch the list of video tutorials from the database
+            List<Videos> tutorials = _db.AppVideo.ToList();
+            return View(tutorials);
+        }
+
+    public IActionResult Contact()
+        {
+            var model = new ContactForm(); // Initialize the ContactForm model
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult SubmitContactForm(ContactForm form)
+        {
+            // Validate the form data
+            if (ModelState.IsValid)
+            {
+                // Map the ContactForm to the ContactUS model
+                var contactUsModel = new ContactForm
+                {
+                    Name = form.Name,
+                    Email = form.Email,
+                    Message = form.Message
+                };
+
+                // Save the form data to the ContactUS table
+                _db.ContactUs.Add(contactUsModel);
+                _db.SaveChanges();
+
+                // Addition, Process the form data, send email to support team,email sending logic
+                return RedirectToAction("ThankYou");
             }
 
+            // If the form data is not valid, return to the contact form view with validation errors
+            return View("Contact", form);
+        }
+
+        public IActionResult ThankYou()
+        {
+            return View();
         }
     }
-
+}

@@ -1,72 +1,81 @@
-﻿@model FinanceChecker.Models.Transaction
+﻿<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-9">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">Edit Transaction</h2>
 
-<h2>Edit Transaction</h2>
+                    <form method="post" asp-action="EditTransaction">
+                        <div class="form-group">
+                            <label for="accountId">Account ID:</label>
+                            <select class="form-control" name="AccountID" id="accountId" required>
+                                <option value="@Model.AccountID">@Model.AccountID</option>
+                                @if (ViewBag.Accounts != null)
+                                {
+                                    foreach (var account in ViewBag.Accounts)
+                                    {
+                                        <option value="@account.AccountID">@account.AccountID - (@account.InstitutionName)</option>
+                                    }
+                                }
+                            </select>
+                        </div>
 
-<form method="post" asp-action="EditTransaction">
-    <div class="form-group">
-        <label for="accountId">Account ID:</label>
-        <select class="form-control" name="AccountID" id="accountId" required>
-            <option value="@Model.AccountID">@Model.AccountID</option>
-            @if (ViewBag.Accounts != null)
-            {
-                foreach (var account in ViewBag.Accounts)
-                {
-                    <option value="@account.AccountID">@account.AccountID - (@account.InstitutionName)</option>
-                }
-            }
-        </select>
+                        <div class="form-group">
+                            <label for="institutionName">Institution Name:</label>
+                            <select class="form-control" name="InstitutionName" required>
+                                <option value="@Model.InstitutionName">@Model.InstitutionName</option>
+                                @if (ViewBag.Accounts != null)
+                                {
+                                    foreach (var account in ViewBag.Accounts)
+                                    {
+                                        <option value="@account.InstitutionName">@account.InstitutionName - (@account.AccountID)</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="amount">Amount:</label>
+                            <small class="form-text text-muted">Enter a positive or negative amount (e.g. 10 or -20)</small>
+                            <input class="form-control" type="text" name="Amount" value="@Model.Amount.ToString("0.00")">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Category">Category:</label>
+                            <select class="form-control" name="Category" id="Category" required>
+                                <option value="@Model.Category">@Model.Category</option>
+                                @if (ViewBag.Categories != null)
+                                {
+                                    var categories = (IEnumerable<SelectListItem>)ViewBag.Categories;
+                                    foreach (var category in categories)
+                                    {
+                                        <option value="@category.Text">@category.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Description:</label>
+                            <input class="form-control" type="text" name="Description" value="@Model.Description">
+                        </div>
+
+                        @*DateTime.Now.AddYears(1).ToString("yyyy-MM-ddTHH:mm")"*@
+                        <div class="form-group">
+                            <label for="date">Date:</label>
+                            <input class="form-control" type="text" name="Date" value="@Model.Date" >
+                        </div>
+
+
+                        <input type="hidden" name="TransactionID" value="@Model.TransactionID">
+                        <input type="hidden" name="CreatedAt" value="@Model.CreatedAt">
+                        <input type="hidden" name="UpdatedAt" value="@DateTime.Now">
+                        <input type="hidden" name="UserID" value="@Model.UserID">
+
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-
-
-    <div class="form-group">
-        <label for="institutionName">Institution Name:</label>
-        <select class="form-control" name="InstitutionName" required>
-            <option value="@Model.InstitutionName">@Model.InstitutionName</option>
-            @if (ViewBag.Accounts != null)
-            {
-                foreach (var account in ViewBag.Accounts)
-                {
-                    <option value="@account.InstitutionName">@account.InstitutionName - (@account.AccountID)</option>
-                }
-            }
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label for="amount">Amount:</label>
-        <small class="form-text text-muted">Enter a positive or negative amount (e.g. 10 or -20)</small>
-        <input class="form-control" type="text" name="Amount" value="@Model.Amount.ToString("0.00")">
-    </div>
-
-    <div class="form-group">
-        <label for="Category">Category:</label>
-        <select class="form-control" name="Category" id="Category" required>
-            <option value="@Model.Category">@Model.Category</option>
-            @if (ViewBag.Categories != null)
-            {
-                var categories = (IEnumerable<SelectListItem>)ViewBag.Categories;
-                foreach (var category in categories)
-                {
-                    <option value="@category.Text">@category.Text</option>
-                }
-            }
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label for="description">Description:</label>
-        <input class="form-control" type="text" name="Description" value="@Model.Description">
-    </div>
-
-    <div class="form-group">
-        <label for="date">Date:</label>
-        <input class="form-control" type="text" name="Date" value="@Model.Date" readonly>
-    </div>
-
-    <input type="hidden" name="TransactionID" value="@Model.TransactionID">
-    <input type="hidden" name="CreatedAt" value="@Model.CreatedAt">
-    <input type="hidden" name="UpdatedAt" value="@DateTime.Now">
-    <input type="hidden" name="UserID" value="@Model.UserID">
-
-    <button type="submit" class="btn btn-primary">Save</button>
-</form>
+</div>

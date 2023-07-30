@@ -1,0 +1,11 @@
+﻿@model List<FinanceChecker.Models.Videos>
+
+<h2>Video Tutorials</h2>
+
+@foreach (var tutorial in Model)
+{
+    <div>
+        <h3>@tutorial.Title</h3>
+        <iframe width="560" height="315" src="@tutorial.VideoUrl" frameborder="0" allowfullscreen></iframe>
+    </div>
+}
