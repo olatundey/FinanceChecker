@@ -96,7 +96,7 @@ namespace FinanceChecker.Controllers
 
         private decimal CalculateCurrentMonthTotal(Guid userId)
         {
-            var currentDate = DateTime.Now.Date;
+            var currentDate = DateTime.Today;
             var startOfMonth = currentDate.AddDays(1 - currentDate.Day);
             var endOfMonth = startOfMonth.AddMonths(1).AddDays(-1);
 
@@ -192,15 +192,11 @@ namespace FinanceChecker.Controllers
             return previousMonthSpent;
         }
 
-
         private Dictionary<string, decimal> ComparePreviousWeeks(Guid userId)
         {
             var comparePreviousWeeks = new Dictionary<string, decimal>();
 
-            // Calculate the total spent for the current week
-            var currentWeekTotal = CalculateCurrentWeekTotal(userId);
-
-            // Calculate and compare previous weeks' totals for the last 12 weeks
+            // Calculate and compare previous weeks' totals for the last 52 weeks (July 2022 to July 2023)
             for (int i = 1; i <= 12; i++)
             {
                 var currentDate = DateTime.Now.Date;
@@ -225,11 +221,8 @@ namespace FinanceChecker.Controllers
         {
             var comparePreviousMonths = new Dictionary<string, decimal>();
 
-            // Calculate the total spent for the current month
-            var currentMonthTotal = CalculateCurrentMonthTotal(userId);
-
-            // Calculate and compare previous months' totals for the last 12 months
-            for (int i = 1; i <= 12; i++)
+            // Calculate and compare previous months' totals for the last 12 months, including the current month
+            for (int i = 0; i < 12; i++)
             {
                 var currentDate = DateTime.Now.Date;
                 var startOfPreviousMonth = currentDate.AddDays(1 - currentDate.Day).AddMonths(-i);
@@ -248,6 +241,7 @@ namespace FinanceChecker.Controllers
 
             return comparePreviousMonths;
         }
+
 
         private async Task<IdentityUser> GetUserAsync()
         {

@@ -1,58 +1,309 @@
-﻿@*@{
-        ViewData["Title"] = "Home Page";
-    }*@
+﻿@model List<FinanceChecker.Models.Account>
+<style>
+    .arrow-icon::after {
+        content: "";
+        border: solid black;
+        border-width: 0 2px 2px 0;
+        display: inline-block;
+        padding: 3px;
+        transform: rotate(45deg);
+        margin-left: 8px;
+    }
 
-@model List<FinanceChecker.Models.Account>
+    .card-header[aria-expanded="true"] .arrow-icon::after {
+        transform: rotate(-135deg);
+    }
 
+    .balance {
+        font-size: 14px; 
+        text-align: end;
+    }
+</style>
 
-<div class="text-center">
+<div class="text-end">
     <a class="btn btn-primary" asp-area="" asp-controller="Account" asp-action="CreateAccount">Add Account</a>
 </div>
-<p>Total Balance: £@ViewBag.TotalBalance.ToString("N2")</p>
-
-
-<h2>My Accounts</h2>
 
 @if (Model.Count == 0)
 {
-    <p>No accounts found.</p>
+    <p>No accounts found, please proceed to link your accounts</p>
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Account ID</th>
-                <th>Sync Type</th>
-                <th>Account Type</th>
-                <th>Account Number</th>
-                <th>Institution Name</th>
-                <th>Balance</th>
-                <th>Created At</th>
-                <th>Updated At</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var account in Model)
-            {
-                <tr>
-                    <td>@account.AccountID</td>
-                    <td>@account.syncType</td>
-                    <td>@account.AccountType</td>
-                    <td>@account.AccountNumber</td>
-                    <td>@account.InstitutionName</td>
-                    <td>@account.Balance.ToString("N2")</td>
-                    <td>@account.CreatedAt</td>
-                    <td>@account.UpdatedAt</td>
-                    <td>
-                        <a href="@Url.Action("EditAccount", "Account", new { AccountID = account.AccountID })" class="btn btn-primary">Edit</a>
-                        <a href="@Url.Action("DeleteAccount", "Account", new { AccountID = account.AccountID })" class="btn btn-danger">Delete</a>
-                    </td>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <h3 class="mb-4">CURRENT BALANCE</h3>
+                <canvas id="currentDayBalancesChart" width="100%" height="75"></canvas>
+            </div>
 
-                </tr>
-            }
-        </tbody>
-    </table>
+            <div class="col-md-6">
+                <div class="container">
+                    <h2>Total Balance: £@ViewBag.TotalBalance.ToString("N2")</h2>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card mb-3">
+                                <div class="card-header d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#bankAccounts" aria-expanded="false">
+                                    <h4>Bank Accounts</h4>
+                                    <h5>Balance: £@ViewBag.BankAccountBalanceCurrentDay.ToString("N2")</h5>
+                                    <span class="arrow-icon"></span>
+                                </div>
+                                <div class="collapse" id="bankAccounts">
+                                    <div class="card-body">
+                                        @foreach (var account in Model.Where(a => a.AccountType == "BankAccount"))
+                                        {
+                                            <div class="account-details">
+                                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                                    <div>
+                                                        <h6>Account Number: @account.AccountNumber</h6>
+                                                        <h6>Balance: £@account.Balance.ToString("N2")</h6>
+                                                    </div>
+                                                    <div>
+                                                        <h6>Institution Name: @account.InstitutionName</h6>
+                                                        <h6>Sync Type: @account.syncType</h6>
+                                                    </div>
+
+                                                    <div>
+                                                        <a href="@Url.Action("EditAccount", "Account", new { AccountID = account.AccountID })" class="btn btn-primary btn-sm mx-1" title="Edit"><i class="bi bi-pencil-square"></i></a>
+                                                        <a href="@Url.Action("DeleteAccount", "Account", new { AccountID = account.AccountID })" class="btn btn-danger btn-sm mx-1" title="Delete"><i class="bi bi-trash-fill"></i></a>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <hr />
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card mb-3">
+                                <div class="card-header d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#creditCardAccounts" aria-expanded="false">
+                                    <h4>Credit Card Accounts</h4>
+                                    <h5>Balance: £@ViewBag.CreditCardBalanceCurrentDay.ToString("N2")</h5>
+                                    <span class="arrow-icon"></span>
+                                </div>
+                                <div class="collapse" id="creditCardAccounts">
+                                    <div class="card-body">
+                                        @foreach (var account in Model.Where(a => a.AccountType == "CreditCard"))
+                                        {
+                                            <div class="account-details">
+                                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                                    <div>
+                                                        <h6>Account Number: @account.AccountNumber</h6>
+                                                        <h6>Balance: £@account.Balance.ToString("N2")</h6>
+                                                    </div>
+                                                    <div>
+                                                        <h6>Institution Name: @account.InstitutionName</h6>
+                                                        <h6>Sync Type: @account.syncType</h6>
+                                                    </div>
+
+                                                    <div>
+                                                        <a href="@Url.Action("EditAccount", "Account", new { AccountID = account.AccountID })" class="btn btn-primary btn-sm mx-1" title="Edit"><i class="bi bi-pencil-square"></i></a>
+                                                        <a href="@Url.Action("DeleteAccount", "Account", new { AccountID = account.AccountID })" class="btn btn-danger btn-sm mx-1" title="Delete"><i class="bi bi-trash-fill"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card mb-3">
+                                <div class="card-header d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#investmentAccounts" aria-expanded="false">
+                                    <h4>Investment Accounts</h4>
+                                    <h5>Balance: £@ViewBag.InvestmentBalanceCurrentDay.ToString("N2")</h5>
+                                    <span class="arrow-icon"></span>
+                                </div>
+                                <div class="collapse" id="investmentAccounts">
+                                    <div class="card-body">
+                                        @foreach (var account in Model.Where(a => a.AccountType == "Investment"))
+                                        {
+                                            <div class="account-details">
+                                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                                    <div>
+                                                        <h6>Account Number: @account.AccountNumber</h6>
+                                                        <h6>Balance: £@account.Balance.ToString("N2")</h6>
+                                                    </div>
+                                                    <div>
+                                                        <h6>Institution Name: @account.InstitutionName</h6>
+                                                        <h6>Sync Type: @account.syncType</h6>
+                                                    </div>
+
+                                                    <div>
+                                                        <a href="@Url.Action("EditAccount", "Account", new { AccountID = account.AccountID })" class="btn btn-primary btn-sm mx-1" title="Edit"><i class="bi bi-pencil-square"></i></a>
+                                                        <a href="@Url.Action("DeleteAccount", "Account", new { AccountID = account.AccountID })" class="btn btn-danger btn-sm mx-1" title="Delete"><i class="bi bi-trash-fill"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Total Balance for the Current Day: £@ViewBag.TotalBalanceCurrentDay.ToString("N2")</h3>
+                <h3>Total Balance for the Last 7 Days: £@ViewBag.TotalBalanceLast7Days.ToString("N2")</h3>
+                <h3>Total Credit Card Balance for the Last 7 Days: £@ViewBag.TotalCreditCardBalanceLast7Days.ToString("N2")</h3>
+                <h3>Total Bank Account Balance for the Last 7 Days: £@ViewBag.TotalBankAccountBalanceLast7Days.ToString("N2")</h3>
+                <h3>Total Investment Balance for the Last 7 Days: £@ViewBag.TotalInvestmentBalanceLast7Days.ToString("N2")</h3>
+                <h3>Credit Card Balance for the Current Day: £@ViewBag.CreditCardBalanceCurrentDay.ToString("N2")</h3>
+                <h3>Bank Account Balance for the Current Day: £@ViewBag.BankAccountBalanceCurrentDay.ToString("N2")</h3>
+                <h3>Investment Balance for the Current Day: £@ViewBag.InvestmentBalanceCurrentDay.ToString("N2")</h3>
+            </div>
+            <div class="col-md-6">
+                <h3>Daily Balances:</h3>
+                <ul>
+                    @foreach (var item in ViewBag.DailyBalances)
+                    {
+                        DateTime date = item.Item1;
+                        decimal balance = item.Item2; 
+                        <li>@date.ToShortDateString() - £@balance.ToString("N2")</li>
+                    }
+                </ul>
+                <h3>Total Credit Card Balance for Each Day in the Last 7 Days:</h3>
+                <ul>
+                    @foreach (var item in ViewBag.DailyBalancesByAccountType["CreditCard"])
+                    {
+                        DateTime date = item.Item1; 
+                        decimal balance = item.Item2;
+                        <li>@date.ToShortDateString() - £@balance.ToString("N2")</li>
+                    }
+                </ul>
+                <h3>Total Bank Account Balance for Each Day in the Last 7 Days:</h3>
+                <ul>
+                    @foreach (var item in ViewBag.DailyBalancesByAccountType["BankAccount"])
+                    {
+                        DateTime date = item.Item1;
+                        decimal balance = item.Item2; 
+                        <li>@date.ToShortDateString() - £@balance.ToString("N2")</li>
+                    }
+                </ul>
+                <h3>Total Investment Balance for Each Day in the Last 7 Days:</h3>
+                <ul>
+                    @foreach (var item in ViewBag.DailyBalancesByAccountType["Investment"])
+                    {
+                        DateTime date = item.Item1; 
+                        <li>@date.ToShortDateString() - £@balance.ToString("N2")</li>
+                    }
+                </ul>
+
+
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="col-md-6">
+            <h3>Daily Balances:</h3>
+            <canvas id="dailyBalancesChart" width="400" height="200"></canvas>
+        </div>
+
+        <h2>My Accounts</h2>
+        <div class="row">
+            <div class="col">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h3>Bank Accounts</h3>
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h3>Credit Card Accounts</h3>
+                    </div>
+                  
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h3>Investment Accounts</h3>
+                    </div>
+                    @*<div class="card-body">
+                        <canvas id="investmentBalancesChart" width="400" height="200"></canvas>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
 }
 
+@section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.1.1/dist/chartjs-adapter-moment.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <script></script>
+
+    <script>
+        // Data for the chart
+        var currentDayBalancesData = {
+            labels: ['Credit Card', 'Bank Account', 'Investment'],
+            datasets: [
+                {
+                    data: [
+                        @ViewBag.CreditCardBalanceCurrentDay,
+                        @ViewBag.BankAccountBalanceCurrentDay,
+                        @ViewBag.InvestmentBalanceCurrentDay
+                    ],
+                    backgroundColor: ['rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)', 'rgba(75, 192, 192, 0.6)'],
+                    borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(75, 192, 192, 1)'],
+                    borderWidth: 1
+                }
+            ]
+        };
+
+        // Options for the chart
+        var currentDayBalancesOptions = {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                }
+            }
+        };
+
+        // Create the pie chart
+        var currentDayBalancesChart = new Chart('currentDayBalancesChart', {
+            type: 'pie',
+            data: currentDayBalancesData,
+            options: currentDayBalancesOptions
+        });
+
+      
+    </script>
+}

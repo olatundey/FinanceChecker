@@ -111,28 +111,7 @@
                 </div>
             </div>
 
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h2>Compare Previous Weeks</h2>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Week Number</th>
-                                <th>Total Spent</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.ComparePreviousWeeks)
-                            {
-                                <tr>
-                                    <td>@item.Key</td>
-                                    <td>£@item.Value.ToString("N2")</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+
 
             <div class="card mb-4">
                 <div class="card-body">
@@ -156,6 +135,30 @@
                     </table>
                 </div>
             </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2>Compare Previous Weeks</h2>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Week Number</th>
+                                <th>Total Spent</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ComparePreviousWeeks)
+                            {
+                                <tr>
+                                    <td>Previous @item.Key</td>
+                                    <td>£@item.Value.ToString("N2")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
 
         <div class="col-lg-6">
@@ -339,146 +342,179 @@
             }
         });
 
-      // Data for the line charts
-var months = Object.keys(@Html.Raw(Json.Serialize(Model.ComparePreviousMonths)));
-var monthlyPreviousSpentValues = Object.values(@Html.Raw(Json.Serialize(Model.ComparePreviousMonths)));
-var monthlyCurrentSpentValues = Object.values(@Html.Raw(Json.Serialize(Model.CategoryMonthlySpent)));
+        // Function to get the labels for the line charts
+        function getLabelsForMonths(count) {
+            var currentDate = new Date();
+            var labels = [];
 
-var weeks = Object.keys(@Html.Raw(Json.Serialize(Model.ComparePreviousWeeks)));
-var weeklyPreviousSpentValues = Object.values(@Html.Raw(Json.Serialize(Model.ComparePreviousWeeks)));
+            for (var i = count - 1; i >= 0; i--) {
+                var startOfCurrentMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() - i, 1);
+                labels.push(startOfCurrentMonth.toLocaleString('default', { month: 'short', year: 'numeric' }));
+            }
+
+            return labels;
+        }
+
+
+
+        var currentYear = new Date().getFullYear(); // Get the current year
+
+
+        function getLabelsForWeeks(weeksCount) {
+            var currentDate = new Date(); // Get the current date
+            var currentYear = currentDate.getFullYear(); // Get the current year
+            var currentWeek = getWeekNumber(currentDate); // Get the current week number
+
+            var labels = [];
+            for (var i = 0; i < weeksCount; i++) {
+                var weekLabel = 'Week ' + currentWeek + ', ' + currentYear;
+                labels.push(weekLabel);
+                // Decrement the week number for the previous weeks
+                currentWeek = (currentWeek === 1) ? 12 : currentWeek - 1;
+                // Decrement the year if the current week is 12 and it's the beginning of the year
+                if (currentWeek === 12 && currentDate.getMonth() === 0) {
+                    currentYear--;
+                }
+            }
+
+            return labels.reverse();
+        }
+
+        function getWeekNumber(date) {
+            var target = new Date(date.valueOf());
+            var dayNr = (date.getDay() + 6) % 7;
+            target.setDate(target.getDate() - dayNr + 3);
+            var firstThursday = target.valueOf();
+            target.setMonth(0, 1);
+            if (target.getDay() !== 4) {
+                target.setMonth(0, 1 + ((4 - target.getDay()) + 7) % 7);
+            }
+            return 1 + Math.ceil((firstThursday - target) / 604800000); // 604800000 ms = 7 * 24 * 3600 * 1000
+        }
+
+
+         // Data for the line charts
+        var months = getLabelsForMonths(12); // Get labels for the last 12 months, including the current month
+        var monthlyPreviousSpentValues = Object.values(@Html.Raw(Json.Serialize(Model.ComparePreviousMonths)));
+        var monthlyCurrentSpentValues = Object.values(@Html.Raw(Json.Serialize(Model.CategoryMonthlySpent)));
+
+var weeks = getLabelsForWeeks(12); // Get labels for 12 weeks (July 2022 to July 2023)
+var weeklyPreviousSpentValues = @Html.Raw(Json.Serialize(Model.ComparePreviousWeeks.Values)); // Assuming the model has a property "ComparePreviousWeeks" containing the weekly data
 var weeklyCurrentSpentValues = Object.values(@Html.Raw(Json.Serialize(Model.CategoryWeeklySpent)));
 
-var monthlyComparisonChartData = {
-    labels: months,
-    datasets: [
-        {
-            label: 'Previous Month',
-            data: monthlyPreviousSpentValues,
-            borderColor: 'rgba(255, 99, 132, 1)',
-            borderWidth: 2,
-            fill: false
-        },
-        {
-            label: 'Current Month',
-            data: monthlyCurrentSpentValues,
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 2,
-            fill: false
-        }
-    ]
-};
-
-var weeklyComparisonChartData = {
-    labels: weeks,
-    datasets: [
-        {
-            label: 'Previous Week',
-            data: weeklyPreviousSpentValues,
-            borderColor: 'rgba(255, 99, 132, 1)',
-            borderWidth: 2,
-            fill: false
-        },
-        {
-            label: 'Current Week',
-            data: weeklyCurrentSpentValues,
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 2,
-            fill: false
-        }
-    ]
-};
-
-// Create the line charts for comparing previous vs current
-var monthlyComparisonLineChart = new Chart('monthlyComparisonLineChart', {
-    type: 'line',
-    data: monthlyComparisonChartData,
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'top'
-            },
-            title: {
-                display: true,
-                text: 'Comparison: Previous Month vs. Current Month'
-            }
-        },
-        scales: {
-            x: {
-                title: {
-                    display: true,
-                    text: 'Month'
+        var monthlyComparisonChartData = {
+            labels: months,
+            datasets: [
+                {
+                    label: 'Previous Month',
+                    data: monthlyPreviousSpentValues,
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 2,
+                    fill: false
+                },
+                {
+                    label: 'Current Month',
+                    data: monthlyCurrentSpentValues,
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 2,
+                    fill: false
                 }
-            },
-            y: {
-                beginAtZero: true,
-                ticks: {
-                    callback: function (value, index, values) {
-                        return '£' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            ]
+        };
+
+        var weeklyComparisonChartData = {
+            labels: weeks,
+            datasets: [
+                {
+                    label: 'Previous Week',
+                    data: weeklyPreviousSpentValues,
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 2,
+                    fill: false
+                },
+                {
+                    label: 'Current Week',
+                    data: weeklyCurrentSpentValues,
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 2,
+                    fill: false
+                }
+            ]
+        };
+
+        // Create the line chart for comparing previous vs current months
+        var monthlyComparisonLineChart = new Chart('monthlyComparisonLineChart', {
+            type: 'line',
+            data: monthlyComparisonChartData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Comparison: Previous Month vs. Current Month'
                     }
                 },
-                title: {
-                    display: true,
-                    text: 'Amount'
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Month'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function (value, index, values) {
+                                return '£' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Amount'
+                        }
+                    }
                 }
             }
-        }
-    }
-});
+        });
 
-var weeklyComparisonLineChart = new Chart('weeklyComparisonLineChart', {
-    type: 'line',
-    data: weeklyComparisonChartData,
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'top'
-            },
-            title: {
-                display: true,
-                text: 'Comparison: Previous Week vs. Current Week'
-            }
-        },
-        scales: {
-            x: {
-                title: {
-                    display: true,
-                    text: 'Week'
-                }
-            },
-            y: {
-                beginAtZero: true,
-                ticks: {
-                    callback: function (value, index, values) {
-                        return '£' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        var weeklyComparisonLineChart = new Chart('weeklyComparisonLineChart', {
+            type: 'line',
+            data: weeklyComparisonChartData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Comparison: Previous Week vs. Current Week'
                     }
                 },
-                title: {
-                    display: true,
-                    text: 'Amount'
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Week'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function (value, index, values) {
+                                return '£' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Amount'
+                        }
+                    }
                 }
             }
-        }
-    }
-});
-
-        //var weeklyComparisonLineChart = new Chart('weeklyComparisonLineChart', {
-        //    type: 'line',
-        //    data: weeklyComparisonChartData,
-        //    options: {
-        //        responsive: true,
-        //        plugins: {
-        //            legend: {
-        //                position: 'top'
-        //            },
-        //            title: {
-        //                display: true,
-        //                text: 'Comparison: Previous Week vs. Current Week'
-        //            }
-        //        }
-        //    }
-        //});
+        });
     </script>
 }
-

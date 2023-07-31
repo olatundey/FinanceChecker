@@ -88,7 +88,7 @@ namespace FinanceChecker.Data
         {
             Id = 4,
             Question = "How can I track my expenses?",
-            Answer = "Our app allows you to track expenses easily. First, categorise your transactions on the \"Transactions\" section,  then go to the \"Expense Tracking\" section, and view detailed reports of your spending."
+            Answer = "Our app allows you to track expenses easily. First, categorise your transactions on the \"Transactions\" section,  then go to the \"Expense Tracking\" section,  and view detailed reports of your spending."
         },
          new FAQ
          {
@@ -138,7 +138,7 @@ namespace FinanceChecker.Data
             if (!AppVideo.Any())
             {
                 // If the video does not exist, seed it to the database
-                var videoUrl = "https://vimeo.com/849958341"; // Replace with the actual video URL
+                var videoUrl = "https://vimeo.com/849958341";
                 var video = new Videos
                 {
                     Title = "Getting--",

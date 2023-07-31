@@ -31,36 +31,9 @@
     </head>
     <body>
         <header>
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                <div class="container-fluid">
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FinanceChecker</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            @if (SignInManager.IsSignedIn(User))
-                            {
-                                <li class="nav-item text-center">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Help" asp-action="Index">Help</a>
-                                </li>
-                            }
-                            @*<li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>*@
-                        </ul>
-                        <partial name="_LoginPartial" />
-                    </div>
-                </div>
-            </nav>
-            @if (SignInManager.IsSignedIn(User))
-            {
-                <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-lightblue bg-white border-bottom box-shadow mb-3">
                     <div class="container-fluid">
+                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FinanceChecker</a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                                 aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
@@ -68,35 +41,61 @@
                         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                             <ul class="navbar-nav flex-grow-1">
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Index">Accounts</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Transaction" asp-action="Transaction">Transactions</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Budget" asp-action="Index">Budget</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Expense" asp-action="Index">Expense</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Savings" asp-action="Index">Savings</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Bills" asp-action="Index">Bills</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Alert" asp-action="Index">Alerts</a>
-                                </li>
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    <li class="nav-item text-center">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Help" asp-action="Index">Help</a>
+                                    </li>
+                                }
+
                             </ul>
+                            <partial name="_LoginPartial" />
                         </div>
                     </div>
                 </nav>
-            }
-        </header>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <nav class="navbar navbar-expand navbar-light bg-white border-bottom box-shadow mb-3">
+                        <div class="container-fluid">
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                                    aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="navbar-collapse collapse">
+                                <ul class="navbar-nav w-100">
+                                    <li class="nav-item flex-fill">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+                                    </li>
+                                    <li class="nav-item flex-fill">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Index">Accounts</a>
+                                    </li>
+                                    <li class="nav-item flex-fill">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Transaction" asp-action="Transaction">Transactions</a>
+                                    </li>
+                                    <li class="nav-item flex-fill">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Budget" asp-action="Index">Budget</a>
+                                    </li>
+                                    <li class="nav-item flex-fill">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Expense" asp-action="Index">Expense</a>
+                                    </li>
+                                    <li class="nav-item flex-fill">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Savings" asp-action="Index">Savings</a>
+                                    </li>
+                                    <li class="nav-item flex-fill">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Bills" asp-action="Index">Bills</a>
+                                    </li>
+                                    <li class="nav-item flex-fill">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Alert" asp-action="Index">Alerts</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+
+                }
+</header>
         <div class="container">
             <main role="main" class="pb-3">
                 <partial name="_Notification" />
@@ -106,9 +105,10 @@
 
         <footer class="border-top footer text-muted">
             <div class="container">
-                &copy; 2023 - FinanceChecker - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                &copy; 2023 - FinanceChecker. All rights reserved. - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
             </div>
         </footer>
+
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/lib/jquery/dist/jquery_create_account.js"></script>
         <script src="~/lib/jquery/dist/transaction.js"></script>
@@ -118,4 +118,3 @@
         @await RenderSectionAsync("Scripts", required: false)
     </body>
 </html>
-

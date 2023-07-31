@@ -196,11 +196,148 @@ namespace FinanceChecker.Controllers
                 decimal totalBalance = accounts.Sum(a => a.Balance);
                 ViewBag.TotalBalance = totalBalance;
 
+
+                // Get the current date and the date 7 days ago
+                DateTime currentDate = DateTime.Now;
+                DateTime sevenDaysAgo = currentDate.AddDays(-7);
+
+                // Calculate total balance for each day in the last 7 days and the current day
+                var dailyBalances = new List<(DateTime Date, decimal Balance)>();
+                foreach (var date in EachDay(sevenDaysAgo, currentDate))
+                {
+                    foreach (var account in accounts)
+                    {
+                        // Initialize the BalanceForDay dictionary if it's null
+                        if (account.BalanceForDay == null)
+                        {
+                            account.BalanceForDay = new Dictionary<DateTime, decimal>();
+                        }
+
+                        // Query the transactions for each account on the current date
+                        var transactionsOnDate = _db.Transactions
+                            .Where(t => t.AccountID == account.AccountID && t.CreatedAt.Date == date.Date)
+                            .ToList();
+
+                        // Calculate the balance for the account on the current date by summing up the transactions
+                        decimal balanceOnDate = account.Balance;
+                        if (transactionsOnDate.Count > 0)
+                        {
+                            balanceOnDate += transactionsOnDate.Sum(t => t.Amount);
+                        }
+
+                        // Store the balance for the account on the current date
+                        account.BalanceForDay[date.Date] = balanceOnDate;
+                    }
+
+                    // Calculate the total balance for all accounts on the current date
+                    decimal totalBalanceForDay = accounts.Sum(a => a.BalanceForDay.ContainsKey(date.Date) ? a.BalanceForDay[date.Date] : 0);
+                    dailyBalances.Add((date, totalBalanceForDay));
+                }
+
+                ViewBag.DailyBalances = dailyBalances;
+
+                var accountTypes = new string[] { "CreditCard", "BankAccount", "Investment" };
+                var dailyBalancesByAccountType = new Dictionary<string, List<(DateTime Date, decimal Balance)>>();
+
+                foreach (var accountType in accountTypes)
+                {
+                    // Initialize the dictionary for the current account type
+                    dailyBalancesByAccountType[accountType] = new List<(DateTime Date, decimal Balance)>();
+
+                    // Iterate over each day in the last 7 days and calculate the balance for the current account type
+                    foreach (var date in EachDay(sevenDaysAgo, currentDate))
+                    {
+                        // Filter accounts of the current account type
+                        var accountsOfType = accounts.Where(a => a.AccountType == accountType).ToList();
+
+                        // Calculate the total balance for the current account type on the current date
+                        decimal totalBalanceForDay = accountsOfType.Sum(a =>
+                        {
+                            // Query the transactions for each account on the current date
+                            var transactionsOnDate = _db.Transactions
+                                .Where(t => t.AccountID == a.AccountID && t.CreatedAt.Date == date.Date)
+                                .ToList();
+
+                            // Calculate the balance for the account on the current date by summing up the transactions
+                            decimal balanceOnDate = a.Balance;
+                            if (transactionsOnDate.Count > 0)
+                            {
+                                balanceOnDate += transactionsOnDate.Sum(t => t.Amount);
+                            }
+
+                            // Store the balance for the account on the current date
+                            a.BalanceForDay[date.Date] = balanceOnDate;
+
+                            return balanceOnDate;
+                        });
+
+                        // Add the total balance for the current account type on the current date to the dictionary
+                        dailyBalancesByAccountType[accountType].Add((date, totalBalanceForDay));
+                    }
+                }
+
+                ViewBag.DailyBalancesByAccountType = dailyBalancesByAccountType;
+
+
+
+                // Calculate total balance per account type for each day in the last 7 days and the current day
+                // Calculate total balance for the current day
+                var totalBalanceCurrentDay = accounts.Sum(a => a.BalanceForDay.ContainsKey(currentDate.Date) ? a.BalanceForDay[currentDate.Date] : 0);
+                ViewBag.TotalBalanceCurrentDay = totalBalanceCurrentDay;
+
+                // Calculate total balance for the last 7 days
+                var totalBalanceLast7Days = accounts.Sum(a => a.BalanceForDay.ContainsKey(currentDate.Date) ? a.BalanceForDay[currentDate.Date] : 0);
+                ViewBag.TotalBalanceLast7Days = totalBalanceLast7Days;
+
+                // Calculate total credit card balance for the last 7 days
+                var totalCreditCardBalanceLast7Days = accounts
+                    .Where(a => a.AccountType == "CreditCard")
+                    .Sum(a => a.BalanceForDay.ContainsKey(currentDate.Date) ? a.BalanceForDay[currentDate.Date] : 0);
+                ViewBag.TotalCreditCardBalanceLast7Days = totalCreditCardBalanceLast7Days;
+
+                // Calculate total bank account balance for the last 7 days
+                var totalBankAccountBalanceLast7Days = accounts
+                    .Where(a => a.AccountType == "BankAccount")
+                    .Sum(a => a.BalanceForDay.ContainsKey(currentDate.Date) ? a.BalanceForDay[currentDate.Date] : 0);
+                ViewBag.TotalBankAccountBalanceLast7Days = totalBankAccountBalanceLast7Days;
+
+                // Calculate total investment balance for the last 7 days
+                var totalInvestmentBalanceLast7Days = accounts
+                    .Where(a => a.AccountType == "Investment")
+                    .Sum(a => a.BalanceForDay.ContainsKey(currentDate.Date) ? a.BalanceForDay[currentDate.Date] : 0);
+                ViewBag.TotalInvestmentBalanceLast7Days = totalInvestmentBalanceLast7Days;
+
+                // Calculate total credit card balance, bank account balance, and investment balance for the current day
+                decimal creditCardBalanceCurrentDay = accounts
+                    .Where(a => a.AccountType == "CreditCard")
+                    .Sum(a => a.BalanceForDay.ContainsKey(currentDate.Date) ? a.BalanceForDay[currentDate.Date] : 0);
+                ViewBag.CreditCardBalanceCurrentDay = creditCardBalanceCurrentDay;
+
+                decimal bankAccountBalanceCurrentDay = accounts
+                    .Where(a => a.AccountType == "BankAccount")
+                    .Sum(a => a.BalanceForDay.ContainsKey(currentDate.Date) ? a.BalanceForDay[currentDate.Date] : 0);
+                ViewBag.BankAccountBalanceCurrentDay = bankAccountBalanceCurrentDay;
+
+                decimal investmentBalanceCurrentDay = accounts
+                    .Where(a => a.AccountType == "Investment")
+                    .Sum(a => a.BalanceForDay.ContainsKey(currentDate.Date) ? a.BalanceForDay[currentDate.Date] : 0);
+                ViewBag.InvestmentBalanceCurrentDay = investmentBalanceCurrentDay;
+
+
                 return View(accounts);
             }
             return RedirectToAction("Index");
         }
 
+
+        // Helper method to get each day between two dates(inclusive)
+        private IEnumerable<DateTime> EachDay(DateTime from, DateTime thru)
+        {
+            for (var day = from.Date; day.Date <= thru.Date; day = day.AddDays(1))
+            {
+                yield return day;
+            }
+        }
 
         public async Task<IActionResult> CreateAccount()
         {
