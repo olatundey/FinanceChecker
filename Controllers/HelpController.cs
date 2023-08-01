@@ -34,16 +34,10 @@ namespace FinanceChecker.Controllers
 
         public IActionResult FAQs()
         {
-            // can fetch the FAQs from the database or any other data source
-            // or a list of FAQs
-            List<FAQ> faqs = new List<FAQ>
-            {
-                new FAQ { Question = "How do I sign up?", Answer = "You can sign up by clicking on the 'Register' button and providing the required information." },
-                new FAQ { Question = "Can I link multiple bank accounts?", Answer = "Yes, you can link multiple bank accounts to the app." },
-                // Add more FAQs
-            };
 
-            return View(faqs);
+            var faq = _db.FAQs.ToList();
+
+            return View(faq);
         }
 
         public IActionResult VideoTutorials()

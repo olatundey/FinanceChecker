@@ -28,6 +28,8 @@ namespace FinanceChecker.Data
         public DbSet<FAQ> FAQs { get; set; }
         //public DbSet<VideoTutorials> VideoTutorial { get; set; }
         public DbSet<Videos> AppVideo { get; set; }
+        //public DbSet<Loans> Loan { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -35,6 +37,8 @@ namespace FinanceChecker.Data
             base.OnModelCreating(modelBuilder);
             //          modelBuilder.Entity<nameofModelCLASS>().HasData(
             //);
+            modelBuilder.Entity<Account>()
+       .Ignore(a => a.BalanceForDay);
 
             //modelBuilder.Entity<Account>()
             //.HasMany(a => a.Transactions)
@@ -71,7 +75,7 @@ namespace FinanceChecker.Data
        {
            Id = 1,
            Question = "How do I sign up for the app?",
-           Answer = "To sign up for our app, simply click on the \"Register\" button on the homepage, fill in the required information, and create a password. You'll receive a verification email to activate your account."
+           Answer = "To sign up for our app, simply click on the \"Register\" button on the homepage, fill in the required information, and create a password to enable you login."
        },
        new FAQ
        {

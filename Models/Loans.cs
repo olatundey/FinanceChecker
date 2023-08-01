@@ -5,9 +5,7 @@
 //{
 //    public class Loans
 //    {
-//        public class Loans
-//        {
-//            [Key]
+//         [Key]
 //            public int LoanID { get; set; }
 
 //            [ForeignKey("User")]
@@ -25,7 +23,7 @@
 //            [Required]
 //            public DateTime UpdatedAt { get; set; }
 
-//            public virtual ApplicationUser ApplicationUser { get; set; }
+//            //public virtual ApplicationUser ApplicationUser { get; set; }
 
 //        }
 //    }

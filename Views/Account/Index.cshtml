@@ -33,13 +33,13 @@ else
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-6">
-                <h3 class="mb-4">CURRENT BALANCE</h3>
+                <h2>Total Balance: £@ViewBag.TotalBalance.ToString("N2")</h2>
                 <canvas id="currentDayBalancesChart" width="100%" height="75"></canvas>
             </div>
 
             <div class="col-md-6">
                 <div class="container">
-                    <h2>Total Balance: £@ViewBag.TotalBalance.ToString("N2")</h2>
+                    <h3 class="mb-4">MY ACCOUNTS</h3>
                     <div class="row">
                         <div class="col">
                             <div class="card mb-3">
@@ -202,13 +202,13 @@ else
                     }
                 </ul>
                 <h3>Total Investment Balance for Each Day in the Last 7 Days:</h3>
-                <ul>
+                @*<ul>
                     @foreach (var item in ViewBag.DailyBalancesByAccountType["Investment"])
                     {
                         DateTime date = item.Item1; 
                         <li>@date.ToShortDateString() - £@balance.ToString("N2")</li>
                     }
-                </ul>
+                </ul>*@
 
 
             </div>

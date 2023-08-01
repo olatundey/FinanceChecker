@@ -35,10 +35,9 @@ namespace FinanceChecker.Models
         [Required]
         public DateTime UpdatedAt { get; set; }
 
-        //[ForeignKey("Id")]
-        //public virtual ApplicationUser? ApplicationUser { get; set; }
 
-        //public virtual ICollection<Transaction>? Transactions { get; set; }
+        [NotMapped] //property is not mapped to the database
+        public Dictionary<DateTime, decimal> BalanceForDay { get; set; }
 
     }
 }

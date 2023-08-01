@@ -356,6 +356,8 @@ namespace FinanceChecker.Controllers
         }
 
 
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult CreateAccount(Account obj, string button)
@@ -363,12 +365,12 @@ namespace FinanceChecker.Controllers
             try
             {
                 if (button == "Submit") // Check which button was clicked
-                {
+             {
                     if (ModelState.IsValid)
                     {
                         obj.CreatedAt = DateTime.Now;
                         obj.UpdatedAt = DateTime.Now;
-
+                      
                         // Retrieve the current user
                         var user = _userManager.GetUserAsync(User).Result;
 
@@ -384,7 +386,7 @@ namespace FinanceChecker.Controllers
 
                     else
                     {
-                        TempData["error"] = "Invalid input. Please correct the errors below.";
+                        TempData["success"] = "Invalid input. Please correct the errors below.";
                         ViewBag.Id = obj.UserID;
                         return View(obj);
                     }
@@ -392,15 +394,13 @@ namespace FinanceChecker.Controllers
 
                 else if (button == "Validate")
                 {
-
                     obj.CreatedAt = DateTime.Now;
                     obj.UpdatedAt = DateTime.Now;
-
+                 
                     var id = obj.UserID;
 
                     // Retrieve the current user
                     var user = _userManager.GetUserAsync(User).Result;
-
 
                     _db.Accounts.Add(obj);
                     _db.SaveChanges();

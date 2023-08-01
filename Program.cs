@@ -32,22 +32,6 @@ builder.Services.AddRazorPages();
 var app = builder.Build();
 
 
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    try
-    {
-        var context = services.GetRequiredService<ApplicationDbContext>();
-        context.SeedData();
-        // Other seed methods can also be called here if needed
-        Log.Information("Data seeded successfully.");
-    }
-    catch (Exception ex)
-    {
-        Log.Error(ex, "An error occurred while seeding the data.");
-    }
-}
-
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
