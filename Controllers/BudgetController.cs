@@ -43,16 +43,22 @@ namespace FinanceChecker.Controllers
             return RedirectToAction("Index");
         }
 
-
-        // POST: Category/Create
         [HttpPost]
         public ActionResult AddCategory(Category category)
         {
             if (ModelState.IsValid)
             {
+                // Check if the category already exists in the Categories table
+                var existingCategory = _db.Categories.FirstOrDefault(c => c.CategoryName.ToLower() == category.CategoryName.ToLower());
+                if (existingCategory != null)
+                {
+                    TempData["error"] = "Category already exists.";
+                    return RedirectToAction("AddCategory");
+                }
+
                 _db.Categories.Add(category);
                 _db.SaveChanges();
-
+                TempData["success"] = "Category saved successfully";
                 return RedirectToAction("Index");
             }
 
@@ -129,7 +135,7 @@ namespace FinanceChecker.Controllers
                 ModelState.AddModelError("Budget.CategoryName", "Budget category already exists for this user.");
                 var existingCategories = _db.Categories.ToList();
                 ViewBag.Categories = new SelectList(existingCategories, "CategoryName", "CategoryName");
-                TempData["success"] = "Budget category already exists for this user";
+                TempData["error"] = "Budget category already exists for this user";
                 return View(budget);
             }
 
@@ -142,6 +148,7 @@ namespace FinanceChecker.Controllers
 
                 _db.Budgets.Add(budget);
                 _db.SaveChanges();
+                TempData["success"] = "Budget saved successfully";
                 return RedirectToAction("Index");
             }
 
@@ -205,7 +212,7 @@ namespace FinanceChecker.Controllers
                 ModelState.AddModelError("Budget.CategoryName", "Budget category already exists for this user.");
                 var existingCategories = _db.Categories.ToList();
                 ViewBag.Categories = new SelectList(existingCategories, "CategoryName", "CategoryName");
-                TempData["success"] = "Budget category already exists for this user";
+                TempData["error"] = "Budget category already exists for this user";
                 return View(budget);
             }
 
@@ -225,6 +232,7 @@ namespace FinanceChecker.Controllers
 
                 _db.Budgets.Update(budget);
                 _db.SaveChanges();
+                TempData["success"] = "Selected Budget updated successfully";
                 return RedirectToAction("Index");
             }
 
@@ -246,6 +254,7 @@ namespace FinanceChecker.Controllers
 
             _db.Budgets.Remove(budget);
             _db.SaveChanges();
+            TempData["success"] = "Selected budget deleted successfully";
 
             return RedirectToAction("Index");
         }

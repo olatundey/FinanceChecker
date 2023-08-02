@@ -54,6 +54,7 @@ namespace FinanceChecker.Controllers
 
                 _db.Bills.Add(bill);
                 await _db.SaveChangesAsync();
+                TempData["success"] = "Bill saved successfully";
                 return RedirectToAction("Index");
             }
 
@@ -106,6 +107,7 @@ namespace FinanceChecker.Controllers
                 existingBill.UpdatedAt = DateTime.Now;
 
                 await _db.SaveChangesAsync();
+                TempData["success"] = "Bill updated successfully";
                 return RedirectToAction("Index");
             }
 
@@ -146,6 +148,7 @@ namespace FinanceChecker.Controllers
 
             _db.Bills.Remove(bill);
             await _db.SaveChangesAsync();
+            TempData["success"] = "Bill deleted successfully";
             return RedirectToAction("Index");
         }
 

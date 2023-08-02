@@ -2,6 +2,12 @@
 /* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+
+.custom-header[b-x0ndlu3n2e] {
+    background-color: #007bff;
+    color: white;
+}
+
 .navbar-container[b-x0ndlu3n2e] {
     display: flex;
     flex-wrap: wrap;

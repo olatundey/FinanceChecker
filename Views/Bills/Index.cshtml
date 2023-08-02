@@ -33,8 +33,8 @@
                                         <td>£@Html.DisplayFor(modelItem => item.Amount)</td>
                                         <td>@Html.DisplayFor(modelItem => item.DueDate)</td>
                                         <td>
-                                            <a asp-action="EditBill" asp-route-id="@item.BillID" class="btn btn-primary btn-sm">Edit</a>
-                                            <a asp-action="DeleteBill" asp-route-id="@item.BillID" class="btn btn-danger btn-sm">Delete</a>
+                                            <a asp-action="EditBill" asp-route-id="@item.BillID" class="btn btn-primary btn-sm mx-1" title="Edit"><i class="bi bi-pencil-square"></i></a>
+                                            <a asp-action="DeleteBill" asp-route-id="@item.BillID" class="btn btn-danger btn-sm mx-1" title="Delete"><i class="bi bi-trash-fill"></i></a>
                                         </td>
                                     </tr>
                                 }

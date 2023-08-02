@@ -1,18 +1,46 @@
-﻿@if (TempData["success"] != null)
+﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+@if (TempData["success"] != null)
 {
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script type="text/javascript">
+        toastr.options = {
+            positionClass: 'toast-top-right',
+            closeButton: true,
+        };
         toastr.success('@TempData["success"]')
     </script>
 }
+
 @if (TempData["error"] != null)
 {
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.js"></script>
     <script type="text/javascript">
-        toastr.success('@TempData["error"]')
+        toastr.options = {
+            positionClass: 'toast-top-right',
+            closeButton: true, // Show close button
+        };
+        toastr.error('@TempData["error"]')
     </script>
-    @*<h3>@TempData["error"]</h3>*@
-
 }
+
+<style>
+    .toast {
+        border-radius: 4px;
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    .toast-success {
+        background-color: #198754;
+        color: #fff;
+    }
+
+    .toast-error {
+        background-color: #dc3545;
+        color: #fff;
+    }
+</style>

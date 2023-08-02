@@ -1,20 +1,18 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <title>FinanceChecker - Home</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <style>
-/*        body {
+        /* Add your custom styles here */
+
+        body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f8f8f8;
-        }*/
+        }
 
 /*        .header {
             background-color: #007bff;
@@ -23,63 +21,46 @@
             text-align: center;
         }*/
 
+        .header-content {
+            margin: auto;
+            max-width: 600px;
+        }
+
+        .header img {
+            width: 100%;
+            display: block;
+        }
+
         .welcome {
             text-align: center;
             padding: 50px 0;
         }
 
-            .welcome h2 {
-                font-size: 36px;
-                margin-bottom: 20px;
-            }
-
-            .welcome p {
-                font-size: 18px;
-                color: #333;
-                margin-bottom: 40px;
-            }
-
-        .cta-button {
-            display: inline-block;
-            padding: 12px 30px;
-            background-color: #007bff;
-            color: #fff;
-            font-size: 20px;
-            text-decoration: none;
-            border-radius: 4px;
-        }
-
-            .cta-button:hover {
-                background-color: #0056b3;
-            }
-
-/*        .footer {
-            background-color: #007bff;
-            color: #fff;
-            text-align: center;
-            padding: 20px;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-       }*/
+        /* Other styles remain unchanged */
 
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>FinanceChecker</h1>
-        @*<p>Take control of your finances with our powerful finance management app.</p>*@
-    </div>
-
-    <div class="container">
-        <div class="welcome">
-            <h2>Welcome</h2>
-            <p>Take control of your finances with our powerful finance management app.</p>
-            @*<a href="#" class="cta-button">Get Started</a>*@
+    <div>
+        <div class="row">
+            <div class="col-lg-6">
+                <img src="~/img/test.png" alt="FinanceChecker Logo">
+            </div>
+            <div class="col-lg-6">
+                <div class="header">
+                    <div class="header-content">
+                        <h1>FinanceChecker</h1>
+                        @*<p>Take control of your finances with our powerful finance management app.</p>*@
+                    </div>
+                </div>
+                <div class="welcome">
+                    <h2>Welcome</h2>
+                    <p>Take control of your finances with our powerful finance management app.</p>
+                    @*<a href="#" class="cta-button">Get Started</a>*@
+                </div>
+            </div>
         </div>
     </div>
 
 </body>
 </html>
-
-

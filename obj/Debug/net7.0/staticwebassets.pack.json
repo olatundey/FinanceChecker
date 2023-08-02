@@ -17,6 +17,10 @@
       "PackagePath": "staticwebassets/favicon.ico"
     },
     {
+      "Id": "/Users/tundey/Projects/finance1/Finance1/wwwroot/img/test.png",
+      "PackagePath": "staticwebassets/img/test.png"
+    },
+    {
       "Id": "/Users/tundey/Projects/finance1/Finance1/wwwroot/js/qr.js",
       "PackagePath": "staticwebassets/js/qr.js"
     },

@@ -113,14 +113,14 @@ namespace FinanceChecker.Controllers
             //Retrieve the inputted account number from the form
             if (!int.TryParse(Request.Form["AccountNumber"], out int accountNumber))
             {
-                TempData["success"] = "Invalid account number input.";
+                TempData["error"] = "Invalid account number input.";
                 return RedirectToAction("CreateAccount");
             }
 
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                TempData["success"] = "User not found.";
+                TempData["error"] = "User not found.";
                 return RedirectToAction("CreateAccount");
             }
 
@@ -130,7 +130,7 @@ namespace FinanceChecker.Controllers
 
             if (account == null)
             {
-                TempData["success"] = "Account not found for the current user.";
+                TempData["error"] = "Account not found for the current user.";
                 return RedirectToAction("CreateAccount");
             }
 
@@ -386,7 +386,7 @@ namespace FinanceChecker.Controllers
 
                     else
                     {
-                        TempData["success"] = "Invalid input. Please correct the errors below.";
+                        TempData["error"] = "Invalid input. Please correct the errors below.";
                         ViewBag.Id = obj.UserID;
                         return View(obj);
                     }

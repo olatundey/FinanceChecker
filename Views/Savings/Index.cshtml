@@ -22,9 +22,9 @@
                     </div>
                     <p class="card-text">Due Date: @savings.DueDate.ToShortDateString()</p>
                     <div class="card-body d-flex justify-content-end">
-                        <a asp-controller="Savings" asp-action="EditSavings" asp-route-id="@savings.SavingsID" class="btn btn-primary btn-sm">Edit</a>
-                        <a asp-controller="Savings" asp-action="DeleteSavings" asp-route-id="@savings.SavingsID" class="btn btn-danger btn-sm">Delete</a>
-                        </div>
+                        <a asp-controller="Savings" asp-action="EditSavings" asp-route-id="@savings.SavingsID" class="btn btn-primary btn-sm mx-1" title="Edit"><i class="bi bi-pencil-square"></i></a>
+                        <a asp-controller="Savings" asp-action="DeleteSavings" asp-route-id="@savings.SavingsID" class="btn btn-danger btn-sm mx-1" title="Delete"><i class="bi bi-trash-fill"></i></a>
+                    </div>
                     </div>
                 </div>
         </div>

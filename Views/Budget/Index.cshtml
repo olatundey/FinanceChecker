@@ -1,6 +1,6 @@
 ﻿@model List<Budget>
 <div class="d-flex justify-content-between">
-    <div class="text-center">
+    <div class="text-end">
         <a class="btn btn-primary" asp-area="" asp-controller="Budget" asp-action="CreateBudget">Add a New Budget</a>
     </div>
    
@@ -40,8 +40,8 @@
                         }
                     </div>
                     <div class="card-body d-flex justify-content-end">
-                        <a asp-controller="Budget" asp-action="EditBudget" asp-route-id="@budget.BudgetID" class="btn btn-primary btn-sm">Edit</a>
-                        - <a asp-controller="Budget" asp-action="DeleteBudget" asp-route-id="@budget.BudgetID" class="btn btn-danger btn-sm">Delete</a>
+                        <a asp-controller="Budget" asp-action="EditBudget" asp-route-id="@budget.BudgetID" class="btn btn-primary btn-sm mx-1" title="Edit"><i class="bi bi-pencil-square"></i></a>
+                        <a asp-controller="Budget" asp-action="DeleteBudget" asp-route-id="@budget.BudgetID" class="btn btn-danger btn-sm mx-1" title="Delete"><i class="bi bi-trash-fill"></i></a>
                     </div>
                 </div>
             </div>

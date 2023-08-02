@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "30Ijt51TawDrmjbtTfnlvdMXMb0Pll6Ssiq4bwaBkUA=",
+  "Hash": "NqkiNZ8Wlo5ZYOWgibCSq6Ncb88auvpSF8pCp4gwX9o=",
   "Source": "FinanceChecker",
   "BasePath": "_content/FinanceChecker",
   "Mode": "Default",
@@ -1120,6 +1120,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/favicon.ico"
+    },
+    {
+      "Identity": "/Users/tundey/Projects/finance1/Finance1/wwwroot/img/test.png",
+      "SourceId": "FinanceChecker",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/tundey/Projects/finance1/Finance1/wwwroot/",
+      "BasePath": "_content/FinanceChecker",
+      "RelativePath": "img/test.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/img/test.png"
     },
     {
       "Identity": "/Users/tundey/Projects/finance1/Finance1/wwwroot/js/qr.js",

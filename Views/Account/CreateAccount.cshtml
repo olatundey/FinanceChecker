@@ -2,66 +2,73 @@
 
 @model Account
 
-<h2>Create Account</h2>
+
 
 @*<p>User ID: @ViewBag.Id</p>*@
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <h2>Create Account</h2>
+            <form method="post" asp-action="CreateAccount">
+                <div class="form-group">
+                    <label for="syncType">Sync Type:</label>
+                    <div>
+                        <input type="radio" name="syncType" value="manual" checked> Manual Sync
+                        <input type="radio" name="syncType" value="automatic"> Automatic Sync
+                    </div>
+                </div>
 
-<form method="post" asp-action="CreateAccount">
-    <div class="form-group">
-        <label for="syncType">Sync Type:</label>
-        <div>
-            <input type="radio" name="syncType" value="manual" checked> Manual Sync
-            <input type="radio" name="syncType" value="automatic"> Automatic Sync
+                <div class="form-group">
+                    <label for="accountType">Select Account Type:</label>
+                    <select class="form-control" id="AccountType" name="AccountType" required>
+                        <option value="">Select account</option>
+                        <option value="BankAccount">Bank Account</option>
+                        <option value="CreditCard">Credit Card</option>
+                        <option value="Investment">Investment Account</option>
+                    </select>
+                    <span asp-validation-for="AccountType" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="accountNumber">Account Number:</label>
+                    <input class="form-control" type="text" name="AccountNumber" required>
+                    <span asp-validation-for="AccountNumber" class="text-danger"></span>
+                </div>
+
+                <div id="institutionNameField" class="form-group" style="display: none;">
+                    <label for="institutionName">Enter Institution Name:</label>
+                    <input class="form-control" type="text" name="InstitutionName">
+                    <span asp-validation-for="InstitutionName" class="text-danger"></span>
+
+                </div>
+
+                <div id="balanceField" class="form-group">
+                    <label for="balance">Balance:</label>
+                    <small class="form-text text-muted">Enter a positive or negative amount (e.g. 10 or -20)</small>
+                    <input class="form-control" type="number" name="Balance" step="0.01">
+                    <span asp-validation-for="Balance" class="text-danger"></span>
+                </div>
+                <br />
+                <div id="submitField" class="form-group">
+                    <button type="submit" class="btn btn-primary" name="button" value="Submit">Submit</button>
+                </div>
+                <br />
+                <div id="validateField" class="form-group">
+                    <button type="submit" class="btn btn-primary" name="button" value="Validate" onclick="setFormAction()">
+                        Save and Proceed
+                    </button>
+                </div>
+
+                <input type="hidden" name="UserID" value="@ViewBag.Id">
+                <input type="hidden" name="CreatedAt" value="@DateTime.Now">
+                <input type="hidden" name="UpdatedAt" value="@DateTime.Now">
+                <input type="hidden" name="BalanceForDay" value="" />
+            </form>
         </div>
     </div>
+</div>
 
-    <div class="form-group">
-        <label for="accountType">Select Account Type:</label>
-        <select class="form-control" id="AccountType" name="AccountType" required>
-            <option value="">Select account</option>
-            <option value="BankAccount">Bank Account</option>
-            <option value="CreditCard">Credit Card</option>
-            <option value="Investment">Investment Account</option>
-        </select>
-        <span asp-validation-for="AccountType" class="text-danger"></span>
-    </div>
 
-    <div class="form-group">
-        <label for="accountNumber">Account Number:</label>
-        <input class="form-control" type="text" name="AccountNumber" required>
-        <span asp-validation-for="AccountNumber" class="text-danger"></span>
-    </div>
-
-    <div id="institutionNameField" class="form-group" style="display: none;">
-        <label for="institutionName">Enter Institution Name:</label>
-        <input class="form-control" type="text" name="InstitutionName">
-        <span asp-validation-for="InstitutionName" class="text-danger"></span>
-
-    </div>
-
-    <div id="balanceField" class="form-group">
-        <label for="balance">Balance:</label>
-        <small class="form-text text-muted">Enter a positive or negative amount (e.g. 10 or -20)</small>
-        <input class="form-control" type="number" name="Balance" step="0.01">
-        <span asp-validation-for="Balance" class="text-danger"></span>
-    </div>
-
-    <div id="submitField" class="form-group">
-        <button type="submit" class="btn btn-primary" name="button" value="Submit">Submit</button>
-    </div>
-
-    <div id="validateField" class="form-group">
-        <button type="submit" class="btn btn-primary" name="button" value="Validate" onclick="setFormAction()">
-            Save and Proceed
-        </button>
-    </div>
-
-    <input type="hidden" name="UserID" value="@ViewBag.Id">
-    <input type="hidden" name="CreatedAt" value="@DateTime.Now">
-    <input type="hidden" name="UpdatedAt" value="@DateTime.Now">
-    <input type="hidden" name="BalanceForDay" value="" />
-
-</form>
 
 <script>function setFormAction() {
         var accountNumber = document.getElementById("AccountNumberHidden").value;

@@ -1,32 +1,40 @@
 ﻿@model FinanceChecker.Models.Budget
 
-<h1>Edit Budget</h1>
 
-<form asp-action="EditBudget" asp-controller="Budget" method="post">
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <h4>Edit Budget</h4>
+            <div class="card">
+                <div class="card-body">
+                    <form asp-action="EditBudget" asp-controller="Budget" method="post">
+                        <input type="hidden" asp-for="BudgetID" />
 
-    <input type="hidden" asp-for="BudgetID" />
+                        <div class="form-group">
+                            <label for="CategoryName">Category Name:</label>
+                            <select asp-for="CategoryName" asp-items="(SelectList)ViewBag.Categories" class="form-control">
+                                <option value="">-- Select Category --</option>
+                            </select>
+                            <span asp-validation-for="CategoryName" class="text-danger"></span>
+                        </div>
 
+                        <div class="form-group">
+                            <label for="Amount">Amount:</label>
+                            <input asp-for="Amount" type="text" class="form-control" value="@Model.Amount.ToString("0.00")" />
+                            <span asp-validation-for="Amount" class="text-danger"></span>
+                        </div>
 
-    <div class="form-group">
-        <label for="CategoryName">Category Name:</label>
-        <select asp-for="CategoryName" asp-items="(SelectList)ViewBag.Categories" class="form-control">
-            <option value="">-- Select Category --</option>
-        </select>
-        <span asp-validation-for="CategoryName" class="text-danger"></span>
+                        <input type="hidden" asp-for="UserID" />
+                        <input type="hidden" asp-for="CategoryID" />
+                        <input type="hidden" asp-for="TotalTransactionsAmount" />
+                        <input type="hidden" asp-for="CreatedAt" />
+                        <input type="hidden" asp-for="UpdatedAt" />
+                        <input type="hidden" asp-for="Progress" />
+
+                        <input type="submit" value="Save Changes" class="btn btn-primary" />
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div class="form-group">
-        <label for="Amount">Amount:</label>
-        <input asp-for="Amount" type="text" class="form-control" value="@Model.Amount.ToString("0.00")" />
-        <span asp-validation-for="Amount" class="text-danger"></span>
-    </div>
-
-    <input type="hidden" asp-for="UserID" />
-    <input type="hidden" asp-for="CategoryID" />
-    <input type="hidden" asp-for="TotalTransactionsAmount" />
-    <input type="hidden" asp-for="CreatedAt" />
-    <input type="hidden" asp-for="UpdatedAt" />
-    <input type="hidden" asp-for="Progress" />
-
-    <input type="submit" value="Save Changes" class="btn btn-primary" />
-</form>
+</div>
