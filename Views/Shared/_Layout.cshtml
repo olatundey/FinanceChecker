@@ -62,39 +62,38 @@
                 <hr />
                 @if (SignInManager.IsSignedIn(User))
                 {
-                    <nav class="navbar navbar-expand navbar-light bg-white border-bottom box-shadow mb-3">
+                    <nav class="navbar navbar-expand navbar-light bg-primary rounded-5 shadow-sm">
                         <div class="container-fluid">
                             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                                     aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="navbar-toggler-icon"></span>
                             </button>
                             <div class="navbar-collapse collapse">
-                                <ul class="navbar-nav w-100">
-                                    <li class="nav-item flex-fill">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Dashboard" asp-action="Index"><i class="bi bi-view-list"></i> Dashboard</a>
+                                <ul class="nav nav-pills nav-fill gap-2 p-1 small" id="pillNav2" role="tablist" style="--bs-nav-link-color: var(--bs-white); --bs-nav-pills-link-active-color: var(--bs-primary); --bs-nav-pills-link-active-bg: var(--bs-white);">
+                                    <li class="nav-item" role="presentation" id="dashboard-tab">
+                                        <a class="nav-link rounded-5" href="/Dashboard/Index"><i class="bi bi-view-list"></i> Dashboard</a>
                                     </li>
-                                    <li class="nav-item flex-fill">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Index"><i class="bi bi-bank"></i> Accounts</a>
+                                    <li class="nav-item" role="presentation" id="account-tab">
+                                        <a class="nav-link rounded-5" href="/Account/Index"><i class="bi bi-bank"></i> Accounts</a>
                                     </li>
-                                    <li class="nav-item flex-fill">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Transaction" asp-action="Transaction"><i class="bi bi-cash-stack"></i> Transactions</a>
+                                    <!-- Add other nav items with unique ids and href attributes -->
+                                    <li class="nav-item" role="presentation" id="transaction-tab">
+                                        <a class="nav-link rounded-5" href="/Transaction/Transaction"><i class="bi bi-cash-stack"></i> Transactions</a>
                                     </li>
-                                    <li class="nav-item flex-fill">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Budget" asp-action="Index"><i class="bi bi-wallet-fill"></i> Budget</a>
+                                    <li class="nav-item" role="presentation" id="budget-tab">
+                                        <a class="nav-link rounded-5" href="/Budget/Index"><i class="bi bi-wallet-fill"></i> Budget</a>
                                     </li>
-                                    <li class="nav-item flex-fill">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Expense" asp-action="Index"><i class="bi bi-bag-check-fill"></i> Expense</a>
+                                    <li class="nav-item" role="presentation" id="expense-tab">
+                                        <a class="nav-link rounded-5" href="/Expense/Index"><i class="bi bi-bag-check-fill"></i> Expense</a>
                                     </li>
-                                    <li class="nav-item flex-fill">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Savings" asp-action="Index"><i class="bi bi-save-fill"></i> Savings</a>
+                                    <li class="nav-item" role="presentation" id="savings-tab">
+                                        <a class="nav-link rounded-5" href="/Savings/Index"><i class="bi bi-save-fill"></i> Savings</a>
                                     </li>
-                                    <li class="nav-item flex-fill">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Bills" asp-action="Index"><i class="bi bi-receipt"></i> Bills</a>
+                                    <li class="nav-item" role="presentation" id="bills-tab">
+                                        <a class="nav-link rounded-5" href="/Bills/Index"><i class="bi bi-receipt"></i> Bills</a>
                                     </li>
-                                    <li class="nav-item flex-fill">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Alert" asp-action="Index">
-                                            <i class="bi bi-bell-fill"></i> Alerts
-                                        </a>
+                                    <li class="nav-item" role="presentation" id="alerts-tab">
+                                        <a class="nav-link rounded-5" href="/Alert/Index"><i class="bi bi-bell-fill"></i> Alerts</a>
                                     </li>
                                 </ul>
                             </div>
@@ -102,7 +101,7 @@
                     </nav>
 
                 }
-                    </div>
+            </div>
 
         </header>
         <div class="container">
@@ -124,6 +123,9 @@
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
+        
+
+
         @await RenderSectionAsync("Scripts", required: false)
     </body>
 </html>
