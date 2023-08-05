@@ -142,10 +142,7 @@ namespace FinanceChecker.Controllers
             ViewBag.Categories = new SelectList(categories, "CategoryId", "CategoryName");
             ViewBag.Accounts = accountViewModels;
 
-            // if model is not valid, info to TempData 
-            // Clear TempData for all fields initially
-            //TempData["InstitutionNameInfo"] = TempData["AmountInfo"] = TempData["CategoryInfo"] = TempData["DescriptionInfo"] = TempData["DateInfo"] = null;
-
+           
             // Check and set TempData for each empty or unselected field
             if (string.IsNullOrEmpty(obje.InstitutionName))
             {
@@ -248,9 +245,7 @@ namespace FinanceChecker.Controllers
                 }
             }
 
-            //// Populate the ViewBag.Categories
-            //var categories = _db.Categories.ToList();
-            //ViewBag.Categories = new SelectList(categories, "CategoryName", "CategoryName");
+          
 
             return View("EditTransaction", transaction);
         }

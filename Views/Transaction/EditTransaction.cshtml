@@ -60,11 +60,14 @@
                             <input class="form-control" type="text" name="Description" value="@Model.Description">
                         </div>
 
-                        @*DateTime.Now.AddYears(1).ToString("yyyy-MM-ddTHH:mm")"*@
+          
                         <div class="form-group">
                             <label for="date">Date:</label>
-                            <input class="form-control" type="text" name="Date" value="@Model.Date" >
+                            <input class="form-control" type="datetime-local" name="Date" max="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" value="@Model.Date.ToString("yyyy-MM-ddTHH:mm")">
+                            <span class="text-info">@TempData["DateInfo"]</span>
                         </div>
+
+
 
 
                         <input type="hidden" name="TransactionID" value="@Model.TransactionID">

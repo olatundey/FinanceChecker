@@ -69,19 +69,31 @@
                         <span asp-validation-for="Input.Country" class="text-danger"></span>
                     </div>
 
-
-
+                    <div class="form-floating mb-3 col-md-6">
+                        <input asp-for="Input.SecurityQuestion" class="form-control" placeholder="Security Question" />
+                        <label asp-for="Input.SecurityQuestion" class="ms-2 text-muted">Security Question</label>
+                        <span asp-validation-for="Input.SecurityQuestion" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3 col-md-6">
+                        <input asp-for="Input.SecurityAnswer" class="form-control" placeholder="Security Answer" />
+                        <label asp-for="Input.SecurityAnswer" class="ms-2 text-muted">Security Answer</label>
+                        <span asp-validation-for="Input.SecurityAnswer" class="text-danger"></span>
+                    </div>
 
                     <div class="col-md-12">
                         <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
                     </div>
-
+                    <br /><br />
                 </form>
             </div>
         </div>
     </div>
-    </div>
+</div>
+<br />
+<br />
 
-    @section Scripts {
-        <partial name="_ValidationScriptsPartial" />
-    }
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+<br />
+<br />

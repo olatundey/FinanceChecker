@@ -105,8 +105,6 @@ namespace FinanceChecker.Controllers
 
         //private bool CheckOverspending()
         //{
-        //    //var user = await _userManager.GetUserAsync(User);
-        //    //var userId = user.Id;
         //    var userId = GetCurrentUserId();
 
         //    var currentMonth = DateTime.Now.Month;
@@ -116,13 +114,15 @@ namespace FinanceChecker.Controllers
 
         //    foreach (var budget in budgets)
         //    {
-        //        var userI = GetCurrentUserId().ToString(); // Convert Guid to string
+        //        //var userId = GetCurrentUserId().ToString(); // Convert Guid to string
 
         //        var transactionsForCategory = _db.Transactions
         //            .Where(t => t.Category == budget.CategoryName && t.UserID == userId &&
         //                        t.Date.Month == currentMonth && t.Date.Year == currentYear);
 
-        //        var totalTransactionsAmount = transactionsForCategory.Sum(t => t.Amount);
+        //        var totalTransactionsAmount = transactionsForCategory.Sum(t => Math.Abs(t.Amount));
+        //        Console.WriteLine($"transactionsForCategory: {transactionsForCategory}");
+        //        Console.WriteLine($"Total Transactions Amount: {totalTransactionsAmount}");
 
         //        if (Math.Abs(budget.Amount) > 0)
         //        {
@@ -139,6 +139,7 @@ namespace FinanceChecker.Controllers
         //    return false;
         //}
 
+
         private bool CheckOverspending()
         {
             var userId = GetCurrentUserId();
@@ -148,36 +149,22 @@ namespace FinanceChecker.Controllers
 
             foreach (var budget in budgets)
             {
+                var categoryName = budget.CategoryName;
+
+                // Fetch transactions for the given category and user
                 var transactionsForCategory = _db.Transactions
-    .Where(t => t.Category == budget.CategoryName && t.UserID == userId &&
-                t.Date.Year == currentYear && t.Date.Month == currentMonth);
+                    .Where(t => t.Category == categoryName && t.UserID == userId &&
+                                t.Date.Month == currentMonth && t.Date.Year == currentYear)
+                    .ToList();
 
-                var sqlQuery = transactionsForCategory.ToQueryString();
-                Console.WriteLine(sqlQuery);
-
-                // Separate positive and negative amounts
-                var positiveAmounts = transactionsForCategory.Where(t => t.Amount >= 0).Sum(t => t.Amount);
-                var negativeAmounts = transactionsForCategory.Where(t => t.Amount < 0).Sum(t => t.Amount);
-
-                // Calculate net amount (income - expenses) for the budget category
-                var netAmount = positiveAmounts + negativeAmounts;
-
-                Console.WriteLine($"Category: {budget.CategoryName}");
-                Console.WriteLine($"User ID: {userId}");
-                Console.WriteLine($"Current Month: {currentMonth}");
-                Console.WriteLine($"Current Year: {currentYear}");
-                Console.WriteLine($"Progress: {budget.Progress:0.00}");
-                Console.WriteLine($"Total Transactions Amount: {budget.TotalTransactionsAmount}");
-                Console.WriteLine($"Budget Amount: {budget.Amount}");
-                Console.WriteLine($"Net Amount (Income - Expenses): {netAmount}");
-                Console.WriteLine($"Income: {positiveAmounts}");
-                Console.WriteLine($"transactionsForCategory: {transactionsForCategory}");
+                var totalTransactionsAmount = transactionsForCategory.Sum(t => Math.Abs(t.Amount));
+                Console.WriteLine($"Category: {categoryName}");
+                Console.WriteLine($"transactionsForCategory: {string.Join(", ", transactionsForCategory.Select(t => t.Amount))}");
+                Console.WriteLine($"Total Transactions Amount: {totalTransactionsAmount}");
 
                 if (Math.Abs(budget.Amount) > 0)
                 {
-                    var progress = (netAmount / Math.Abs(budget.Amount)) * 100;
-
-                    Console.WriteLine($"Calculated Progress: {progress:0.00}");
+                    var progress = (totalTransactionsAmount / Math.Abs(budget.Amount)) * 100;
 
                     if (progress > 100)
                     {
@@ -188,6 +175,59 @@ namespace FinanceChecker.Controllers
 
             return false;
         }
+
+
+        //    private bool CheckOverspending()
+        //    {
+        //        var userId = GetCurrentUserId();
+        //        var currentMonth = DateTime.Now.Month;
+        //        var currentYear = DateTime.Now.Year;
+        //        var budgets = _db.Budgets.Where(b => b.UserID == userId).ToList();
+
+        //        foreach (var budget in budgets)
+        //        {
+        //            var transactionsForCategory = _db.Transactions
+        //.Where(t => t.Category == budget.CategoryName && t.UserID == userId &&
+        //            t.Date >= new DateTime(currentYear, currentMonth, 1) &&
+        //            t.Date < new DateTime(currentYear, currentMonth + 1, 1));
+
+
+        //            var sqlQuery = transactionsForCategory.ToQueryString();
+        //            Console.WriteLine(sqlQuery);
+
+        //            // Separate positive and negative amounts
+        //            var positiveAmounts = transactionsForCategory.Where(t => t.Amount >= 0).Sum(t => t.Amount);
+        //            var negativeAmounts = transactionsForCategory.Where(t => t.Amount < 0).Sum(t => t.Amount);
+
+        //            // Calculate net amount (income - expenses) for the budget category
+        //            var netAmount = positiveAmounts + negativeAmounts;
+
+        //            Console.WriteLine($"Category: {budget.CategoryName}");
+        //            Console.WriteLine($"User ID: {userId}");
+        //            Console.WriteLine($"Current Month: {currentMonth}");
+        //            Console.WriteLine($"Current Year: {currentYear}");
+        //            Console.WriteLine($"Progress: {budget.Progress:0.00}");
+        //            Console.WriteLine($"Total Transactions Amount: {budget.TotalTransactionsAmount}");
+        //            Console.WriteLine($"Budget Amount: {budget.Amount}");
+        //            Console.WriteLine($"Net Amount (Income - Expenses): {netAmount}");
+        //            Console.WriteLine($"Income: {positiveAmounts}");
+        //            Console.WriteLine($"transactionsForCategory: {transactionsForCategory}");
+
+        //            if (Math.Abs(budget.Amount) > 0)
+        //            {
+        //                var progress = (netAmount / Math.Abs(budget.Amount)) * 100;
+
+        //                Console.WriteLine($"Calculated Progress: {progress:0.00}");
+
+        //                if (progress < 100)
+        //                {
+        //                    return true;
+        //                }
+        //            }
+        //        }
+
+        //        return false;
+        //    }
 
 
         public async Task<IActionResult> HighBalanceAlert()

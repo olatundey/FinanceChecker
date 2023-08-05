@@ -19,6 +19,9 @@ namespace FinanceChecker.Models
         public DateTime CreatedAt { get; set; }
         [Required]
         public DateTime UpdatedAt { get; set; }
+
+        public string? SecurityQuestion { get; set; }
+        public string? SecurityAnswer { get; set; }
     }
 }
 

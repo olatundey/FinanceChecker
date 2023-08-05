@@ -108,7 +108,8 @@ namespace FinanceChecker.Areas.Identity.Pages.Account
             public string StreetAddress { get; set; }
             public string City { get; set; }
             public string Country { get; set; }
-
+            public string SecurityQuestion { get; set; }
+            public string SecurityAnswer { get; set; }
         }
 
 
@@ -141,6 +142,8 @@ namespace FinanceChecker.Areas.Identity.Pages.Account
                     user.StreetAddress = Input.StreetAddress;
                     user.City = Input.City;
                     user.Country = Input.Country;
+                    user.SecurityQuestion = Input.SecurityQuestion;
+                    user.SecurityAnswer = Input.SecurityAnswer;
 
                     // Save the changes to the database
                     await _userManager.UpdateAsync(user);

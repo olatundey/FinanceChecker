@@ -201,18 +201,18 @@ namespace FinanceChecker.Controllers
                 DateTime currentDate = DateTime.Now;
                 DateTime sevenDaysAgo = currentDate.AddDays(-7);
 
+                foreach (var account in accounts)
+                {
+                    account.BalanceForDay = new Dictionary<DateTime, decimal>();
+                }
+
                 // Calculate total balance for each day in the last 7 days and the current day
                 var dailyBalances = new List<(DateTime Date, decimal Balance)>();
                 foreach (var date in EachDay(sevenDaysAgo, currentDate))
                 {
+                    var totalBalanceForDay = 0m;
                     foreach (var account in accounts)
                     {
-                        // Initialize the BalanceForDay dictionary if it's null
-                        if (account.BalanceForDay == null)
-                        {
-                            account.BalanceForDay = new Dictionary<DateTime, decimal>();
-                        }
-
                         // Query the transactions for each account on the current date
                         var transactionsOnDate = _db.Transactions
                             .Where(t => t.AccountID == account.AccountID && t.CreatedAt.Date == date.Date)
@@ -227,12 +227,14 @@ namespace FinanceChecker.Controllers
 
                         // Store the balance for the account on the current date
                         account.BalanceForDay[date.Date] = balanceOnDate;
+
+                        // Update the total balance for the current day
+                        totalBalanceForDay += balanceOnDate;
                     }
 
-                    // Calculate the total balance for all accounts on the current date
-                    decimal totalBalanceForDay = accounts.Sum(a => a.BalanceForDay.ContainsKey(date.Date) ? a.BalanceForDay[date.Date] : 0);
                     dailyBalances.Add((date, totalBalanceForDay));
                 }
+
 
                 ViewBag.DailyBalances = dailyBalances;
 
@@ -278,9 +280,6 @@ namespace FinanceChecker.Controllers
 
                 ViewBag.DailyBalancesByAccountType = dailyBalancesByAccountType;
 
-
-
-                // Calculate total balance per account type for each day in the last 7 days and the current day
                 // Calculate total balance for the current day
                 var totalBalanceCurrentDay = accounts.Sum(a => a.BalanceForDay.ContainsKey(currentDate.Date) ? a.BalanceForDay[currentDate.Date] : 0);
                 ViewBag.TotalBalanceCurrentDay = totalBalanceCurrentDay;
