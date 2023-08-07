@@ -41,6 +41,8 @@ namespace FinanceChecker.Models
         [Required]
         public DateTime UpdatedAt { get; set; }
 
+        public bool IsBalanceUpdate { get; set; }
+
         //public virtual ApplicationUser User { get; set; }
 
         //public virtual Account? Account { get; set; }

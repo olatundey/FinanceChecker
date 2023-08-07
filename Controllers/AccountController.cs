@@ -146,9 +146,23 @@ namespace FinanceChecker.Controllers
                 account.Balance = accountBalance;
                 _db.SaveChanges();
 
+                // Create a balance update transaction and add it to the transactions list
+                var balanceUpdateTransaction = new Transaction
+                {
+                    Amount = accountBalance - account.Balance, // Calculate the amount for the balance update
+                    IsBalanceUpdate = true, // Set the flag to indicate it's a balance update transaction
+                };
+                transactions.Add(balanceUpdateTransaction);
+
                 // Update the Transaction table with the retrieved transactions 
                 foreach (var transaction in transactions)
                 {
+                    // Skip the balance update transaction
+                    if (transaction.IsBalanceUpdate)
+                    {
+                        continue;
+                    }
+
                     // Set the account ID for the transaction to the account's ID
                     transaction.AccountID = account.AccountID;
                     transaction.UserID = account.UserID;
