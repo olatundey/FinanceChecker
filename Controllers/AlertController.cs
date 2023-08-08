@@ -73,6 +73,13 @@ namespace FinanceChecker.Controllers
                 }
             }
 
+
+            var targetReached = CheckTargetAmountReached();
+            if (alertSettings.TargetAmountReachedAlertEnabled && targetReached)
+            {
+                notifications.Add(new { Message = "Your savings goal has been reached.", Type = "info" });
+            }
+
             var isOverspending = CheckOverspending();
             if (alertSettings.OverspendingAlertEnabled && isOverspending)
             {
@@ -103,70 +110,19 @@ namespace FinanceChecker.Controllers
             return RedirectToAction("Index");
         }
 
-        //private bool CheckOverspending()
-        //{
-        //    var userId = GetCurrentUserId();
-
-        //    var currentMonth = DateTime.Now.Month;
-        //    var currentYear = DateTime.Now.Year;
-
-        //    var budgets = _db.Budgets.Where(b => b.UserID == userId).ToList();
-
-        //    foreach (var budget in budgets)
-        //    {
-        //        //var userId = GetCurrentUserId().ToString(); // Convert Guid to string
-
-        //        var transactionsForCategory = _db.Transactions
-        //            .Where(t => t.Category == budget.CategoryName && t.UserID == userId &&
-        //                        t.Date.Month == currentMonth && t.Date.Year == currentYear);
-
-        //        var totalTransactionsAmount = transactionsForCategory.Sum(t => Math.Abs(t.Amount));
-        //        Console.WriteLine($"transactionsForCategory: {transactionsForCategory}");
-        //        Console.WriteLine($"Total Transactions Amount: {totalTransactionsAmount}");
-
-        //        if (Math.Abs(budget.Amount) > 0)
-        //        {
-        //            var progress = (totalTransactionsAmount / Math.Abs(budget.Amount)) * 100;
-
-        //            if (progress > 100)
-        //            {
-        //                return true;
-        //            }
-
-        //        }
-        //    }
-
-        //    return false;
-        //}
-
-
-        private bool CheckOverspending()
+        private bool CheckTargetAmountReached()
         {
             var userId = GetCurrentUserId();
-            var currentMonth = DateTime.Now.Month;
-            var currentYear = DateTime.Now.Year;
-            var budgets = _db.Budgets.Where(b => b.UserID == userId).ToList();
 
-            foreach (var budget in budgets)
+            var savingsGoals = _db.Savings.Where(s => s.UserID == userId).ToList();
+
+            foreach (var savingsGoal in savingsGoals)
             {
-                var categoryName = budget.CategoryName;
-
-                // Fetch transactions for the given category and user
-                var transactionsForCategory = _db.Transactions
-                    .Where(t => t.Category == categoryName && t.UserID == userId &&
-                                t.Date.Month == currentMonth && t.Date.Year == currentYear)
-                    .ToList();
-
-                var totalTransactionsAmount = transactionsForCategory.Sum(t => Math.Abs(t.Amount));
-                Console.WriteLine($"Category: {categoryName}");
-                Console.WriteLine($"transactionsForCategory: {string.Join(", ", transactionsForCategory.Select(t => t.Amount))}");
-                Console.WriteLine($"Total Transactions Amount: {totalTransactionsAmount}");
-
-                if (Math.Abs(budget.Amount) > 0)
+                if (savingsGoal.Goal > 0)
                 {
-                    var progress = (totalTransactionsAmount / Math.Abs(budget.Amount)) * 100;
+                    var progress = (savingsGoal.CurrentSavings / savingsGoal.Goal) * 100;
 
-                    if (progress > 100)
+                    if (progress >= 100)
                     {
                         return true;
                     }
@@ -177,57 +133,40 @@ namespace FinanceChecker.Controllers
         }
 
 
-        //    private bool CheckOverspending()
-        //    {
-        //        var userId = GetCurrentUserId();
-        //        var currentMonth = DateTime.Now.Month;
-        //        var currentYear = DateTime.Now.Year;
-        //        var budgets = _db.Budgets.Where(b => b.UserID == userId).ToList();
+        private bool CheckOverspending()
+        {
+            var userId = GetCurrentUserId();
 
-        //        foreach (var budget in budgets)
-        //        {
-        //            var transactionsForCategory = _db.Transactions
-        //.Where(t => t.Category == budget.CategoryName && t.UserID == userId &&
-        //            t.Date >= new DateTime(currentYear, currentMonth, 1) &&
-        //            t.Date < new DateTime(currentYear, currentMonth + 1, 1));
+            var currentMonth = DateTime.Now.Month;
+            var currentYear = DateTime.Now.Year;
 
+            var budgets = _db.Budgets.Where(b => b.UserID == userId).ToList();
 
-        //            var sqlQuery = transactionsForCategory.ToQueryString();
-        //            Console.WriteLine(sqlQuery);
+            foreach (var budget in budgets)
+            {
+                //var userId = GetCurrentUserId().ToString(); // Convert Guid to string
 
-        //            // Separate positive and negative amounts
-        //            var positiveAmounts = transactionsForCategory.Where(t => t.Amount >= 0).Sum(t => t.Amount);
-        //            var negativeAmounts = transactionsForCategory.Where(t => t.Amount < 0).Sum(t => t.Amount);
+                var transactionsForCategory = _db.Transactions
+                    .Where(t => t.Category == budget.CategoryName && t.UserID == userId &&
+                                t.Date.Month == currentMonth && t.Date.Year == currentYear);
 
-        //            // Calculate net amount (income - expenses) for the budget category
-        //            var netAmount = positiveAmounts + negativeAmounts;
+                var totalTransactionsAmount = transactionsForCategory.Sum(t => Math.Abs(t.Amount));
+              
+                if (Math.Abs(budget.Amount) > 0)
+                {
+                    var progress = (totalTransactionsAmount / Math.Abs(budget.Amount)) * 100;
 
-        //            Console.WriteLine($"Category: {budget.CategoryName}");
-        //            Console.WriteLine($"User ID: {userId}");
-        //            Console.WriteLine($"Current Month: {currentMonth}");
-        //            Console.WriteLine($"Current Year: {currentYear}");
-        //            Console.WriteLine($"Progress: {budget.Progress:0.00}");
-        //            Console.WriteLine($"Total Transactions Amount: {budget.TotalTransactionsAmount}");
-        //            Console.WriteLine($"Budget Amount: {budget.Amount}");
-        //            Console.WriteLine($"Net Amount (Income - Expenses): {netAmount}");
-        //            Console.WriteLine($"Income: {positiveAmounts}");
-        //            Console.WriteLine($"transactionsForCategory: {transactionsForCategory}");
+                    if (progress > 100)
+                    {
+                        return true;
+                    }
 
-        //            if (Math.Abs(budget.Amount) > 0)
-        //            {
-        //                var progress = (netAmount / Math.Abs(budget.Amount)) * 100;
+                }
+            }
 
-        //                Console.WriteLine($"Calculated Progress: {progress:0.00}");
+            return false;
+        }
 
-        //                if (progress < 100)
-        //                {
-        //                    return true;
-        //                }
-        //            }
-        //        }
-
-        //        return false;
-        //    }
 
 
         public async Task<IActionResult> HighBalanceAlert()
@@ -375,7 +314,8 @@ namespace FinanceChecker.Controllers
                 HighBalanceThreshold = userSettings.HighBalanceThreshold,
                 IncomeDepositedAlertEnabled = userSettings.IncomeDepositedAlertEnabled,
                 DueDateReminderAlertEnabled = userSettings.DueDateReminderAlertEnabled,
-                OverspendingAlertEnabled = userSettings.OverspendingAlertEnabled
+                OverspendingAlertEnabled = userSettings.OverspendingAlertEnabled,
+                TargetAmountReachedAlertEnabled = userSettings.TargetAmountReachedAlertEnabled
                 // Map properties
             };
 
@@ -409,13 +349,14 @@ namespace FinanceChecker.Controllers
             userSettings.HighBalanceAlertEnabled = alertSettings.HighBalanceAlertEnabled;
             userSettings.HighBalanceThreshold = alertSettings.HighBalanceThreshold;
             userSettings.IncomeDepositedAlertEnabled = alertSettings.IncomeDepositedAlertEnabled;
-            userSettings.DueDateReminderAlertEnabled = alertSettings.DueDateReminderAlertEnabled; // Add this line
-            userSettings.OverspendingAlertEnabled = alertSettings.OverspendingAlertEnabled; // Add this line
+            userSettings.DueDateReminderAlertEnabled = alertSettings.DueDateReminderAlertEnabled;
+            userSettings.OverspendingAlertEnabled = alertSettings.OverspendingAlertEnabled;
+            userSettings.TargetAmountReachedAlertEnabled = alertSettings.TargetAmountReachedAlertEnabled;
             // Update properties
 
             // Save changes to the database.
             await _db.SaveChangesAsync();
-            _logger.LogInformation($"Saved Tunde addition success - {userSettings}");
+            //_logger.LogInformation($"Saved Tunde addition success - {userSettings}");
 
         }
 

@@ -3,45 +3,48 @@
 @model Bill
 
 <div class="container">
-    <div class="row">
-        <div class="col-lg-6 mx-auto">
-            <h2 class="mb-4">Create New Bill</h2>
-            @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken()
+    <div class="row justify-content-center">
+        <div class="card col-6">
+            <div class="card-body">
+                <h2 class="mb-4">Create New Bill</h2>
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
 
-                <div class="form-group">
-                    <label asp-for="BillName">Bill Name:</label>
-                    <input asp-for="BillName" class="form-control" />
-                    <span asp-validation-for="BillName" class="text-danger"></span>
-                </div>
+                    <div class="form-group">
+                        <label asp-for="BillName">Bill Name:</label>
+                        <input asp-for="BillName" class="form-control" required/>
+                        <span asp-validation-for="BillName" class="text-danger"></span>
+                    </div>
 
-                <div class="form-group">
-                    <label asp-for="Description">Description:</label>
-                    <input asp-for="Description" class="form-control" />
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </div>
+                    <div class="form-group">
+                        <label asp-for="Description">Description:</label>
+                        <input asp-for="Description" class="form-control" required/>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
 
-                <div class="form-group">
-                    <label asp-for="Amount">Amount:</label>
-                    <input asp-for="Amount" class="form-control" value="0" />
-                    <span asp-validation-for="Amount" class="text-danger"></span>
-                </div>
+                    <div class="form-group">
+                        <label asp-for="Amount">Amount:</label>
+                        <input asp-for="Amount" class="form-control" value="0" />
+                        <span asp-validation-for="Amount" class="text-danger"></span>
+                    </div>
 
-                <div class="form-group">
-                    <label asp-for="DueDate">Due Date:</label>
-                    <input asp-for="DueDate" type="date" class="form-control" />
-                    <span asp-validation-for="DueDate" class="text-danger"></span>
-                </div>
+                    <div class="form-group">
+                        <label asp-for="DueDate">Due Date:</label>
+                        <input asp-for="DueDate" type="date" class="form-control" />
+                        <span asp-validation-for="DueDate" class="text-danger"></span>
+                    </div>
 
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary mr-2">Create Bill</button>
-                    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-                </div>
-            }
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary mr-2">Create Bill</button>
+                        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                    </div>
+                }
+            </div>
         </div>
     </div>
 </div>
+
 
 <style>
     /* Custom styles for the page */
@@ -72,5 +75,4 @@
             background-color: #5a6268;
             border-color: #545b62;
         }
-
 </style>

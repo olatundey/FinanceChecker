@@ -30,7 +30,7 @@ namespace FinanceChecker.Models
 
         //public bool SavingsGoalProgressAlertEnabled { get; set; }
 
-        //public bool TargetAmountReachedAlertEnabled { get; set; }
+        public bool TargetAmountReachedAlertEnabled { get; set; }
 
         //public bool SuspiciousActivityAlertEnabled { get; set; }
 
