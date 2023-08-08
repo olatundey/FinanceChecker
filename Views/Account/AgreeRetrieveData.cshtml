@@ -1,25 +1,29 @@
 ﻿@using Microsoft.AspNetCore.Identity
-
 @model Account
 
-<h3>Retrieve Account Data</h3>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card mt-5">
+                <div class="card-body">
+                    <h3>Retrieve Account Data</h3>
+                    <p>By clicking "Agree" you will retrieve both your account balance and transaction data.</p>
 
-<p>By clicking "Agree" you will retrieve both your account balance and transaction data.</p>
+                    <form method="post" asp-action="RetrieveData">
+                        <div class="form-group">
+                            <label asp-for="AccountNumber">Account Number:</label>
+                            <input asp-for="AccountNumber" class="form-control" readonly />
+                        </div>
 
-<form method="post" asp-action="RetrieveData">
+                        <br />
 
-    <div class="form-group">
-        <label asp-for="AccountNumber">Account Number:</label>
-        <input asp-for="AccountNumber" class="form-control" readonly />
+                        <div class="form-group">
+                            <input type="submit" name="Agree" value="Agree" class="btn btn-primary" />
+                            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-
-    @*<input type="hidden" asp-for="AccountNumber" />*@
-
-<div class="form-group">
-    @*<button type="submit" name="Agree" value="true">Agree</button>*@
-    <input type="submit" name="Agree" value="Agree" class="btn btn-primary" />
-    <a asp-action="Index">Cancel</a>
 </div>
-</form>
-
-

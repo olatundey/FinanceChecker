@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "NqkiNZ8Wlo5ZYOWgibCSq6Ncb88auvpSF8pCp4gwX9o=",
+  "Hash": "9FHNHZ4P+zMm4bbTb01sQjPbJQnRSBr34Pv7p37yZZc=",
   "Source": "FinanceChecker",
   "BasePath": "_content/FinanceChecker",
   "Mode": "Default",
@@ -1120,6 +1120,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/favicon.ico"
+    },
+    {
+      "Identity": "/Users/tundey/Projects/finance1/Finance1/wwwroot/img/pexels-oleksandr-canary-islands-12969397.jpg",
+      "SourceId": "FinanceChecker",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/tundey/Projects/finance1/Finance1/wwwroot/",
+      "BasePath": "_content/FinanceChecker",
+      "RelativePath": "img/pexels-oleksandr-canary-islands-12969397.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/img/pexels-oleksandr-canary-islands-12969397.jpg"
     },
     {
       "Identity": "/Users/tundey/Projects/finance1/Finance1/wwwroot/img/test.png",
