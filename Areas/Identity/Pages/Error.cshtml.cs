@@ -37,5 +37,7 @@ namespace FinanceChecker.Areas.Identity.Pages
         {
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
         }
+
+        public string Description { get; set; }
     }
 }

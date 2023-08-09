@@ -119,6 +119,16 @@ namespace FinanceChecker.Controllers
                 _db.Transactions.Add(obje);
                 Console.WriteLine(obje);
                 _db.SaveChanges();
+
+                // Retrieve the corresponding account for the transaction
+                var account = _db.Accounts.FirstOrDefault(a => a.AccountID == obje.AccountID);
+
+                if (account != null)
+                {
+                    // Update the account balance based on the added transaction
+                    account.Balance += obje.Amount; // Assuming Amount is the transaction amount
+                    _db.SaveChanges();
+                }
                 TempData["success"] = "Transaction created successfully";
                 return RedirectToAction("Transaction");
             }
@@ -236,6 +246,14 @@ namespace FinanceChecker.Controllers
 
                     _db.Transactions.Update(existingTransaction);
                     _db.SaveChanges();
+                    var account = _db.Accounts.FirstOrDefault(a => a.AccountID == existingTransaction.AccountID);
+
+                    if (account != null)
+                    {
+                        // Update the account balance based on the added transaction
+                        account.Balance += existingTransaction.Amount; // Assuming Amount is the transaction amount
+                        _db.SaveChanges();
+                    }
                     TempData["success"] = "Transaction Updated successfully";
                     return RedirectToAction("Transaction");
                 }

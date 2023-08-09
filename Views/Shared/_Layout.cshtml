@@ -55,12 +55,12 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index"><i class="bi bi-house-fill"></i> Home</a>
                                 </li>
-                                @if (SignInManager.IsSignedIn(User))
-                                {
+                                @*@if (SignInManager.IsSignedIn(User))
+                                {*@
                                     <li class="nav-item text-center">
                                         <a class="nav-link text-dark" asp-area="" asp-controller="Help" asp-action="Index"><i class="bi bi-info-circle-fill"></i> Help</a>
                                     </li>
-                                }
+                                @*}*@
 
                             </ul>
                             <partial name="_LoginPartial" />
@@ -119,7 +119,7 @@
             </main>
         </div>
 
-        <footer class="border-top footer text-muted mt-3" style="background-color: #007bff;">
+        <footer class="border-top footer text-muted" style="background-color: #007bff;">
             <div class="container text-center" style="color: white;">
                 &copy; 2023 - FinanceChecker. All rights reserved. - <a asp-area="" asp-controller="Home" asp-action="Privacy" style="color: white;">Privacy</a>
             </div>
