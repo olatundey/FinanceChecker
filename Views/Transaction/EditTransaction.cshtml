@@ -5,7 +5,7 @@
                 <div class="card-body">
                     <h2 class="card-title">Edit Transaction</h2>
 
-                    <form method="post" asp-action="EditTransaction">
+                    <form id="transactionForm" method="post" asp-action="EditTransaction">
                         <div class="form-group">
                             <label for="accountId">Account ID:</label>
                             <select class="form-control" name="AccountID" id="accountId" required>
@@ -67,9 +67,6 @@
                             <span class="text-info">@TempData["DateInfo"]</span>
                         </div>
 
-
-
-
                         <input type="hidden" name="TransactionID" value="@Model.TransactionID">
                         <input type="hidden" name="CreatedAt" value="@Model.CreatedAt">
                         <input type="hidden" name="UpdatedAt" value="@DateTime.Now">
@@ -82,3 +79,8 @@
         </div>
     </div>
 </div>
+<script>$(document).ready(function () {
+        $("#transactionForm").submit(function () {
+            $("#createTransactionBtn").prop("disabled", true);
+        });
+    });</script>

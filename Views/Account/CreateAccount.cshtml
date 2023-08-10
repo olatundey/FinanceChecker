@@ -3,12 +3,15 @@
 @model Account
 
 
-
 @*<p>User ID: @ViewBag.Id</p>*@
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-8">
             <h2>Create Account</h2>
+            @if (TempData["error"] != null)
+            {
+                <div class="alert alert-danger mt-3">@TempData["error"]</div>
+            }
             <form method="post" asp-action="CreateAccount">
                 <div class="form-group">
                     <label for="syncType">Sync Type:</label>

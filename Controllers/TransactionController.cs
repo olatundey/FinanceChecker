@@ -294,8 +294,16 @@ namespace FinanceChecker.Controllers
 
             _db.Transactions.Remove(transaction);
             _db.SaveChanges();
-            TempData["success"] = "Transaction deleted successfully";
 
+             var account = _db.Accounts.FirstOrDefault(a => a.AccountID == transaction.AccountID);
+
+                    if (account != null)
+                    {
+                        // Update the account balance based on the added transaction
+                        account.Balance += transaction.Amount; // Assuming Amount is the transaction amount
+                        _db.SaveChanges();
+                    }
+            TempData["success"] = "Transaction deleted successfully";
             return RedirectToAction("Transaction");
         }
 

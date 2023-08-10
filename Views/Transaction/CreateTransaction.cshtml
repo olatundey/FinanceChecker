@@ -5,7 +5,7 @@
                 <div class="card-body">
                     <h2 class="card-title">Add Transaction</h2>
 
-                    <form method="post" asp-action="CreateTransaction">
+                    <form id="transactionForm" method="post" asp-action="CreateTransaction">
                         <div class="form-group">
                             <label for="institutionName">Institution Name:</label>
                             <select class="form-control" name="InstitutionName" id="institutionName">
@@ -62,7 +62,7 @@
                         <input type="hidden" name="CreatedAt" value="@DateTime.Now">
                         <input type="hidden" name="UpdatedAt" value="@DateTime.Now">
                         <br />
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" id="createTransactionBtn" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
             </div>
@@ -88,3 +88,8 @@
         document.getElementById("accountId").value = accountMap[selectedInstitutionName] || "";
     });
 </script>
+<script>$(document).ready(function () {
+        $("#transactionForm").submit(function () {
+            $("#createTransactionBtn").prop("disabled", true);
+        });
+    });</script>

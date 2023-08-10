@@ -275,6 +275,14 @@ namespace FinanceChecker.Controllers
              {
                     if (ModelState.IsValid)
                     {
+                        // Check if a similar  already exists
+                        var existingAccount = _db.Accounts.FirstOrDefault(a => a.AccountID == obj.AccountID || a.AccountNumber == obj.AccountNumber);
+                        if (existingAccount != null)
+                        {
+                            TempData["error"] = "A similar account already exists.";
+                            ModelState.AddModelError(string.Empty, "A similar account already exists.");
+                            return RedirectToAction("CreateAccount");
+                        }
                         obj.CreatedAt = DateTime.Now;
                         obj.UpdatedAt = DateTime.Now;
                       
