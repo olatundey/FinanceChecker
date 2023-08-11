@@ -27,7 +27,6 @@ namespace FinanceChecker.Data
         public DbSet<ContactForm> ContactUs { get; set; }
         public DbSet<FAQ> FAQs { get; set; }
         //public DbSet<VideoTutorials> VideoTutorial { get; set; }
-        public DbSet<Videos> AppVideo { get; set; }
         //public DbSet<Loans> Loan { get; set; }
 
 
@@ -136,47 +135,6 @@ namespace FinanceChecker.Data
                    Answer = " No, we do not share your personal information with any third parties. Your data is strictly confidential and protected."
                }   );
         }
-
-        public void SeedData()
-        {
-            if (!AppVideo.Any())
-            {
-                // If the video does not exist, seed it to the database
-                var videoUrl = "https://vimeo.com/849958341";
-                var video = new Videos
-                {
-                    Title = "Getting--",
-                    VideoUrl = videoUrl
-                };
-
-                AppVideo.Add(video);
-                SaveChanges();
-            }
-        }
-
-        //     modelBuilder.Entity<VideoTutorial>().HasData(
-        //new VideoTutorial
-        //{
-        //    Id = 1,
-        //    Title = "Getting Started with the App",
-        //    VideoFilePath = GetBase64Video("wwwroot/video/tutorialsample.mp4") // Update the file name accordingly
-        //}
-        //);
-
-        //private string GetBase64Video(string videoFilePath)
-        //{
-        //    var sourceVideoFilePath = Path.Combine(_webHostEnvironment.ContentRootPath, videoFilePath);
-        //    byte[] videoBytes;
-        //    using (var fileStream = new FileStream(sourceVideoFilePath, FileMode.Open, FileAccess.Read))
-        //    {
-        //        using (var memoryStream = new MemoryStream())
-        //        {
-        //            fileStream.CopyTo(memoryStream);
-        //            videoBytes = memoryStream.ToArray();
-        //        }
-        //    }
-        //    return Convert.ToBase64String(videoBytes);
-        //}
 
 
     }

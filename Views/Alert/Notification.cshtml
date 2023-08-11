@@ -51,10 +51,7 @@
                             <label class="form-check-label" for="dueDateReminderSwitch">Enable Due Date Reminder</label>
                         </div>
 
-                        @*<div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" asp-for="OverspendingAlertEnabled" id="overspendingSwitch">
-                            <label class="form-check-label" for="overspendingSwitch">Enable Overspending Alert</label>
-                        </div>*@
+              
 
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" asp-for="TargetAmountReachedAlertEnabled" id="targetamountSwitch">
@@ -63,16 +60,20 @@
 
                         <button type="submit" class="btn btn-primary mt-3">Save Settings</button>
                         @Html.AntiForgeryToken()
-                    </form>
 
+                    </form>
+                    <br />
                     @if (TempData["success"] != null)
                     {
                         <div class="alert alert-success mt-3">@TempData["success"]</div>
                     }
-                        <br />
+                    <br />
                 </div>
             </div>
         </div>
+        <br />
     </div>
+    <br />
 </div>
-<div class="mb-3"></div>
+<br />
+<br />

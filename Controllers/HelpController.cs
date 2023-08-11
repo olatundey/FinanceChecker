@@ -40,13 +40,7 @@ namespace FinanceChecker.Controllers
             return View(faq);
         }
 
-        public IActionResult VideoTutorials()
-        {
-            // Fetch the list of video tutorials from the database
-            List<Videos> tutorials = _db.AppVideo.ToList();
-            return View(tutorials);
-        }
-
+     
     public IActionResult Contact()
         {
             var model = new ContactForm(); // Initialize the ContactForm model
