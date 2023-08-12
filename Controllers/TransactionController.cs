@@ -126,7 +126,7 @@ namespace FinanceChecker.Controllers
                 if (account != null)
                 {
                     // Update the account balance based on the added transaction
-                    account.Balance += obje.Amount; // Assuming Amount is the transaction amount
+                    account.Balance += obje.Amount; 
                     _db.SaveChanges();
                 }
                 TempData["success"] = "Transaction created successfully";

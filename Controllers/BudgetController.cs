@@ -30,7 +30,6 @@ namespace FinanceChecker.Controllers
 
         public async Task<IActionResult> AddCategory()
         {
-
             var user = await _userManager.GetUserAsync(User);
             if (user != null)
             {
@@ -46,6 +45,12 @@ namespace FinanceChecker.Controllers
         [HttpPost]
         public ActionResult AddCategory(Category category)
         {
+            if (string.IsNullOrEmpty(category.CategoryName))
+            {
+                TempData["error"] = "Category name cannot be null or empty.";
+                return RedirectToAction("AddCategory");
+            }
+
             if (ModelState.IsValid)
             {
                 // Check if the category already exists in the Categories table

@@ -110,6 +110,8 @@ namespace FinanceChecker.Areas.Identity.Pages.Account
             public string Country { get; set; }
             public string SecurityQuestion { get; set; }
             public string SecurityAnswer { get; set; }
+            public DateTime CreatedAt { get; set; }
+            public DateTime UpdatedAt { get; set; }
         }
 
 
@@ -144,6 +146,9 @@ namespace FinanceChecker.Areas.Identity.Pages.Account
                     user.Country = Input.Country;
                     user.SecurityQuestion = Input.SecurityQuestion;
                     user.SecurityAnswer = Input.SecurityAnswer;
+
+                    user.CreatedAt = DateTime.Now;
+                    user.UpdatedAt = DateTime.Now;
 
                     // Save the changes to the database
                     await _userManager.UpdateAsync(user);

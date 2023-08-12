@@ -1,12 +1,18 @@
 ﻿@model FinanceChecker.Models.Budget
 
-
-<div class="container mt-4">
+<div class="text-end mt-3">
+    <a class="btn btn-primary" asp-area="" asp-controller="Budget" asp-action="AddCategory">Add a New Category</a>
+</div>
+<div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-6">
             <h4>Edit Budget</h4>
             <div class="card">
                 <div class="card-body">
+                    @if (TempData["error"] != null)
+                    {
+                        <div class="alert alert-danger mt-3">@TempData["error"]</div>
+                    }
                     <form asp-action="EditBudget" asp-controller="Budget" method="post">
                         <input type="hidden" asp-for="BudgetID" />
 

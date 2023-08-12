@@ -31,13 +31,14 @@
                 calendar.render();
             });</script>
         <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" />
         <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
         <style>
             body {
                 background-image: url('/img/pexels-oleksandr-canary-islands-12969397.jpg');
-                background-size: cover; /* Make the image cover the entire body */
+                background-size: cover;
                 background-repeat: no-repeat;
-                background-attachment: fixed; /* Keep the background image fixed while scrolling */
+                background-attachment: fixed;
             }
         </style>
     </head>
@@ -52,20 +53,20 @@
                             <span class="navbar-toggler-icon"></span>
                         </button>
                         @*<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                            <ul class="navbar-nav flex-grow-1">*@
+                        <ul class="navbar-nav flex-grow-1">*@
 
-                    <div class="navbar-collapse collapse">
-                        <ul class="navbar-nav flex-grow-1 justify-content-between">
-                           
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index"><i class="bi bi-house-fill"></i> Home</a>
-                            </li>
-                            <li class="nav-item text-center">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Help" asp-action="Index"><i class="bi bi-info-circle-fill"></i> Help</a>
-                            </li>
-                        </ul>
-                        <partial name="_LoginPartial" />
-                    </div>
+                        <div class="navbar-collapse collapse">
+                            <ul class="navbar-nav flex-grow-1 justify-content-between">
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index"><i class="bi bi-house-fill"></i> Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Help" asp-action="Index"><i class="bi bi-info-circle-fill"></i> Help</a>
+                                </li>
+                            </ul>
+                            <partial name="_LoginPartial" />
+                        </div>
                     </div>
                 </nav>
                 <hr />
@@ -114,11 +115,11 @@
 
         </header>
         <div class="container">
-   <main role="main" class="pb-3" style="margin-bottom: 50px;">
-                    <partial name="_Notification" />
-                    @RenderBody()
-                </main>
-</div>
+            <main role="main" class="pb-3" style="margin-bottom: 50px;">
+                <partial name="_Notification" />
+                @RenderBody()
+            </main>
+        </div>
 
         <footer class="border-top footer text-muted" style="background-color: #007bff;">
             <div class="container text-center" style="color: white;">
@@ -132,6 +133,7 @@
         <script src="~/lib/jquery/dist/transaction.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
 
         @await RenderSectionAsync("Scripts", required: false)

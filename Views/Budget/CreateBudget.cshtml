@@ -9,6 +9,10 @@
             <div class="card">
                 <div class="card-body">
                     <h1 class="mb-4">Create Monthly Budget</h1>
+                    @if (TempData["error"] != null)
+                    {
+                        <div class="alert alert-danger mt-3">@TempData["error"]</div>
+                    }
                     <form asp-action="CreateBudget" asp-controller="Budget" method="post">
                         <input type="hidden" asp-for="UserID" />
                         <div class="form-group">

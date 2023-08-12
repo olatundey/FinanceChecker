@@ -4,32 +4,43 @@
 
 function loadDataTable() {
     $('#myTable').DataTable({
+        "responsive": true,
         "ajax": {
             "url": '/Transaction/GetAllTransactions',
             "type": "GET",
             "datatype": "json",
-            "dataSrc": "" // The array of data not wrapped in an object
-
+            "dataSrc": ""
         },
         "columns": [
-            { "data": "transactionID", "width": "10%" },
-            { "data": "accountID", "width": "10%" },
-            { "data": "institutionName", "width": "15%" },
-            { "data": "amount", "width": "10%" },
-            { "data": "category", "width": "15%" },
-            { "data": "description", "width": "20%" },
-            { "data": "date", "width": "10%" },
+            { "data": "transactionID" },
+            { "data": "accountID" },
+            { "data": "institutionName" },
+            { "data": "amount" },
+            { "data": "category" },
+            { "data": "description" },
+            { "data": "date" },
             {
                 "data": "transactionID",
                 "render": function (data) {
-                    return `<div class="w-75 btn-group" role="group">
+                    return `<div class="btn-group" role="group">
             <a href="/Transaction/EditTransaction/upsert?transactionID=${data}" class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>               
             <a href="/Transaction/DeleteTransaction/upsert?transactionID=${data}" class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
         </div>`;
-
-                },
-                "width": "10%"
+                }
             }
-        ]
+        ],
+        "columnDefs": [
+            {
+                "targets": "_all",
+                "responsivePriority": 1
+            }
+        ],
+        "responsive": {
+            "breakpoints": [
+                { name: 'desktop', width: Infinity },
+                { name: 'tablet', width: 1024 },
+                { name: 'phone', width: 480 }
+            ]
+        }
     });
 }
