@@ -51,11 +51,9 @@
     <Folder Include="DataTransferObject\" />
     <Folder Include="log\" />
     <Folder Include="Views\Transaction\" />
-    <Folder Include="wwwroot\video\" />
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Remove="wwwroot\video\" />
     <Content Remove="wwwroot\img\" />
   </ItemGroup>
 </Project>

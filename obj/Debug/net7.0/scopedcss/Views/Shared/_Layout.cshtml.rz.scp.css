@@ -102,7 +102,7 @@ button.accept-policy[b-x0ndlu3n2e] {
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 1000; /* Adjust the z-index value*/
+    z-index: 1000; 
     background-color: #007bff;
     color: white;
     text-align: center;
@@ -114,16 +114,15 @@ button.accept-policy[b-x0ndlu3n2e] {
     background-color: #87CEFA;
 }
 
-/* Additional styles for the tab navigation */
 .navbar-collapse[b-x0ndlu3n2e] {
-    justify-content: flex-start; /* Align items to the left */
-    padding-left: 15px; /* Add some left padding to the navigation items */
+    justify-content: flex-start; 
+    padding-left: 15px; 
 }
 
 .nav-pills[b-x0ndlu3n2e] {
-    width: 100%; /* Make the pills span the full width */
+    width: 100%;
 }
 
 .nav-link[b-x0ndlu3n2e] {
-    text-align: center; /* Center the text within the pills */
+    text-align: center; 
 }

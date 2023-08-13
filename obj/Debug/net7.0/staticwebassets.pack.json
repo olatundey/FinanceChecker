@@ -277,10 +277,6 @@
       "PackagePath": "staticwebassets/lib/qrcode.js"
     },
     {
-      "Id": "/Users/tundey/Projects/finance1/Finance1/wwwroot/video/tutorialsample.mp4",
-      "PackagePath": "staticwebassets/video/tutorialsample.mp4"
-    },
-    {
       "Id": "obj/Debug/net7.0/staticwebassets/msbuild.FinanceChecker.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },

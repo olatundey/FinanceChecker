@@ -20,7 +20,7 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
-        @*<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>*@
+       
         <script>document.addEventListener('DOMContentLoaded', function () {
                 var calendarEl = document.getElementById('calendar');
                 var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -52,8 +52,7 @@
                                 aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
-                        @*<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                        <ul class="navbar-nav flex-grow-1">*@
+                     
 
                         <div class="navbar-collapse collapse">
                             <ul class="navbar-nav flex-grow-1 justify-content-between">
@@ -86,7 +85,6 @@
                                     <li class="nav-item" role="presentation" id="account-tab">
                                         <a class="nav-link rounded-5" href="/Account/Index"><i class="bi bi-bank"></i> Accounts</a>
                                     </li>
-                                    <!-- Add other nav items with unique ids and href attributes -->
                                     <li class="nav-item" role="presentation" id="transaction-tab">
                                         <a class="nav-link rounded-5" href="/Transaction/Transaction"><i class="bi bi-cash-stack"></i> Transactions</a>
                                     </li>
