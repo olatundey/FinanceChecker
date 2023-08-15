@@ -21,7 +21,6 @@ namespace FinanceChecker.Models
         [Display(Name = "ApplicationUser")]
         public Guid UserID { get; set; }
 
-        //[ForeignKey("Account")]
         public int AccountID { get; set; }
 
         [Required(ErrorMessage = "Institution name is required.")]
@@ -43,10 +42,7 @@ namespace FinanceChecker.Models
 
         public bool IsBalanceUpdate { get; set; }
 
-        //public virtual ApplicationUser User { get; set; }
-
-        //public virtual Account? Account { get; set; }
-        //public virtual ApplicationUser? ApplicationUser { get; set;} 
+       
     }
 }
 

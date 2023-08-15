@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace FinanceChecker.Controllers
 {
     [Authorize]
+    [AutoValidateAntiforgeryToken]
     public class BudgetController : Controller
     {
         private readonly ILogger<BudgetController> _logger;
@@ -73,11 +74,10 @@ namespace FinanceChecker.Controllers
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
-            var userId = new Guid(user.Id); // Convert user.Id to Guid
+            var userId = GetCurrentUserId();
 
             if (user != null)
             {
-                //var userId = user.Id;
                 var budgets = _db.Budgets.Where(b => b.UserID == userId).ToList();
 
                 // Recalculate total transactions amount for each budget category
@@ -104,6 +104,11 @@ namespace FinanceChecker.Controllers
             return View();
         }
 
+        private Guid GetCurrentUserId()
+        {
+            return new Guid(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value);
+        }
+
         [HttpGet]
         public async Task<IActionResult> CreateBudget()
         {
@@ -111,7 +116,7 @@ namespace FinanceChecker.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user != null)
             {
-                var userId = new Guid(user.Id); // Convert user.Id to Guid
+                var userId = GetCurrentUserId();
                 var budgets = _db.Budgets.Where(b => b.UserID == userId).ToList();
                 var categories = _db.Categories.ToList();
 
@@ -120,20 +125,21 @@ namespace FinanceChecker.Controllers
                     UserID = userId,
                 };
 
-                ViewBag.Categories = new SelectList(categories, "CategoryName", "CategoryName"); // Use ViewBag to pass the SelectList
-
+                //ViewBag to pass the SelectList
+                ViewBag.Categories = new SelectList(categories, "CategoryName", "CategoryName"); 
                 return View(budget);
             }
 
-            return View(new Budget()); // Return an empty Budget model if user is null
+            return View(new Budget()); // return an empty Budget model if user is null
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateBudget(Budget budget)
         {
             var user = await _userManager.GetUserAsync(User);
-            var userId = new Guid(user.Id); // Convert user.Id to Guid
+            var userId = GetCurrentUserId();
             var existingBudget = _db.Budgets.FirstOrDefault(b => b.UserID == userId && b.CategoryName == budget.CategoryName);
+            var category = _db.Categories.FirstOrDefault(c => c.CategoryName == budget.CategoryName);
 
             if (existingBudget != null)
             {
@@ -146,6 +152,8 @@ namespace FinanceChecker.Controllers
 
             if (ModelState.IsValid)
             {
+                budget.CategoryID = category.CategoryId; 
+
                 budget.CreatedAt = DateTime.Now;
                 budget.UpdatedAt = DateTime.Now;
 
@@ -209,8 +217,9 @@ namespace FinanceChecker.Controllers
         public async Task<IActionResult> EditBudget(Budget budget)
         {
             var user = await _userManager.GetUserAsync(User);
-            var userId = new Guid(user.Id); // Convert user.Id to Guid
+            var userId = GetCurrentUserId();
             var existingBudget = _db.Budgets.FirstOrDefault(b => b.BudgetID != budget.BudgetID && b.UserID == userId && b.CategoryName == budget.CategoryName);
+            var category = _db.Categories.FirstOrDefault(c => c.CategoryName == budget.CategoryName);
 
             if (existingBudget != null)
             {
@@ -223,6 +232,7 @@ namespace FinanceChecker.Controllers
 
             if (ModelState.IsValid)
             {
+                budget.CategoryID = category.CategoryId;
                 budget.UpdatedAt = DateTime.Now;
 
 

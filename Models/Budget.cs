@@ -8,13 +8,11 @@ namespace FinanceChecker.Models
         [Key]
         public int BudgetID { get; set; }
 
-        //[ForeignKey("ApplicationUser")]
         public Guid UserID { get; set; }
 
         [Required]
         public string? CategoryName { get; set; }
 
-        //[ForeignKey("Category")]
         public int CategoryID { get; set; }
 
         [Required(ErrorMessage = "Please enter the amount.")]

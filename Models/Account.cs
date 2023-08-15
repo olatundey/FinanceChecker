@@ -37,7 +37,7 @@ namespace FinanceChecker.Models
 
 
         [NotMapped] //property is not mapped to the database
-        public Dictionary<DateTime, decimal> BalanceForDay { get; set; }
+        public Dictionary<DateTime, decimal>? BalanceForDay { get; set; }
 
     }
 }

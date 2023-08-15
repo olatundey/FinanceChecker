@@ -65,7 +65,7 @@ namespace FinanceChecker.Controllers
                 _db.ContactUs.Add(contactUsModel);
                 _db.SaveChanges();
 
-                // Addition, Process the form data, send email to support team,email sending logic
+                // Addition, Process the form data
                 return RedirectToAction("ThankYou");
             }
 

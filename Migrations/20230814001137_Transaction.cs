@@ -4,10 +4,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace FinanceChecker.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialSetup : Migration
+    public partial class Transaction : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,14 +23,13 @@ namespace FinanceChecker.Migrations
                 {
                     AccountID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    UserID = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    UserID = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     AccountNumber = table.Column<int>(type: "int", nullable: false),
-                    AccountType = table.Column<string>(type: "longtext", nullable: true)
+                    AccountType = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     syncType = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    InstitutionName = table.Column<string>(type: "longtext", nullable: true)
+                    InstitutionName = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Balance = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -82,6 +83,10 @@ namespace FinanceChecker.Migrations
                     DateOfBirth = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    SecurityQuestion = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    SecurityAnswer = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
@@ -112,6 +117,50 @@ namespace FinanceChecker.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Bills",
+                columns: table => new
+                {
+                    BillID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    UserID = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    BillName = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Description = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Amount = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    DueDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bills", x => x.BillID);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Budgets",
+                columns: table => new
+                {
+                    BudgetID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    UserID = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    CategoryName = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CategoryID = table.Column<int>(type: "int", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    TotalTransactionsAmount = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Progress = table.Column<decimal>(type: "decimal(65,30)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Budgets", x => x.BudgetID);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Categories",
                 columns: table => new
                 {
@@ -127,28 +176,108 @@ namespace FinanceChecker.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Transactions",
+                name: "ContactUs",
                 columns: table => new
                 {
-                    TransactionID = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    UserID = table.Column<string>(type: "longtext", nullable: false)
+                    Name = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    AccountID = table.Column<int>(type: "int", nullable: false),
-                    InstitutionName = table.Column<string>(type: "longtext", nullable: true)
+                    Email = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Amount = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
-                    Category = table.Column<string>(type: "longtext", nullable: true)
+                    Message = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ContactUs", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "FAQs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Question = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Description = table.Column<string>(type: "longtext", nullable: true)
+                    Answer = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FAQs", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Savings",
+                columns: table => new
+                {
+                    SavingsID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    UserID = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    SavingsName = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Goal = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    CurrentSavings = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    Progress = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    DueDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_Savings", x => x.SavingsID);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Transactions",
+                columns: table => new
+                {
+                    TransactionID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    UserID = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    AccountID = table.Column<int>(type: "int", nullable: false),
+                    InstitutionName = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Amount = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    Category = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Description = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    IsBalanceUpdate = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                },
+                constraints: table =>
+                {
                     table.PrimaryKey("PK_Transactions", x => x.TransactionID);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "UserAlertSettings",
+                columns: table => new
+                {
+                    AlertID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    UserID = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    LowBalanceAlertEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    LowBalanceThreshold = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    HighBalanceAlertEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    HighBalanceThreshold = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    OverspendingAlertEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    DueDateReminderAlertEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    IncomeDepositedAlertEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    TargetAmountReachedAlertEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserAlertSettings", x => x.AlertID);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -279,6 +408,53 @@ namespace FinanceChecker.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "CategoryId", "CategoryName" },
+                values: new object[,]
+                {
+                    { 1, "Groceries" },
+                    { 2, "Restaurants" },
+                    { 3, "Shopping" },
+                    { 4, "Entertainment" },
+                    { 5, "Utilities" },
+                    { 6, "Transportation" },
+                    { 7, "Travel" },
+                    { 8, "Health" },
+                    { 9, "Education" },
+                    { 10, "Insurance" },
+                    { 11, "Rent/Mortgage" },
+                    { 12, "Utilities" },
+                    { 13, "Electronics" },
+                    { 14, "Gifts/Donations" },
+                    { 15, "Personal Care" },
+                    { 16, "Fitness/Sports" },
+                    { 17, "Home Improvement" },
+                    { 18, "Investments" },
+                    { 19, "Taxes" },
+                    { 20, "Miscellaneous" },
+                    { 21, "Salary" },
+                    { 22, "Side Hustle" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "FAQs",
+                columns: new[] { "Id", "Answer", "Question" },
+                values: new object[,]
+                {
+                    { 1, "To sign up for our app, simply click on the \"Register\" button on the homepage, fill in the required information, and create a password to enable you login.", "How do I sign up for the app?" },
+                    { 2, "If you forget your password, click on the \"Forgot Password\" link on the login page.", "What do I do if I forget my password?" },
+                    { 3, "Yes, the dashboard displays your total balance, including all your accounts, investments, and credit card balances.", "Can I view my total balance on the dashboard?" },
+                    { 4, "Our app allows you to track expenses easily. First, categorise your transactions on the \"Transactions\" section,  then go to the \"Expense Tracking\" section,  and view detailed reports of your spending.", "How can I track my expenses?" },
+                    { 5, "Yes, you can link your bank accounts, credit cards, and investment accounts to the app and manually add details of your transactions and balances, we are working hard to ensure real-time tracking is available soon.", "Can I link my bank accounts and credit cards to the app?" },
+                    { 6, "We take the security of your data seriously. We use encryption techniques to protect your information, and you can enable multi-factor authentication for added security.", "Is my financial data safe?" },
+                    { 7, "To set up budget goals, go to the \"Budgets\" section, and you can create and manage your budget goals based on different expense categories.", "How do I set up budget goals?" },
+                    { 8, "Yes, you can set up personalised alerts for specific transactions, such as low balances, bills due date or unusual activities, to be notified immediately.", "Can I receive alerts for specific transactions?" },
+                    { 9, "You can update your profile information in the \"User Profile\" section. Simply edit the relevant details, such as name, email, or contact information.", "How do I update my profile information?" },
+                    { 10, "We offer customer support through various channels. You can access our FAQ section, browse tutorials, or contact us via email for personalised assistance.", "How do I get customer support?" },
+                    { 11, " No, we do not share your personal information with any third parties. Your data is strictly confidential and protected.", "How do I update my profile information?" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -339,10 +515,28 @@ namespace FinanceChecker.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Bills");
+
+            migrationBuilder.DropTable(
+                name: "Budgets");
+
+            migrationBuilder.DropTable(
                 name: "Categories");
 
             migrationBuilder.DropTable(
+                name: "ContactUs");
+
+            migrationBuilder.DropTable(
+                name: "FAQs");
+
+            migrationBuilder.DropTable(
+                name: "Savings");
+
+            migrationBuilder.DropTable(
                 name: "Transactions");
+
+            migrationBuilder.DropTable(
+                name: "UserAlertSettings");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

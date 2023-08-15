@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace FinanceChecker.Controllers
 {
     [Authorize]
+    [AutoValidateAntiforgeryToken]
+
     public class DashboardController : Controller
     {
         private readonly ILogger<DashboardController> _logger;
@@ -32,7 +34,7 @@ namespace FinanceChecker.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            var userId = Guid.Parse(user.Id); // Convert userId from string to Guid
+            var userId = GetCurrentUserId();
 
             // Fetch the user's accounts
             var accounts = _db.Accounts.Where(a => a.UserID == userId).ToList();
@@ -92,11 +94,13 @@ namespace FinanceChecker.Controllers
             return View(model);
         }
 
-        // Helper methods for calculating totals and expenses (unchanged)
-        // ...
+        private Guid GetCurrentUserId()
+        {
+            return new Guid(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value);
+        }
 
-        // Calculate the total monthly spent per category
-        private Dictionary<string, decimal> CalculateCategoryMonthlySpent(Guid userId)
+            // Calculate the total monthly spent per category
+            private Dictionary<string, decimal> CalculateCategoryMonthlySpent(Guid userId)
         {
             var monthlySpent = _db.Transactions
                 .Where(t => t.UserID == userId)

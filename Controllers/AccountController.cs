@@ -31,7 +31,7 @@ namespace FinanceChecker.Controllers
             _db = db;
             _userManager = userManager;
             _client = clientFactory.CreateClient("MyApiClient");
-            // the base address of the mock web API created on ASP .NET Core WEB APIProject
+            // the base address of the mock web API created on ASP .NET Core WEB API Project
             _client.BaseAddress = new Uri("https://localhost:7078/api/BankA/");
         }
 
@@ -124,7 +124,7 @@ namespace FinanceChecker.Controllers
                 return RedirectToAction("CreateAccount");
             }
 
-            var userId = Guid.Parse(user.Id);
+            var userId = GetCurrentUserId();
             // Check the account with the given account number & if it belongs to the current user
             var account = _db.Accounts.FirstOrDefault(a => a.UserID == userId && a.AccountNumber == accountNumber);
 
@@ -201,7 +201,7 @@ namespace FinanceChecker.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user != null)
             {
-                var userId = Guid.Parse(user.Id);
+                var userId = GetCurrentUserId();
 
                 var accounts = _db.Accounts.Where(a => a.UserID == userId).ToList();
                 ViewBag.Id = userId;
@@ -249,7 +249,7 @@ namespace FinanceChecker.Controllers
         public async Task<IActionResult> CreateAccount()
         {
             var user = await _userManager.GetUserAsync(User);
-            var userId = Guid.Parse(user.Id);
+            var userId = GetCurrentUserId();
             if (user != null)
             {
                 Account obj = new Account();
@@ -271,7 +271,7 @@ namespace FinanceChecker.Controllers
         {
             try
             {
-                if (button == "Submit") // Check which button was clicked
+                if (button == "Submit") 
              {
                     if (ModelState.IsValid)
                     {
@@ -382,7 +382,6 @@ namespace FinanceChecker.Controllers
         public IActionResult EditAccount(int AccountID)
         {
             // Retrieve the account based on the provided AccountID
-            //var account = _db.Accounts.FirstOrDefault(a => a.AccountID == AccountID);
             var account = _db.Accounts.FirstOrDefault(a => a.AccountID == AccountID);
 
             if (account == null)
@@ -393,10 +392,15 @@ namespace FinanceChecker.Controllers
             return View(account);
         }
 
+        private Guid GetCurrentUserId()
+        {
+            return new Guid(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value);
+        }
+
         [HttpPost]
         public IActionResult UpdateAccount(Account updatedAccount, string button)
         {
-            if (button == "Submit") // Check which button was clicked
+            if (button == "Submit") 
             {
 
                 if (ModelState.IsValid)

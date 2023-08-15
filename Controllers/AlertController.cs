@@ -15,6 +15,8 @@ using Microsoft.EntityFrameworkCore;
 namespace FinanceChecker.Controllers
 {
     [Authorize]
+    [AutoValidateAntiforgeryToken]
+
     public class AlertController : Controller
     {
         private readonly ILogger<AlertController> _logger;
@@ -91,7 +93,7 @@ namespace FinanceChecker.Controllers
                 // Concatenate multiple messages 
                 var message = string.Join("<br><br>", notifications.Select(n => n.Message));
                 TempData["AlertMessage"] = message;
-                TempData["AlertType"] = "info"; // Use "success", "info", "warning", or "danger" for AlertType
+                TempData["AlertType"] = "info"; //  "success", "info", "warning", or "danger" for AlertType
                 return RedirectToAction("Notification");
             }
 
@@ -144,7 +146,6 @@ namespace FinanceChecker.Controllers
 
             foreach (var budget in budgets)
             {
-                //var userId = GetCurrentUserId().ToString(); // Convert Guid to string
 
                 var transactionsForCategory = _db.Transactions
                     .Where(t => t.Category == budget.CategoryName && t.UserID == userId &&
@@ -249,8 +250,7 @@ namespace FinanceChecker.Controllers
         private List<Transaction> GetIncomeTransactions()
         {
             var user = _userManager.GetUserAsync(User).Result;
-            // var userId = user.Id;
-            var userId = Guid.Parse(user.Id);
+            var userId = GetCurrentUserId();
 
 
             var today = DateTime.Today;
@@ -267,8 +267,7 @@ namespace FinanceChecker.Controllers
         private async Task<decimal> GetTotalAccountBalance()
         {
             var user = await _userManager.GetUserAsync(User);
-            //var userId = user.Id;
-            var userId = Guid.Parse(user.Id);
+            var userId = GetCurrentUserId();
 
             var accounts = _db.Accounts.Where(account => account.UserID == userId).ToList();
             decimal totalBalance = accounts.Sum(account => account.Balance);
@@ -278,8 +277,7 @@ namespace FinanceChecker.Controllers
 
         private List<Bill> GetDueBills()
         {
-            //var user = _userManager.GetUserAsync(User).Result;
-            //var userId = user.Id;
+          
             var userId = GetCurrentUserId();
             var today = DateTime.Today;
 
@@ -316,7 +314,6 @@ namespace FinanceChecker.Controllers
                 DueDateReminderAlertEnabled = userSettings.DueDateReminderAlertEnabled,
                 OverspendingAlertEnabled = userSettings.OverspendingAlertEnabled,
                 TargetAmountReachedAlertEnabled = userSettings.TargetAmountReachedAlertEnabled
-                // Map properties
             };
 
             return alertSettings;
@@ -329,8 +326,7 @@ namespace FinanceChecker.Controllers
 
         private async Task SaveUserAlertSettings(AlertSettingsViewModel alertSettings)
         {
-            //var user = await _userManager.GetUserAsync(User);
-            //var userId = user.Id;
+           
             var userId = GetCurrentUserId();
 
             var userSettings = _db.UserAlertSettings.FirstOrDefault(u => u.UserID == userId);
@@ -352,7 +348,6 @@ namespace FinanceChecker.Controllers
             userSettings.DueDateReminderAlertEnabled = alertSettings.DueDateReminderAlertEnabled;
             userSettings.OverspendingAlertEnabled = alertSettings.OverspendingAlertEnabled;
             userSettings.TargetAmountReachedAlertEnabled = alertSettings.TargetAmountReachedAlertEnabled;
-            // Update properties
 
             // Save changes to the database.
             await _db.SaveChangesAsync();

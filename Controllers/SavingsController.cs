@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace FinanceChecker.Controllers
 {
     [Authorize]
+    [AutoValidateAntiforgeryToken]
+
     public class SavingsController : Controller
     {
         private readonly ILogger<SavingsController> _logger;
@@ -31,7 +33,7 @@ namespace FinanceChecker.Controllers
         {
             // Retrieve savings goals for the current user from the database
             var user = await _userManager.GetUserAsync(User);
-            var userId = new Guid(user.Id); // Convert user.Id to Guid
+            var userId = GetCurrentUserId();
             if (user != null)
             {
                 var savingsGoals = _db.Savings.Where(s => s.UserID == userId).ToList();
@@ -41,7 +43,13 @@ namespace FinanceChecker.Controllers
             return View();
         }
 
-        [HttpGet]
+        private Guid GetCurrentUserId()
+        {
+            return new Guid(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value);
+        }
+
+
+            [HttpGet]
         public IActionResult CreateSavings()
         {
             return View();
@@ -53,7 +61,7 @@ namespace FinanceChecker.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.GetUserAsync(User);
-                var userId = new Guid(user.Id); // Convert user.Id to Guid
+                var userId = GetCurrentUserId();
 
                 if (user != null)
                 {
@@ -156,7 +164,6 @@ namespace FinanceChecker.Controllers
                 return NotFound();
             }
 
-            // Delete the savings goal from the database
             _db.Savings.Remove(savings);
             _db.SaveChanges();
 

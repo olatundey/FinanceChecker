@@ -14,6 +14,8 @@ using Microsoft.Extensions.Logging;
 namespace FinanceChecker.Controllers
 {
     [Authorize]
+    [AutoValidateAntiforgeryToken]
+
     public class ExpenseController : Controller
     {
         private readonly ILogger<ExpenseController> _logger;
@@ -35,7 +37,7 @@ namespace FinanceChecker.Controllers
                 return RedirectToAction("Index", "Account");
             }
 
-            var userId = Guid.Parse(user.Id); // Convert userId from string to Guid
+            var userId = GetCurrentUserId();
 
             // Calculate all user TotalTransactions for current week
             var currentWeekTotal = CalculateCurrentWeekTotal(userId);
@@ -78,9 +80,13 @@ namespace FinanceChecker.Controllers
             return View(model);
         }
 
+        private Guid GetCurrentUserId()
+        {
+            return new Guid(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value);
+        }
 
-        // Helper methods for calculating totals and expenses
-        private decimal CalculateCurrentWeekTotal(Guid userId)
+            // Helper methods for calculating totals and expenses
+            private decimal CalculateCurrentWeekTotal(Guid userId)
         {
             var currentDate = DateTime.Now.Date;
             var startOfWeek = currentDate.AddDays(-((int)currentDate.DayOfWeek));

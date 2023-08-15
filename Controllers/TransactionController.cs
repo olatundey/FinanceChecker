@@ -16,7 +16,7 @@ using Microsoft.EntityFrameworkCore;
 namespace FinanceChecker.Controllers
 {
     [Authorize]
-    //    [AutoValidateAntiforgeryToken]
+    [AutoValidateAntiforgeryToken]
     public class TransactionController : Controller
     {
         private readonly ILogger<TransactionController> _logger;
@@ -34,10 +34,9 @@ namespace FinanceChecker.Controllers
         public async Task<IActionResult> Transaction()
         {
             var user = await _userManager.GetUserAsync(User);
-            var userId = Guid.Parse(user.Id);
+            var userId = GetCurrentUserId();
             if (user != null)
             {
-                //var userId = user.Id;
                 var accounts = _db.Accounts.Where(a => a.UserID == userId).ToList();
                 ViewBag.Id = userId;
 
@@ -49,14 +48,19 @@ namespace FinanceChecker.Controllers
             return View();
         }
 
+        private Guid GetCurrentUserId()
+        {
+            return new Guid(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value);
+        }
+
+
         [Route("Transaction/GetAllTransactions")]
         public async Task<IActionResult> GetAllTransactions()
         {
             var user = await _userManager.GetUserAsync(User);
-            var userId = Guid.Parse(user.Id);
+            var userId = GetCurrentUserId();
             if (user != null)
             {
-                //var userId = user.Id;
                 var transactions = _db.Transactions.Where(t => t.UserID == userId).ToList();
                 return Json(transactions);
             }
@@ -69,14 +73,13 @@ namespace FinanceChecker.Controllers
         {
 
             var user = await _userManager.GetUserAsync(User);
-            var userId = Guid.Parse(user.Id);
+            var userId = GetCurrentUserId();
             if (user != null)
 
             {
                 Account obj = new Account();
                 obj.UserID = userId;
 
-                //var userId = user.Id;
                 ViewBag.Id = obj.UserID;
             }
 
@@ -110,7 +113,7 @@ namespace FinanceChecker.Controllers
             if (ModelState.IsValid)
             {
                 var user = _userManager.GetUserAsync(User).Result;
-                var userId = Guid.Parse(user.Id);
+                var userId = GetCurrentUserId();
 
                 obje.UserID = userId;
                 obje.CreatedAt = DateTime.Now;
@@ -153,7 +156,7 @@ namespace FinanceChecker.Controllers
             ViewBag.Accounts = accountViewModels;
 
            
-            // Check and set TempData for each empty or unselected field
+            // Check, set TempData for each empty or unselected field
             if (string.IsNullOrEmpty(obje.InstitutionName))
             {
                 TempData["InstitutionNameInfo"] = "Institution Name is required.";
@@ -182,9 +185,6 @@ namespace FinanceChecker.Controllers
         }
 
 
-
-
-
         // GET: Transaction/Edit/5
         public IActionResult EditTransaction(int TransactionID)
         {
@@ -194,7 +194,7 @@ namespace FinanceChecker.Controllers
                 return NotFound();
             }
             var user = _userManager.GetUserAsync(User).Result;
-            var userId = Guid.Parse(user.Id);
+            var userId = GetCurrentUserId();
             var accounts = _db.Accounts.Where(a => a.UserID == userId).ToList();
 
             var accountViewModels = new List<AccountViewModel>();
@@ -251,7 +251,7 @@ namespace FinanceChecker.Controllers
                     if (account != null)
                     {
                         // Update the account balance based on the added transaction
-                        account.Balance += existingTransaction.Amount; // Assuming Amount is the transaction amount
+                        account.Balance += existingTransaction.Amount; // if Amount is the transaction amount
                         _db.SaveChanges();
                     }
                     TempData["success"] = "Transaction Updated successfully";
@@ -300,7 +300,7 @@ namespace FinanceChecker.Controllers
                     if (account != null)
                     {
                         // Update the account balance based on the added transaction
-                        account.Balance += transaction.Amount; // Assuming Amount is the transaction amount
+                        account.Balance += transaction.Amount; // if Amount is the transaction amount
                         _db.SaveChanges();
                     }
             TempData["success"] = "Transaction deleted successfully";

@@ -8,7 +8,6 @@ namespace FinanceChecker.Models
         [Key]
         public int SavingsID { get; set; }
 
-        //[ForeignKey("ApplicationUser")]
         public Guid UserID { get; set; }
 
         [Required]

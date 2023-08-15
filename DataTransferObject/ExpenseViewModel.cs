@@ -3,7 +3,7 @@ namespace FinanceChecker.DataTransferObject
 {
     public class ExpenseViewModel
     {
-        public List<FinanceChecker.Models.Account> Accounts { get; set; }
+        public List<FinanceChecker.Models.Account>? Accounts { get; set; }
         public decimal CurrentWeekTotal { get; set; }
         public decimal CurrentMonthTotal { get; set; }
         public decimal PreviousWeekTotal { get; set; }

@@ -16,7 +16,7 @@ namespace FinanceChecker.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.9")
+                .HasAnnotation("ProductVersion", "7.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("FinanceChecker.Models.Account", b =>
@@ -470,23 +470,6 @@ namespace FinanceChecker.Migrations
                     b.HasKey("AlertID");
 
                     b.ToTable("UserAlertSettings");
-                });
-
-            modelBuilder.Entity("FinanceChecker.Models.Videos", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("VideoUrl")
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AppVideo");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

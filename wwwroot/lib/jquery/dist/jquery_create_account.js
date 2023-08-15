@@ -13,7 +13,7 @@
             $('#balanceField').hide();
             $('#submitField').hide();
             $('#validateField').show();
-            updateInstitutionOptions(); // Update the institution options immediately when the sync type is set to automatic
+            updateInstitutionOptions(); 
         }
     }
 
@@ -46,6 +46,7 @@
                     <option value="BankB">Bank B</option>
                 </select>
             `);
+
             $('#institutionNameField').show();
         } else if (accountType === "Investment") {
             $('#institutionNameField').html(`

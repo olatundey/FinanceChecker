@@ -14,6 +14,8 @@ using Microsoft.EntityFrameworkCore;
 namespace FinanceChecker.Controllers
 {
     [Authorize]
+    [AutoValidateAntiforgeryToken]
+
     public class BillsController : Controller
     {
         private readonly ILogger<BillsController> _logger;
