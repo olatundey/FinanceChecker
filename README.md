@@ -1,2 +1,2 @@
 # FinanceChecker
-MSC-PROJECT
+PROJECT
